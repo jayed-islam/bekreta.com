@@ -1,16 +1,11 @@
 "use client";
 
+import { bannerImages } from "@/constants";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import React, { useEffect, useState } from "react";
 
 const HomeBanner = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  const bannerImages = [
-    "https://img.freepik.com/premium-photo/shopping-cart-moves-speed-light-backdrop-with-balloons-gift-boxes-all-live-futuristic-atmosphere-3d-render_172660-11.jpg?size=626&ext=jpg",
-    "https://img.freepik.com/free-photo/arrangement-black-friday-shopping-carts-with-copy-space_23-2148667047.jpg?size=626&ext=jpg",
-    "https://img.freepik.com/free-vector/online-shopping-landing-page_33099-1725.jpg?size=626&ext=jpg",
-  ];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -34,9 +29,6 @@ const HomeBanner = () => {
     );
   };
 
-  // "https://img.freepik.com/free-vector/online-shopping-banner-mobile-app-templates-concept-flat-design_1150-34862.jpg?size=626&ext=jpg"
-
-  // "https://img.freepik.com/free-photo/composition-black-friday-shopping-cart-with-copy-space_23-2148667046.jpg?size=626&ext=jpg"
   return (
     <div className="bg-gray-100 w-full">
       <div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row lg:gap-5 items-start  pt-2">
@@ -53,8 +45,8 @@ const HomeBanner = () => {
               <p className="text-sm text-gray-400">Say your Favirote Product</p>
             </div>
             <textarea
-              type="text"
-              className="w-full px-3 py-1.5 h-28 outline-none"
+              // type="text"
+              className="w-full px-3 py-1.5 h-28 outline-none mt-3"
               placeholder="Product details..."
             />
             <div className="mt-1 flex itmes-center gap-2">
@@ -65,11 +57,11 @@ const HomeBanner = () => {
               />
               <button
                 type="submit"
-                className=" bg-white hover:bg-orange-600 transition-all duration-150 ease-in text-xl"
+                className="bg-white hover:bg-orange-600 transition-all duration-150 ease-in text-xl group"
               >
                 <Icon
                   icon="bi:send"
-                  className="text-orange-600 w-9 flex items-end justify-center hover:text-white text-lg"
+                  className="text-orange-600 w-9 flex items-end justify-center text-lg group-hover:text-white"
                 />
               </button>
             </div>

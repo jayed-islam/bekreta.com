@@ -10,3 +10,94 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+@keyframes zoom-in {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.2);
+  }
+}
+
+@keyframes zoom-out {
+  from {
+    transform: scale(1.2);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+.zoom-animation {
+  transition: transform 0.3s;
+}
+
+.zoom-animation:hover {
+  animation: zoom-in 0.3s forwards;
+}
+
+.zoom-animation:not(:hover) {
+  animation: zoom-out 0.3s forwards;
+}
+
+.scroll-container {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scroll-container::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.scroll-content {
+  display: flex;
+  flex-wrap: nowrap;
+  padding: 10px;
+}
+
+.card {
+  flex: 0 0 auto;
+  width: 200px;
+  margin-right: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.card-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.card-title {
+  margin-top: 10px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.horizontal-border-effect {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  top: 21px;
+  width: 0;
+  margin-top: 5px;
+  transition: width 0.3s ease-in-out;
+}
+
+.item-card:hover .horizontal-border-effect {
+  width: 100%;
+}

@@ -51,7 +51,7 @@ export default function Header() {
                   onClick={() => setOpen(!open)}
                   className="rounded-lg text-neutral-700 focus:outline-none flex items-center justify-center"
                 >
-                  {/* <IoIosMenu className="text-2xl" /> */}
+                  <Icon icon="ion:menu-outline" className="text-2xl" />
                 </button>
               </div>
               <div className="flex items-center">
@@ -82,93 +82,19 @@ export default function Header() {
                 <div className="z-20 relative  translate-x-0">
                   <div className="overflow-y-auto w-full h-screen py-2 transition transform shadow-lg bg-white divide-y-2">
                     <div className="py-6 px-5">
-                      <a
+                      <Link
                         className=" text-slate-600 flex items-center gap-2 flex-shrink-0"
                         href="/"
                       >
-                        <img
+                        <Image
                           alt="Logo"
-                          className="block h-8 sm:h-10 w-auto"
-                          src="shop_logo.png"
+                          className="block h-10 md:h-12 w-auto"
+                          src={logo}
                         />
-                        <h3 className="text-3xl font-bold text-violet-800">
-                          Bazaro
-                        </h3>
-                      </a>
-                      <div className="flex flex-col mt-5 text-slate-600 text-sm">
-                        <span>
-                          Discover the most outstanding articles on all topics
-                          of life. Write your stories and share them
-                        </span>
-                        <div className="flex justify-between items-center mt-4">
-                          <nav className="nc-SocialsList flex space-x-2.5 text-2xl text-neutral-6000  ">
-                            <Link
-                              className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full text-xl"
-                              href="#"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              title="Facebook"
-                            >
-                              <Icon icon="" />
-                              {/* <GrFacebook /> */}
-                            </Link>
-                            <Link
-                              className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full text-xl"
-                              href="#"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              title="Twitter"
-                            >
-                              {/* <BsTwitter /> */}
-                            </Link>
-                            <Link
-                              className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full text-xl"
-                              href="#"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              title="Youtube"
-                            >
-                              {/* <BsYoutube /> */}
-                            </Link>
-                            <Link
-                              className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full text-xl"
-                              href="#"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              title="Telegram"
-                            >
-                              {/* <BiLogoTelegram /> */}
-                            </Link>
-                          </nav>
-                          <span className="block">
-                            <button className="text-2xl md:text-3xl w-12 h-12 rounded-full text-neutral-700  hover:bg-neutral-100 focus:outline-none flex items-center justify-center bg-neutral-100">
-                              <span className="sr-only">Enable dark mode</span>
-                              <svg
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M12 18.5C15.5899 18.5 18.5 15.5899 18.5 12C18.5 8.41015 15.5899 5.5 12 5.5C8.41015 5.5 5.5 8.41015 5.5 12C5.5 15.5899 8.41015 18.5 12 18.5Z"
-                                  stroke="currentColor"
-                                  stroke-width="1.5"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                ></path>
-                                <path
-                                  d="M19.14 19.14L19.01 19.01M19.01 4.99L19.14 4.86L19.01 4.99ZM4.86 19.14L4.99 19.01L4.86 19.14ZM12 2.08V2V2.08ZM12 22V21.92V22ZM2.08 12H2H2.08ZM22 12H21.92H22ZM4.99 4.99L4.86 4.86L4.99 4.99Z"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                ></path>
-                              </svg>
-                            </button>
-                          </span>
-                        </div>
-                      </div>
+                      </Link>
+                      <h3 className="text-3xl font-bold text-violet-800">
+                        Bazaro
+                      </h3>
                       <span className="absolute right-2 top-2 p-1">
                         <button
                           className="w-8 h-8 flex items-center justify-center rounded-full text-neutral-700  hover:bg-neutral-100   focus:outline-none"
@@ -190,138 +116,18 @@ export default function Header() {
                           </svg>
                         </button>
                       </span>
-                      <div className="mt-5">
-                        <form
-                          action=""
-                          method="POST"
-                          className="flex-1 text-slate-900"
-                        >
-                          <div className="bg-slate-50 flex items-center space-x-1 py-3 px-4 rounded-xl h-full">
-                            <svg
-                              width="22"
-                              height="22"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z"
-                                stroke="currentColor"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              ></path>
-                              <path
-                                d="M22 22L20 20"
-                                stroke="currentColor"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              ></path>
-                            </svg>
-                            <input
-                              placeholder="Type and press enter"
-                              className="border-none bg-transparent focus:outline-none pl-2 focus:ring-0 w-full text-md "
-                              type="search"
-                            />
-                          </div>
-                          <input type="submit" value="" />
-                        </form>
-                      </div>
                     </div>
                     <ul className="flex flex-col py-6 px-2 space-y-1">
-                      <li className="text-slate-900 " data-headlessui-state="">
-                        <a
-                          className="flex w-full items-center py-2.5 px-4 font-medium uppercase tracking-wide text-sm hover:bg-slate-100 rounded-lg"
-                          href="/"
-                        >
-                          <span className="block w-full">Men</span>
-                        </a>
-                      </li>
-                      <li className="text-slate-900" data-headlessui-state="">
-                        <a
-                          className="flex w-full items-center py-2.5 px-4 font-medium uppercase tracking-wide text-sm hover:bg-slate-100 rounded-lg"
-                          href="/"
-                        >
-                          <span className="block w-full">Women</span>
-                        </a>
-                      </li>
-                      <li className="text-slate-900" data-headlessui-state="">
-                        <a
-                          className="flex w-full items-center py-2.5 px-4 font-medium uppercase tracking-wide text-sm hover:bg-slate-100 rounded-lg"
-                          href="/"
-                        >
-                          <span className="block w-full">Beauty</span>
-                        </a>
-                      </li>
-                      <li className="text-slate-900 " data-headlessui-state="">
-                        <a
-                          className="flex w-full items-center py-2.5 px-4 font-medium uppercase tracking-wide text-sm hover:bg-slate-100 rounded-lg"
-                          href="/"
-                        >
-                          <span className="block w-full">Sport</span>
-                        </a>
-                      </li>
-                      <li className="text-slate-900 " data-headlessui-state="">
-                        <a
-                          className="flex w-full items-center py-2.5 px-4 font-medium uppercase tracking-wide text-sm hover:bg-slate-100 rounded-lg"
-                          href="/"
-                        >
-                          <span className="">Electronics</span>
-                          <span className="block flex-grow">
-                            <span
-                              className="flex justify-end flex-grow"
-                              id="headlessui-disclosure-button-:r2k:"
-                              aria-expanded="false"
-                              data-headlessui-state=""
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                                aria-hidden="true"
-                                className="ml-2 h-4 w-4 text-neutral-500"
-                              >
-                                <path
-                                  fill-rule="evenodd"
-                                  d="M12.53 16.28a.75.75 0 01-1.06 0l-7.5-7.5a.75.75 0 011.06-1.06L12 14.69l6.97-6.97a.75.75 0 111.06 1.06l-7.5 7.5z"
-                                  clip-rule="evenodd"
-                                ></path>
-                              </svg>
-                            </span>
-                          </span>
-                        </a>
-                      </li>
-                      <li className="text-slate-900 " data-headlessui-state="">
-                        <a
-                          className="flex w-full items-center py-2.5 px-4 font-medium uppercase tracking-wide text-sm hover:bg-slate-100 rounded-lg"
-                          href="/"
-                        >
-                          <span className="">Explore</span>
-                          <span className="block flex-grow">
-                            <span
-                              className="flex justify-end flex-grow"
-                              id="headlessui-disclosure-button-:r2m:"
-                              aria-expanded="false"
-                              data-headlessui-state=""
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                                aria-hidden="true"
-                                className="ml-2 h-4 w-4 text-neutral-500"
-                              >
-                                <path
-                                  fill-rule="evenodd"
-                                  d="M12.53 16.28a.75.75 0 01-1.06 0l-7.5-7.5a.75.75 0 011.06-1.06L12 14.69l6.97-6.97a.75.75 0 111.06 1.06l-7.5 7.5z"
-                                  clip-rule="evenodd"
-                                ></path>
-                              </svg>
-                            </span>
-                          </span>
-                        </a>
-                      </li>
+                      {mainMenuItems.map((item, index) => (
+                        <li className="text-slate-900" key={index}>
+                          <Link
+                            className="flex w-full items-center py-2.5 px-4 font-medium uppercase tracking-wide text-sm hover:bg-slate-100 rounded-lg"
+                            href="/"
+                          >
+                            <span className="block w-full">{item.text}</span>
+                          </Link>
+                        </li>
+                      ))}
                     </ul>
                   </div>
                 </div>
@@ -329,7 +135,6 @@ export default function Header() {
 
               {/* small hidden */}
               <div className="lg:flex items-center gap-5 hidden">
-                <div></div>
                 <form
                   // onSubmit={handleSubmit(onSubmit)}
                   className="bg-white flex items-center rounded-md w-[500px] relative"
@@ -342,7 +147,6 @@ export default function Header() {
                     // {...register("search", { required: true })}
                   />
                   <button type="submit" className="absolute right-5">
-                    {/* <RiSearchLine  /> */}
                     <Icon
                       icon="teenyicons:search-outline"
                       className="h-5 w-5 text-gray-600"
@@ -353,10 +157,7 @@ export default function Header() {
 
               {/* ooffers section */}
 
-              <div
-                // onClick={handleLogout}
-                className="lg:flex items-center gap-3 mr-7 cursor-pointer hidden"
-              >
+              <div className="lg:flex items-center gap-3 mr-7 cursor-pointer hidden">
                 <Icon
                   icon="ph:gift-light"
                   className="text-orange-600 font-extrabold text-2xl"

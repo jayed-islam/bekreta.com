@@ -8,13 +8,8 @@ interface BooleanState {
   setValue: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-// Custom hook to manage a boolean value
 const useBoolean = (initialValue?: boolean): BooleanState => {
   const [value, setValue] = useState(!!initialValue);
-
-  //   const setTrue = () => setValue(true);
-  //   const setFalse = () => setValue(false);
-  //   const toggle = () => setValue((prevValue) => !prevValue);
 
   const setTrue = useCallback(() => setValue(true), []);
   const setFalse = useCallback(() => setValue(false), []);
