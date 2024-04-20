@@ -3,25 +3,29 @@
 import React, { useEffect, useState } from "react";
 import { mainMenuItems } from "./config-navigation";
 import Link from "next/link";
-import { paths } from "../paths";
 import { Icon } from "@iconify-icon/react";
-import {
-  Button,
-  IconButton,
-} from "../../components/material-tailwind/material-tailwind-components";
+import { Popover } from "@headlessui/react";
+
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import logo from "../../../public/assets/shop_logo.png";
 import CartHeaderPopup from "../common/modal/cart-header-popover";
+import { useForm } from "react-hook-form";
+import { paths } from "../paths";
+import HomeHeaderSearch from "../common/search/home-header-search";
 
 export default function Header() {
-  //   const { authenticated, user } = useAppSelector((state) => state.auth);
-  const authenticated = false;
   const [open, setOpen] = useState(false);
 
-  //   const websiteRoles: string[] = [UserRoles.user, UserRoles.admin];
-
   const [scrolled, setScrolled] = useState(false);
+  const { register, handleSubmit } = useForm();
+  const topSearchWord = ["enhance", "update", "maximize", "child", "book"];
+  const [showTopSearch, setShowTopSearch] = useState(false);
+  const router = useRouter();
+
+  const onSubmit = (data: any) => {
+    router.push(`${paths.product.category}?search=${data.search}`);
+  };
 
   const handleScroll = () => {
     setScrolled(window.scrollY > 100);
@@ -37,8 +41,7 @@ export default function Header() {
 
   const pathname = usePathname();
 
-  const isIncluded: boolean =
-    pathname.includes("/checkout") || pathname.includes("course");
+  const isIncluded: boolean = pathname.includes("/checkout");
 
   return (
     <header>
@@ -133,26 +136,9 @@ export default function Header() {
                 </div>
               </div>
 
-              {/* small hidden */}
+              {/*search section*/}
               <div className="lg:flex items-center gap-5 hidden">
-                <form
-                  // onSubmit={handleSubmit(onSubmit)}
-                  className="bg-white flex items-center rounded-md w-[500px] relative"
-                >
-                  <input
-                    type="text"
-                    name="search"
-                    placeholder="Search for products..."
-                    className="flex-grow bg-white px-5 rounded-md h-[55px] w-full border-none focus:outline-none"
-                    // {...register("search", { required: true })}
-                  />
-                  <button type="submit" className="absolute right-5">
-                    <Icon
-                      icon="teenyicons:search-outline"
-                      className="h-5 w-5 text-gray-600"
-                    />
-                  </button>
-                </form>
+                <HomeHeaderSearch />
               </div>
 
               {/* ooffers section */}

@@ -1,6 +1,7 @@
 import ProductsSceleton from "@/components/skeleton/product-skeleton";
 import React, { useEffect, useState } from "react";
 import ProductCard from "../common/product-card";
+import { paths } from "@/layouts/paths";
 
 const BestSellerProductTab = () => {
   const [page, setPage] = useState(0);
@@ -51,7 +52,12 @@ const BestSellerProductTab = () => {
           ) : (
             <>
               {products?.slice(19, 30).map((product, index) => (
-                <ProductCard key={index} product={product} index={index} />
+                <ProductCard
+                  key={index}
+                  product={product}
+                  index={index}
+                  rootPath={paths.product.root}
+                />
               ))}
             </>
           )}

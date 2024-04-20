@@ -1,4 +1,5 @@
 import { categories } from "@/constants";
+import { paths } from "@/layouts/paths";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import Link from "next/link";
 import React from "react";
@@ -18,12 +19,16 @@ const HomeCategorySection = () => {
         <div className="px-5 xl:px-0 grid grid-cols-3 sm:grid-cols-5 md:grid-cols-5 lg:grid-cols-7 xl:grid-cols-8 gap-x-3 gap-y-3 sm:gap-y-11 mt-7">
           {categories.map((category, index) => (
             <Link
-              href={`/category?category=${category.keyword}`}
+              href={`${paths.product.category}/?category=${category.keyword}`}
               key={index}
               className="group flex flex-col w-full px-4 py-4 sm:py-5 items-center justify-center shadow-sm border-b hover:shadow-lg bg-white cursor-pointer"
             >
               {/* <h3 className='text-gray-500 text-3xl sm:text-5xl'>{React.createElement(iconMapping[category.keyword])}</h3> */}
-              <img src={category.image} className="h-20 w-24" alt="" />
+              <img
+                src={category.image}
+                className="h-24 w-24 object-cover"
+                alt=""
+              />
               <h3 className="text-[15px] sm:text-[18px] transition-all duration-100 ease-in mt-3 group-hover:text-red-500 text-center">
                 {category.name}
               </h3>

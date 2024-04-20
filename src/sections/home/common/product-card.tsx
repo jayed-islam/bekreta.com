@@ -12,6 +12,7 @@ interface IProductCardProps {
   newPadding?: number;
   newSize?: number;
   timerBoolean?: boolean;
+  rootPath: string;
 }
 
 const ProductCard = ({
@@ -19,6 +20,7 @@ const ProductCard = ({
   className,
   newPadding,
   timerBoolean,
+  rootPath,
 }: IProductCardProps) => {
   const { name, images, price, desc, review, _id } = product;
   const [selectedImage, setSelectedImage] = useState(images[0]);
@@ -31,7 +33,7 @@ const ProductCard = ({
 
   const handleProduct = (product: any) => {
     setLoading(true);
-    router.push(`/product-detail/${product?._id}`);
+    router.push(`${rootPath}/${product?._id}`);
   };
 
   function closeModal() {
@@ -56,7 +58,7 @@ const ProductCard = ({
     >
       <div className="relative flex-shrink-0 overflow-hidden w-full group:">
         <Link
-          href={`/product-detail/${product?._id}`}
+          href={`${rootPath}/${product?._id}`}
           className="hidden sm:flex h-36 md:h-60 w-full object-cover "
         >
           <img
