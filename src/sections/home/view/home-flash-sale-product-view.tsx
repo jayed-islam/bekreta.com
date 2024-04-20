@@ -9,6 +9,7 @@ import ProductCard from "../common/product-card";
 import ProductsSceleton from "@/components/skeleton/product-skeleton";
 import FlashSaleProductSkeleton from "@/components/skeleton/flash-sale-product-skelaton";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
+import { paths } from "@/layouts/paths";
 
 const HomeFlashSaleView = () => {
   const [page, setPage] = useState(0);
@@ -80,6 +81,7 @@ const HomeFlashSaleView = () => {
                   product={product}
                   index={index}
                   timerBoolean={true}
+                  rootPath={paths.product.root}
                 />
               ))}
             </>

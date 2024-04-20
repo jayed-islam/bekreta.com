@@ -17,6 +17,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.51.3",
     "react-hot-toast": "^2.4.1",
+    "react-image-lightbox": "^5.1.4",
     "react-range": "^1.8.14",
     "tailwind-merge": "^2.3.0"
   },

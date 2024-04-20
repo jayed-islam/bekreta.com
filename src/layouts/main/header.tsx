@@ -10,7 +10,6 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import logo from "../../../public/assets/shop_logo.png";
 import CartHeaderPopup from "../common/modal/cart-header-popover";
-import { useForm } from "react-hook-form";
 import { paths } from "../paths";
 import HomeHeaderSearch from "../common/search/home-header-search";
 
@@ -18,9 +17,6 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   const [scrolled, setScrolled] = useState(false);
-  const { register, handleSubmit } = useForm();
-  const topSearchWord = ["enhance", "update", "maximize", "child", "book"];
-  const [showTopSearch, setShowTopSearch] = useState(false);
   const router = useRouter();
 
   const onSubmit = (data: any) => {

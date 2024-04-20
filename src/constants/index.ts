@@ -103,4 +103,71 @@ const categories = [
   },
 ];
 
-export { bannerImages, categories };
+const socialInfo = [
+  {
+    name: "Share",
+    link: "",
+    icon: "logos:meta-icon",
+    title: "facebook",
+  },
+  {
+    name: "Twitter",
+    link: "",
+    icon: "logos:twitter",
+    title: "tweet",
+  },
+  {
+    name: "Whatsapp",
+    link: "",
+    icon: "logos:whatsapp-icon",
+    title: "whatsapp",
+  },
+];
+
+const queries = [
+  {
+    id: "specification",
+    name: "Specification",
+  },
+  {
+    id: "description",
+    name: "Description",
+  },
+  {
+    id: "questions",
+    name: "Questions",
+  },
+  {
+    id: "reviews",
+    name: "Reviews",
+  },
+];
+
+const features = [
+  {
+    icon: "bi:truck",
+    title: "Free shipping",
+    description: "On orders over $50.00",
+    bg: "bg-red-50",
+  },
+  {
+    icon: "streamline:return-2-solid",
+    title: "Very easy to return",
+    description: "Just phone number.",
+    bg: "bg-yellow-50",
+  },
+  {
+    icon: "mdi:truck-fast-outline",
+    title: "Nationwide Delivery",
+    description: "Fast delivery nationwide.",
+    bg: "bg-green-50",
+  },
+  {
+    icon: "gridicons:refund",
+    title: "Refunds policy",
+    description: "60 days return for any reason",
+    bg: "bg-gray-50",
+  },
+];
+
+export { bannerImages, categories, socialInfo, queries, features };

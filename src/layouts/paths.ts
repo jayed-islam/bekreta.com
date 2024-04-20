@@ -9,6 +9,9 @@ export const paths = {
     root: "/product",
     category: "/product/category",
   },
+  cart: {
+    root: "/cart",
+  },
   page404: "/error/404",
   checkout: "/checkout",
 };

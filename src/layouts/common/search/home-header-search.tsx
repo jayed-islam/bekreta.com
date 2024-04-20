@@ -2,47 +2,74 @@ import useBoolean from "@/hooks/use-boolean";
 import { paths } from "@/layouts/paths";
 import { Popover, Transition } from "@headlessui/react";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Fragment, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Fragment, useEffect, useRef, useState } from "react";
 
 export default function HomeHeaderSearch() {
   const topSearchWord = ["enhance", "upgrade", "maximize", "child", "book"];
-  const { register, handleSubmit } = useForm();
-  const router = useRouter();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
+  const router = useRouter();
   const popover = useBoolean();
 
   const onSubmit = (data: any) => {
     router.push(`${paths.product.category}?search=${data.search}`);
   };
 
+  const handleInputFocus = () => {
+    setIsPopoverOpen(true);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        inputRef.current &&
+        !inputRef.current.contains(event.target as Node)
+      ) {
+        setIsPopoverOpen(false);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [router]);
+
   return (
     <div className="w-[500px]">
       <Popover className="relative w-[500px]">
         {({ open }) => (
           <>
-            <Popover.Button className="w-[500px] ring-none">
-              <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="bg-white flex items-center rounded-md w-[500px] relative"
-              >
-                <input
-                  type="text"
-                  placeholder="Search for products..."
-                  className="flex-grow bg-white px-5 rounded-md h-[55px] w-full border-none focus:outline-none"
-                  {...register("search", { required: true })}
-                />
-                <button type="submit" className="absolute right-5">
-                  <Icon
-                    icon="teenyicons:search-outline"
-                    className="text-xl mt-1 text-gray-600"
-                  />
-                </button>
-              </form>
-            </Popover.Button>
+            <div className="bg-white flex items-center rounded-md w-[500px] relative z-50">
+              <input
+                ref={inputRef}
+                onFocus={handleInputFocus}
+                type="text"
+                placeholder="Search for products..."
+                className="flex-grow bg-white px-5 rounded-md h-[55px] w-full border-none focus:outline-none"
+                onChange={onSubmit}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    setIsPopoverOpen(false);
+                    onSubmit({ search: inputRef.current?.value });
+                    router.push(
+                      `${paths.product.category}?search=${inputRef.current?.value}`
+                    );
+                  }
+                }}
+              />
+              <Icon
+                icon="teenyicons:search-outline"
+                onClick={() => {
+                  onSubmit;
+                  setIsPopoverOpen(false);
+                }}
+                className="text-xl mt-1 text-gray-600 absolute right-5"
+              />
+            </div>
             <Transition
+              show={isPopoverOpen}
               as={Fragment}
               enter="transition ease-out duration-200"
               enterFrom="opacity-0 translate-y-1"
