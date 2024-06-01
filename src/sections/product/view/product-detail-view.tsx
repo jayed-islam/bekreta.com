@@ -1,8 +1,8 @@
 "use client";
 
 import React, { RefObject, useEffect, useRef, useState } from "react";
-import Lightbox from "react-image-lightbox";
-import "react-image-lightbox/style.css";
+// import Lightbox from "react-image-lightbox";
+// import "react-image-lightbox/style.css";
 import { IProductItem } from "@/types/products";
 import RelatedProductsSection from "../common/product-details-related-product-view";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
@@ -422,7 +422,7 @@ const ProductsDetailsView = ({ id, product }: IProductDetailsProps) => {
           </div>
         </div>
 
-        {isLightboxOpen && (
+        {/* {isLightboxOpen && (
           <Lightbox
             mainSrc={images[lightboxIndex]}
             nextSrc={images[(lightboxIndex + 1) % images.length]}
@@ -434,7 +434,7 @@ const ProductsDetailsView = ({ id, product }: IProductDetailsProps) => {
             onMoveNextRequest={handleNextImage}
             imageTitle={`Image ${lightboxIndex + 1} of ${images.length}`}
           />
-        )}
+        )} */}
       </div>
       {sidebar.value && <CartSidebar dialog={sidebar} />}
     </div>

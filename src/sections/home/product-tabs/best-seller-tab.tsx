@@ -41,8 +41,8 @@ const BestSellerProductTab = () => {
   }, [page, size]);
   return (
     <div className="w-full bg-gray-100 ">
-      <div className="max-w-7xl mx-auto px-3 xl:px-0">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-3 md:gap-x-5 gap-y-3 md:gap-y-5 ">
+      <div className="max-w-6xl mx-auto px-3 xl:px-0">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-x-3 md:gap-x-5 gap-y-3 md:gap-y-5 ">
           {isLoading ? (
             <>
               {cardsArray.map((card, index) => (

@@ -10,8 +10,8 @@ export const HomePageView = () => {
     <div>
       <HomeHeaderCategoryView />
       <HomeBanner />
-      <HomeFlashSaleView />
-      <HomeCategorySection />
+      {/* <HomeFlashSaleView /> */}
+      {/* <HomeCategorySection /> */}
       <HomeProductsView />
     </div>
   );

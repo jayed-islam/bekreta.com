@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
-import ProductCardTimer from "@/components/timer/product-card-timer";
 
 interface IProductCardProps {
   product: any;
@@ -25,128 +23,115 @@ const ProductCard = ({
   const { name, images, price, desc, review, _id } = product;
   const [selectedImage, setSelectedImage] = useState(images[0]);
   const [isLoading, setLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
 
-  const router = useRouter();
-
-  const endTime = "2023-07-25T19:59:59";
-
-  const handleProduct = (product: any) => {
-    setLoading(true);
-    router.push(`${rootPath}/${product?._id}`);
-  };
-
-  function closeModal() {
-    setIsOpen(false);
-  }
-
-  function openModal() {
-    setIsOpen(true);
-    setLoading(false);
-  }
-
-  const handleImageHover = (image: string) => {
-    setSelectedImage(image);
-  };
+  const actionButtonsInfo = [
+    {
+      icon: "ic:baseline-compare-arrows",
+      action: () => {
+        console.log("action, compare");
+      },
+    },
+    {
+      icon: "ph:heart-light",
+      action: () => {
+        console.log("action, wishlist");
+      },
+    },
+    {
+      icon: "carbon:view",
+      action: () => {
+        console.log("action, view");
+      },
+    },
+  ];
 
   return (
     <div
       className={twMerge(
-        "relative flex z-10 flex-col w-full group shadow-sm hover:shadow-md bg-white",
+        "relative flex z-10 flex-col w-full group shadow bg-white border-2 rounded-2xl p-3 group cursor-pointer hover:border-green-500 overflow-hidden",
         className
       )}
     >
-      <div className="relative flex-shrink-0 overflow-hidden w-full group:">
+      <div className="absolute -right-11 top-1/3 z-10  flex-col flex gap-2 group-hover:right-3 transition-all duration-500">
+        {actionButtonsInfo.map((action, index) => (
+          <div
+            key={index}
+            onClick={() => action.action()}
+            className="bg-gray-200 h-9 w-9 hover:bg-green-500 transition-all duration-200 rounded-full flex items-center justify-center hover:text-white"
+          >
+            <Icon icon={action.icon} className="text-xl" />
+          </div>
+        ))}
+      </div>
+      <div className="relative flex-shrink-0 overflow-hidden w-full  rounded-t-2xl">
         <Link
           href={`${rootPath}/${product?._id}`}
-          className="hidden sm:flex h-36 md:h-60 w-full object-cover "
+          className="hidden sm:flex w-full object-cover "
         >
           <img
-            className="object-cover h-full w-full drop-shadow-xl zoom-animation"
-            src={selectedImage}
-            onMouseEnter={() => handleImageHover(images[1])}
-            onMouseLeave={() => handleImageHover(images[0])}
+            className="h-full w-full drop-shadow-xl group-hover:scale-110 rounded-t-2xl  transition-all duration-200"
+            src="/assets/pill.jpg"
           />
         </Link>
         <Link
           href={`/product-detail/${product?._id}`}
-          className="sm:hidden flex aspect-w-11 h-36 md:h-64 w-full object-cover border "
+          className="sm:hidden flex aspect-w-11 h-36 md:h-64 w-full object-cover border"
         >
           <img
             className="object-cover h-full w-full drop-shadow-xl"
             src={selectedImage}
           />
         </Link>
-
-        <div className="group-hover:hidden">
-          {timerBoolean === true && (
-            <div className="absolute bottom-2 left-2 right-2">
-              <ProductCardTimer endTime={endTime} />
-            </div>
-          )}
-        </div>
       </div>
-      <div className="hidden rounded-full sm:flex items-center justify-center absolute top-2 left-2 px-2.5 py-1.5 text-xs bg-red-500 text-white">
+      <div className="hidden rounded-full sm:flex items-center justify-center absolute top-2 left-2 px-2.5 py-1.5 text-xs bg-green-500 text-white">
         <Icon icon="iconamoon:discount-light" className="h-3 w-3 text-white" />
         <span className="ml-1 leading-none">50% Discount</span>
       </div>
 
       <button
-        className={`w-7 h-7 flex items-center justify-center rounded-full bg-white  text-neutral-700 absolute right-3 top-2 `}
-        onClick={() => handleProduct(product)}
+        className={`w-7 h-7 flex items-center justify-center rounded-full bg-white  text-neutral-700 absolute right-3 top-2 sm:hidden`}
       >
         {isLoading ? (
           <div className="w-3.5 h-3.5 border-2 border-dashed rounded-full animate-spin border-violet-400"></div>
         ) : (
-          <>
-            <svg
-              className={`w-5 h-5 text-gray-900`}
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M12.62 20.81C12.28 20.93 11.72 20.93 11.38 20.81C8.48 19.82 2 15.69 2 8.68998C2 5.59998 4.49 3.09998 7.56 3.09998C9.38 3.09998 10.99 3.97998 12 5.33998C13.01 3.97998 14.63 3.09998 16.44 3.09998C19.51 3.09998 22 5.59998 22 8.68998C22 15.69 15.52 19.82 12.62 20.81Z"
-                stroke="currentColor"
-                fill="none"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              ></path>
-            </svg>
-          </>
+          <Icon icon="ph:heart-light" className="text-xl" />
         )}
       </button>
 
       <div className={`px-3 ${newPadding}`}>
-        <div className="flex items-center justify-between mt-3">
-          <div className="flex items-center">
-            {[1, 2, 3, 4].map((i) => (
-              <Icon icon="noto:star" className="text-xl" />
-            ))}
-            <Icon
-              icon="clarity:half-star-solid"
-              className="text-gray-400 text-xl"
-            />
-          </div>
-          <h3 className="text-sm sm:block hidden">Reviews: (0)</h3>
-        </div>
-
         <div className={` pt-2 pb-2 `}>
+          <h2 className="font-semibold text-sm text-gray-600">
+            {product.category}
+          </h2>
           <Link href="/">
-            <h2 className="text-base font-bold hover:text-red-500 transition-all duration-300 ease-in pb-2 hidden sm:block ">
+            <h2 className="text-lg  font-bold hover:text-green-500 transition-all duration-300 ease-in pb-2 leading-6 hidden sm:block ">
               {desc.slice(0, 45)}
             </h2>
             <h2 className="text-xs sm:hidden font-semibold hover:text-red-500 transition-all duration-300 ease-in pb-2 text-ellipsis ">
               {desc.slice(0, 45)}
             </h2>
           </Link>
-          <div className="flex items-center sm:items-end gap-2">
-            <h3 className="text-red-500 text-[18px] font-bold price">
-              ${price}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              {[1, 2, 3, 4].map((i) => (
+                <Icon icon="noto:star" className="text-md" />
+              ))}
+              <Icon
+                icon="clarity:half-star-solid"
+                className="text-gray-400 text-md"
+              />
+            </div>
+          </div>
+          <div className="flex items-center sm:items-end gap-2 mt-2 justify-between">
+            <h3 className="text-green-500 text-[19px] font-bold price">
+              ৳{price}
             </h3>
-            <h3 className="text-gray-400 text-[13px] line-through price">
-              $35.89
-            </h3>
+            <div className="bg-gray-200 h-9 w-9 hover:bg-green-500 transition-all duration-200 rounded-full flex items-center justify-center hover:text-white">
+              <Icon icon="solar:bag-4-linear" className="text-xl" />
+            </div>
+          </div>
+          <div>
+            <h2>Stock label</h2>
           </div>
         </div>
       </div>
