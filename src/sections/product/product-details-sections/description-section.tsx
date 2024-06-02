@@ -5,13 +5,9 @@ interface DescriptionTabProps {
   activeTab: string;
 }
 
-const DescriptionTab: React.FC<DescriptionTabProps> = ({ activeTab }) => {
+const DescriptionSection: React.FC<DescriptionTabProps> = ({ activeTab }) => {
   return (
-    <div
-      className={`bg-white px-5 pt-5 pb-7 shadow-sm mt-6 ${
-        activeTab === "Description" ? "" : "hidden"
-      }`}
-    >
+    <div className={`bg-white px-5 pt-5 pb-7 shadow-sm mt-6`}>
       <h3 className="font-semibold text-xl">Description</h3>
       <div className="">
         <h3 className="pt-7 text-lg font-semibold">Abul Abdullah</h3>
@@ -33,4 +29,4 @@ const DescriptionTab: React.FC<DescriptionTabProps> = ({ activeTab }) => {
   );
 };
 
-export default DescriptionTab;
+export default DescriptionSection;

@@ -29,11 +29,11 @@ const ProductCardTimer: React.FC<IProductCardTimerProps> = ({ endTime }) => {
 
   const formatTime = (value: number, label: string) => {
     return (
-      <div className="px-2 py-2 bg-transparent text-center text-white">
-        <div className="leading-none text-md">
+      <div className="px-2 py-2 text-center w-full">
+        <div className="leading-none text-lg font-semibold ">
           {value.toString().padStart(2, "0")}
         </div>
-        <div className=" text-xs mt-1 leading-none">{label}</div>
+        <div className=" text-xs mt-1 leading-none text-gray-600">{label}</div>
       </div>
     );
   };
@@ -45,7 +45,7 @@ const ProductCardTimer: React.FC<IProductCardTimerProps> = ({ endTime }) => {
 
   return (
     <div className="w-full">
-      <div className="flex w-full items-center justify-between bg-black opacity-80 px-3">
+      <div className="flex w-full items-center px-5 rounded-md bg-gray-200">
         {formatTime(days, "Days")}
         {formatTime(hours, "Hrs")}
         {formatTime(minutes, "Mins")}

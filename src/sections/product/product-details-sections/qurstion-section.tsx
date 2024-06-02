@@ -10,7 +10,7 @@ interface QuestionTabProps {
   product: IProductItem;
 }
 
-const QuestionTab: React.FC<QuestionTabProps> = ({
+const QuestionSection: React.FC<QuestionTabProps> = ({
   activeTab,
   questions,
   product,
@@ -18,11 +18,7 @@ const QuestionTab: React.FC<QuestionTabProps> = ({
   const questionModal = useBoolean();
   return (
     <div>
-      <div
-        className={`bg-white px-5 pt-5 pb-7 shadow-sm mt-6 ${
-          activeTab === "Questions" ? "" : "hidden"
-        }`}
-      >
+      <div className={`bg-white px-5 pt-5 pb-7 shadow-sm mt-6 `}>
         <div className="flex items-start sm:items-center gap-3 sm:gap-0 flex-col sm:flex-row justify-between pb-7">
           <div>
             <h3 className="font-semibold text-xl">Questions (0)</h3>
@@ -61,4 +57,4 @@ const QuestionTab: React.FC<QuestionTabProps> = ({
   );
 };
 
-export default QuestionTab;
+export default QuestionSection;

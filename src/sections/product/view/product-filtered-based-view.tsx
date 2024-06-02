@@ -13,6 +13,8 @@ import { useSearchParams } from "next/navigation";
 import { IProductItem } from "@/types/products";
 import { availabilities } from "@/utils/products";
 import { paths } from "@/layouts/paths";
+import NoDataFoundView from "@/components/no-data/no-data-view";
+import HeadFilterSectionView from "../head-filter-section";
 
 interface CategoryWiseProductProps {}
 
@@ -156,23 +158,6 @@ const CategoryWiseProductFilterView: React.FC<
   const onSubmit = (data: any): void => {
     console.log(data);
   };
-  const noDataView = (
-    <div className="w-full px-3 sm:px-0 py-11">
-      <div className="border border-blue-400 px-5 py-2 mb-7">
-        <h1>
-          No product found in the{" "}
-          <span className="font-semibold text-red-400">{}</span> category.
-        </h1>
-      </div>
-
-      <Link
-        href="/"
-        className=" bg-yellow-400 px-5 text-sm font-semibold py-2 rounded-full"
-      >
-        RETURN TO SHOP
-      </Link>
-    </div>
-  );
 
   return (
     <div className="relative w-full bg-gray-100 z-10 pb-32 overflow-x-hidden">
@@ -180,37 +165,13 @@ const CategoryWiseProductFilterView: React.FC<
         breadcrumbItems={breadcrumbItems}
         pageName="Choice your favirote Brands"
       />
+      <HeadFilterSectionView
+        isLoading={isLoading}
+        uniqueBrandNames={uniqueBrandNames}
+      />
 
-      <div className="bg-white pb-2 shadow-sm h-[49px]">
-        <div className="max-w-7xl mx-auto grid grid-cols-4 md:grid-cols-10 lg:grid-cols-12 h-full justify-start items-center gap-x-3 px-5 xl:px-0">
-          {isLoading ? (
-            <>
-              {[1, 2, 3, 4].map((i) => (
-                <div className="`px-3  h-7  rounded-full border border-gray-200 flex items-center justify-center text-sm cursor-pointer bg-gray-200"></div>
-              ))}
-            </>
-          ) : (
-            <>
-              {uniqueBrandNames.map((brandName, index) => (
-                <div
-                  key={index}
-                  onClick={() => handleBrandClick(brandName)}
-                  className={`px-3 py-1 rounded-full border border-gray-200 flex white items-center justify-center text-sm cursor-pointer ${
-                    selectedBrands.includes(brandName)
-                      ? "bg-indigo-900 border-indigo-900 text-white"
-                      : ""
-                  }`}
-                >
-                  {brandName}
-                </div>
-              ))}
-            </>
-          )}
-        </div>
-      </div>
-      <div className="max-w-7xl mx-auto px-3 xl:px-0">
+      <div className="max-w-6xl mx-auto px-3 xl:px-0">
         <div className="flex flex-col lg:flex-row gap-5 mt-5">
-          {/*rigth side filterd section for small screen */}
           <div
             className={`z-30 lg:hidden flex w-full h-full justify-end overflow-x-hidden bg-black bg-opacity-20 px-2 absolute right-0 top-0 transform ${
               isActive && "translate-x-full lg:hidden"
@@ -309,22 +270,22 @@ const CategoryWiseProductFilterView: React.FC<
               </div>
             ) : (
               <>
-                {filteredProducts?.length > 0 ? (
-                  <div>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-x-3 md:gap-x-3 gap-y-3 md:gap-y-5 mt-3">
-                      {filteredProducts?.map((product, index) => (
-                        <ProductCard
-                          key={index}
-                          product={product}
-                          index={index}
-                          rootPath={paths.product.root}
-                        />
-                      ))}
-                    </div>
+                {/* {filteredProducts?.length > 0 ? ( */}
+                <div>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-x-3 md:gap-x-3 gap-y-3 md:gap-y-5 mt-3">
+                    {[1, 2, 3, 4, 5, 6, 7, 8].map((product, index) => (
+                      <ProductCard
+                        key={index}
+                        product={product}
+                        index={index}
+                        rootPath={paths.product.root}
+                      />
+                    ))}
+                  </div>
 
-                    {/* pagination */}
+                  {/* pagination */}
 
-                    {/* <div className="flex items-center justify-between mt-11">
+                  {/* <div className="flex items-center justify-between mt-11">
                       <button
                         disabled={page === 0}
                         onClick={handlePrevClick}
@@ -431,17 +392,17 @@ const CategoryWiseProductFilterView: React.FC<
                       </button>
                     </div> */}
 
-                    <Pagination
-                      page={page}
-                      pages={pages}
-                      handlePrevClick={handlePrevClick}
-                      handleNextClick={handleNextClick}
-                      handleLastPageClick={handleLastPageClick}
-                    />
-                  </div>
-                ) : (
-                  noDataView
-                )}
+                  <Pagination
+                    page={page}
+                    pages={pages}
+                    handlePrevClick={handlePrevClick}
+                    handleNextClick={handleNextClick}
+                    handleLastPageClick={handleLastPageClick}
+                  />
+                </div>
+                {/* ) : (
+                  <NoDataFoundView />
+                )} */}
               </>
             )}
           </div>

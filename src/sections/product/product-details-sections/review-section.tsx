@@ -11,18 +11,14 @@ interface ReviewTabProps {
   product: IProductItem;
 }
 
-const ReviewTab: React.FC<ReviewTabProps> = ({
+const ReviewSection: React.FC<ReviewTabProps> = ({
   activeTab,
   questions,
   product,
 }) => {
   const reviewModal = useBoolean();
   return (
-    <div
-      className={`bg-white px-5 pt-5 pb-7 shadow-sm mt-6 ${
-        activeTab === "Reviews" ? "" : "hidden"
-      }`}
-    >
+    <div className={`bg-white px-5 pt-5 pb-7 shadow-sm mt-6`}>
       <div className="flex items-start sm:items-center gap-3 sm:gap-0 flex-col sm:flex-row justify-between pb-7">
         <div>
           <h3 className="font-semibold text-xl">Reviews (0)</h3>
@@ -61,4 +57,4 @@ const ReviewTab: React.FC<ReviewTabProps> = ({
   );
 };
 
-export default ReviewTab;
+export default ReviewSection;

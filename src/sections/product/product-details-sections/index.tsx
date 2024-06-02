@@ -16,10 +16,10 @@ const Tab: React.FC<ProductDetailTabProps> = ({
 
   return (
     <button
-      className={`px-5 py-2 text-xs md:text-lg font-semibold rounded-md shadow-sm ${
+      className={`px-5 py-2 text-lg font-semibold rounded-md shadow-sm ${
         isActive
-          ? "bg-orange-600 text-white"
-          : "bg-white hover:bg-orange-600 hover:text-white"
+          ? "bg-green-600 text-white"
+          : "bg-white hover:bg-green-600 hover:text-white"
       }`}
       onClick={() => onClick(label)}
     >

@@ -43,7 +43,7 @@ export default function Header() {
     <header>
       <div className=" sticky top-0 w-full z-20  bg-blue-gray-900">
         <div className="relative shadow-sm border-slate-100 ">
-          <div className="max-w-7xl mx-auto px-5 xl:px-0">
+          <div className="max-w-6xl mx-auto px-5 xl:px-0">
             <div className="h-20 flex justify-between items-center w-full">
               <div className="flex items-center lg:hidden">
                 <button
