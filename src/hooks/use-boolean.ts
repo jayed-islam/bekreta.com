@@ -1,12 +1,7 @@
-import { useCallback, useState } from "react";
+"use client";
 
-interface BooleanState {
-  value: boolean;
-  setTrue: () => void;
-  setFalse: () => void;
-  toggle: () => void;
-  setValue: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { BooleanState } from "@/types/utils";
+import { useCallback, useState } from "react";
 
 const useBoolean = (initialValue?: boolean): BooleanState => {
   const [value, setValue] = useState(!!initialValue);

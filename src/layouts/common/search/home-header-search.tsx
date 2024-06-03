@@ -11,7 +11,6 @@ export default function HomeHeaderSearch() {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   const router = useRouter();
-  const popover = useBoolean();
 
   const onSubmit = (data: any) => {
     router.push(`${paths.product.category}?search=${data.search}`);

@@ -1,7 +1,7 @@
 import React from "react";
 import { useFormContext, Controller } from "react-hook-form";
-import { Input } from "../material-tailwind/material-tailwind-components";
 import { Icon } from "@iconify-icon/react";
+import { Input } from "../material-tailwind/material-tailwind-components";
 
 type CustomTextFieldProps = {
   name: string;
@@ -41,6 +41,8 @@ const QNXTextField: React.FC<CustomTextFieldProps> = ({
       render={({ field, fieldState: { error } }) => (
         <div className={` ${sx} w-full `}>
           <Input
+            onPointerEnterCapture={undefined}
+            onPointerLeaveCapture={undefined}
             icon={
               type === "password" && (
                 <button type="button" onClick={handleClickShowPassword}>

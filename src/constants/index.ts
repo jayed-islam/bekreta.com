@@ -160,4 +160,26 @@ const features = [
   },
 ];
 
-export { bannerImages, categories, socialInfo, queries, features };
+const payment_methode = [
+  {
+    type: "Direct bank transfer",
+    name: "direct_bank_transfer",
+  },
+  {
+    type: "Check payments",
+    name: "check_payments",
+  },
+  {
+    type: "Cash on delivery",
+    name: "cash_on_delivery",
+  },
+];
+
+export {
+  bannerImages,
+  categories,
+  socialInfo,
+  queries,
+  features,
+  payment_methode,
+};

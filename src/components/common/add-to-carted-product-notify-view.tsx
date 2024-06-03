@@ -1,14 +1,9 @@
+import { BooleanState } from "@/types/utils";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import React, { useEffect, useState } from "react";
 
 interface Props {
-  dialog: {
-    value: boolean;
-    setTrue: () => void;
-    setFalse: () => void;
-    toggle: () => void;
-    setValue: React.Dispatch<React.SetStateAction<boolean>>;
-  };
+  dialog: BooleanState;
 }
 
 const CartSidebar = ({ dialog }: Props) => {

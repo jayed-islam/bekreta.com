@@ -1,8 +1,8 @@
-import CartedProductView from "@/sections/cart/view/cart-view";
+import { CartedProductListView } from "@/sections/cart/view";
 import React from "react";
 
 const CartPage = () => {
-  return <CartedProductView />;
+  return <CartedProductListView />;
 };
 
 export default CartPage;

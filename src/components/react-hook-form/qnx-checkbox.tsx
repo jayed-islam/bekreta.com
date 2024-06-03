@@ -1,6 +1,6 @@
 import React from "react";
 import { useFormContext, Controller } from "react-hook-form";
-import { Checkbox } from "../../components/material-tailwind-component/material-tailwind";
+import { Checkbox } from "../material-tailwind/material-tailwind-components";
 
 type CustomCheckboxProps = {
   name: string;
