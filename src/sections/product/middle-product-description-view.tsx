@@ -1,5 +1,6 @@
 import { features, socialInfo } from "@/constants";
 import useBoolean from "@/hooks/use-boolean";
+import ActionButton from "@/layouts/common/buttons/action-button";
 import { IProductItem } from "@/types/products";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import React from "react";
@@ -76,21 +77,23 @@ const MiddleProductDescription = ({ product }: TMiddleDescriptionProps) => {
         <div className="flex items-center justify-center bg-slate-100/70 px-2 py-3 sm:p-3.5 rounded-full">
           <div className=" flex items-center justify-between space-x-5 w-full">
             <div className="flex items-center justify-between w-[104px] sm:w-28">
-              <button
+              {/* <button
                 className="w-9 h-9 rounded-full flex items-center justify-center border   bg-gray-200 hover:bg-green-500 hover:text-white transition-all duration-300 disabled:hover:border-neutral-400  disabled:opacity-50 disabled:cursor-default "
                 type="button"
               >
                 <Icon icon="ph:minus" className="text-xl" />
-              </button>
+              </button> */}
+              <ActionButton icon="ph:minus" />
               <span className="select-none block flex-1 text-center leading-none">
                 5
               </span>
-              <button
+              {/* <button
                 className="w-9 h-9 rounded-full flex items-center justify-center border   bg-gray-200 hover:bg-green-500 hover:text-white transition-all duration-300 disabled:hover:border-neutral-400  disabled:opacity-50 disabled:cursor-default "
                 type="button"
               >
                 <Icon icon="ph:plus" className="text-xl" />
-              </button>
+              </button> */}
+              <ActionButton icon="ph:plus" />
             </div>
           </div>
         </div>

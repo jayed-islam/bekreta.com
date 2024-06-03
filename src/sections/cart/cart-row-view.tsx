@@ -1,4 +1,5 @@
 import useBoolean from "@/hooks/use-boolean";
+import ActionButton from "@/layouts/common/buttons/action-button";
 import DeleteConformationModal from "@/layouts/common/modal/delete-modal";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import Link from "next/link";
@@ -61,7 +62,7 @@ const CartRow = () => {
               <div className="hidden sm:block text-center relative">
                 <div className="nc-NcInputNumber flex items-center justify-between space-x-5 relative z-10">
                   <div className="nc-NcInputNumber__content flex items-center justify-between w-[104px] sm:w-28">
-                    <button
+                    {/* <button
                       className="w-8 h-8 rounded-full flex items-center justify-center border border-neutral-400  bg-white  focus:outline-none hover:border-neutral-700  disabled:hover:border-neutral-400  disabled:opacity-50 disabled:cursor-default"
                       type="button"
                     >
@@ -78,11 +79,12 @@ const CartRow = () => {
                           clip-rule="evenodd"
                         ></path>
                       </svg>
-                    </button>
+                    </button> */}
+                    <ActionButton icon="ph:plus" />
                     <span className="select-none block flex-1 text-center leading-none">
                       5
                     </span>
-                    <button
+                    {/* <button
                       className="w-8 h-8 rounded-full flex items-center justify-center border border-neutral-400  bg-white focus:outline-none hover:border-neutral-700  disabled:hover:border-neutral-400  disabled:opacity-50 disabled:cursor-default"
                       type="button"
                     >
@@ -99,7 +101,8 @@ const CartRow = () => {
                           clip-rule="evenodd"
                         ></path>
                       </svg>
-                    </button>
+                    </button> */}
+                    <ActionButton icon="ph:minus" />
                   </div>
                 </div>
               </div>
