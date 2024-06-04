@@ -2,8 +2,8 @@ export const paths = {
   root: "/",
   apps: "/apps",
   website: {
-    signin: "/signin",
-    signup: "/signup",
+    signin: "/auth/signin",
+    signup: "/auth/signup",
   },
   product: {
     root: "/product",

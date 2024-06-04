@@ -14,7 +14,7 @@ type CustomTextFieldProps = {
   sx?: string;
 };
 
-const QNXTextField: React.FC<CustomTextFieldProps> = ({
+const RHFOTextField: React.FC<CustomTextFieldProps> = ({
   name,
   type = "text",
   helperText,
@@ -39,10 +39,8 @@ const QNXTextField: React.FC<CustomTextFieldProps> = ({
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => (
-        <div className={` ${sx} w-full `}>
+        <div className={`w-full  ${sx}`}>
           <Input
-            onPointerEnterCapture={undefined}
-            onPointerLeaveCapture={undefined}
             icon={
               type === "password" && (
                 <button type="button" onClick={handleClickShowPassword}>
@@ -54,7 +52,6 @@ const QNXTextField: React.FC<CustomTextFieldProps> = ({
                 </button>
               )
             }
-            crossOrigin={undefined}
             label={label}
             {...field}
             type={
@@ -91,4 +88,4 @@ const QNXTextField: React.FC<CustomTextFieldProps> = ({
   );
 };
 
-export default QNXTextField;
+export default RHFOTextField;

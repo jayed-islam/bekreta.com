@@ -1,133 +1,98 @@
+"use client";
+
+import { RHFOTextField } from "@/components/react-hook-form";
+import FormProvider from "@/components/react-hook-form/hook-form-controller";
+import { paths } from "@/layouts/paths";
+import Link from "next/link";
 import React from "react";
+import { useForm } from "react-hook-form";
 
-interface SignUpViewProps {
-  handleTabChange: (label: string) => void;
-}
+const SignUpView = () => {
+  const methods = useForm();
 
-const SignUpView: React.FC<SignUpViewProps> = ({ handleTabChange }) => {
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = methods;
+
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  });
   return (
-    <div>
-      <div className="h-[350px]">
-        <div className="mt-5 h-[55px]">
-          <div className="relative flex items-center">
-            <span className="absolute">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6 mx-3 text-gray-300 "
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
-              </svg>
-            </span>
+    <div className="bg-gray-100 h-screen flex items-center justify-center w-full">
+      <div className="w-full max-w-[25rem] rounded-xl bg-white shadow-xl p-7">
+        <FormProvider methods={methods} onSubmit={onSubmit}>
+          <h1 className="mt-3 text-2xl font-semibold capitalize sm:text-3xl">
+            sign Up
+          </h1>
 
-            <input
-              type="text"
-              className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 focus:border-blue-400  focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              placeholder="Username"
+          <h3 className="text-sm pt-1">
+            Enter your email and password to Sign Up.
+          </h3>
+
+          <div className="w-full mt-8">
+            <h2 className="text-md font-bold">Your Email</h2>
+            <RHFOTextField label="Email" name="email" sx="mt-2" />
+          </div>
+
+          <div className="w-full mt-4">
+            <h2 className="text-md font-bold">Your Password</h2>
+            <RHFOTextField
+              label="Password"
+              type="password"
+              name="password"
+              sx="mt-2"
             />
           </div>
-        </div>
 
-        <div className="mt-5 h-[55px]">
-          <div className="relative flex items-center">
-            <span className="absolute">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6 mx-3 text-gray-300 "
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                />
-              </svg>
-            </span>
-
-            <input
-              type="email"
-              className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11  focus:border-blue-400  focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              placeholder="Email address"
-            />
-          </div>
-          {/* <p className="text-red-500 text-xs"> */}
-        </div>
-
-        <div className="mt-5 h-[55px]">
-          <div className="relative flex items-center ">
-            <span className="absolute">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6 mx-3 text-gray-300 "
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                />
-              </svg>
-            </span>
-
-            <input
-              className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg  focus:border-blue-400  focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              placeholder="Password"
-            />
-
-            <button
-              type="button"
-              className="absolute right-0 focus:outline-none rtl:left-0 rtl:right-auto"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-6 h-6 mx-4 text-gray-400 transition-colors duration-300 hover:text-gray-500 "
-              >
-                <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
-                <path
-                  fill-rule="evenodd"
-                  d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z"
-                  clip-rule="evenodd"
-                />
-              </svg>
+          <div className="mt-6">
+            <button className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-500 rounded-lg hover:bg-green-600">
+              Sign up
             </button>
-          </div>
-        </div>
 
-        <div className="mt-6">
-          <button
-            className="relative h-[55px] w-full inline-flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium py-3 px-4 sm:py-3.5 sm:px-6  ttnc-ButtonPrimary disabled:bg-opacity-90 bg-slate-900 hover:bg-slate-800 text-slate-50 shadow-xl  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-6000"
-            type="submit"
-          >
-            Continue
-          </button>
+            <p className="mt-4 text-center text-gray-600 dark:text-gray-400">
+              or sign up with
+            </p>
 
-          <div className="mt-6 text-center ">
-            <span className="block text-center text-neutral-700 ">
-              Already have an account?
-              <span
-                onClick={() => handleTabChange("signin")}
-                className="text-green-600 cursor-pointer"
+            <a
+              href="#"
+              className="flex items-center justify-center px-6 py-3 mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg dark:border-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
+            >
+              <svg className="w-6 h-6 mx-2" viewBox="0 0 40 40">
+                <path
+                  d="M36.3425 16.7358H35V16.6667H20V23.3333H29.4192C28.045 27.2142 24.3525 30 20 30C14.4775 30 10 25.5225 10 20C10 14.4775 14.4775 9.99999 20 9.99999C22.5492 9.99999 24.8683 10.9617 26.6342 12.5325L31.3483 7.81833C28.3717 5.04416 24.39 3.33333 20 3.33333C10.7958 3.33333 3.33335 10.7958 3.33335 20C3.33335 29.2042 10.7958 36.6667 20 36.6667C29.2042 36.6667 36.6667 29.2042 36.6667 20C36.6667 18.8825 36.5517 17.7917 36.3425 16.7358Z"
+                  fill="#FFC107"
+                />
+                <path
+                  d="M5.25497 12.2425L10.7308 16.2583C12.2125 12.59 15.8008 9.99999 20 9.99999C22.5491 9.99999 24.8683 10.9617 26.6341 12.5325L31.3483 7.81833C28.3716 5.04416 24.39 3.33333 20 3.33333C13.5983 3.33333 8.04663 6.94749 5.25497 12.2425Z"
+                  fill="#FF3D00"
+                />
+                <path
+                  d="M20 36.6667C24.305 36.6667 28.2167 35.0192 31.1742 32.34L26.0159 27.975C24.3425 29.2425 22.2625 30 20 30C15.665 30 11.9842 27.2359 10.5975 23.3784L5.16254 27.5659C7.92087 32.9634 13.5225 36.6667 20 36.6667Z"
+                  fill="#4CAF50"
+                />
+                <path
+                  d="M36.3425 16.7358H35V16.6667H20V23.3333H29.4192C28.7592 25.1975 27.56 26.805 26.0133 27.9758C26.0142 27.975 26.015 27.975 26.0158 27.9742L31.1742 32.3392C30.8092 32.6708 36.6667 28.3333 36.6667 20C36.6667 18.8825 36.5517 17.7917 36.3425 16.7358Z"
+                  fill="#1976D2"
+                />
+              </svg>
+
+              <span className="mx-2">Sign up with Google</span>
+            </a>
+
+            <div className="mt-6 text-center ">
+              <Link
+                href={paths.website.signup}
+                className="text-sm text-blue-500 hover:underline dark:text-blue-400"
               >
-                Sign in
-              </span>
-            </span>
+                Already have an account yet? Sign in
+              </Link>
+            </div>
           </div>
-        </div>
+        </FormProvider>
       </div>
     </div>
   );

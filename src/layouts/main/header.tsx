@@ -155,7 +155,7 @@ export default function Header() {
               </div>
 
               <Link
-                href="/signin"
+                href={paths.website.signin}
                 className="lg:flex items-center gap-3 mr-7 cursor-pointer hidden"
               >
                 <Icon
@@ -166,14 +166,14 @@ export default function Header() {
                   <h3 className="font-semibold text-white">Create Account</h3>
                   <div className="flex items-center gap-1 text-xs text-gray-400 ">
                     <Link
-                      href="/signup"
+                      href={paths.website.signup}
                       className="hover:text-orange-600 transition-all duration-150 ease-in"
                     >
                       Signup
                     </Link>
                     <p>or</p>
                     <Link
-                      href="/signin"
+                      href={paths.website.signin}
                       className="hover:text-orange-600 transition-all duration-150 ease-in"
                     >
                       Login

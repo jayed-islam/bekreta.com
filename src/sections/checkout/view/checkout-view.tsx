@@ -1,7 +1,7 @@
 "use client";
 
 import PageHeader from "@/components/common/page-header";
-import { QNXTextField } from "@/components/react-hook-form";
+import { RHFOTextField } from "@/components/react-hook-form";
 import FormProvider from "@/components/react-hook-form/hook-form-controller";
 import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
@@ -15,9 +15,6 @@ const CheckoutProudctView = () => {
 
   const {
     handleSubmit,
-    control,
-    watch,
-    reset,
     formState: { errors },
   } = methods;
 
@@ -63,12 +60,12 @@ const CheckoutProudctView = () => {
                     Billing details
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <QNXTextField name="title" label="Title" />
-                    <QNXTextField name="title" label="Title" />
-                    <QNXTextField name="title" label="Title" sx="col-span-2" />
-                    <QNXTextField name="title" label="Title" />
-                    <QNXTextField name="title" label="Title" />
-                    <QNXTextField name="title" label="Title" />
+                    <RHFOTextField name="title" label="Title" />
+                    <RHFOTextField name="title" label="Title" />
+                    <RHFOTextField name="title" label="Title" sx="col-span-2" />
+                    <RHFOTextField name="title" label="Title" />
+                    <RHFOTextField name="title" label="Title" />
+                    <RHFOTextField name="title" label="Title" />
                   </div>
                 </div>
                 <div className="flex-shrink-0 border-t lg:border-t-0 lg:border-l border-slate-200 my-10 lg:my-0 lg:mx-11"></div>
