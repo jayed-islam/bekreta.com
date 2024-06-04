@@ -26,12 +26,12 @@ const BannerProductCard = ({
   const [isLoading, setLoading] = useState(false);
 
   const actionButtonsInfo = [
-    {
-      icon: "ic:baseline-compare-arrows",
-      action: () => {
-        console.log("action, compare");
-      },
-    },
+    // {
+    //   icon: "ic:baseline-compare-arrows",
+    //   action: () => {
+    //     console.log("action, compare");
+    //   },
+    // },
     {
       icon: "ph:heart-light",
       action: () => {
@@ -55,7 +55,7 @@ const BannerProductCard = ({
         className
       )}
     >
-      <div className="absolute -right-11 top-1/3 z-10  flex-col flex gap-2 group-hover:right-3 transition-all duration-500">
+      <div className="absolute -right-11 top-1/3 z-10  flex-col flex gap-2 group-hover:right-5 transition-all duration-500">
         {actionButtonsInfo.map((action, index) => (
           <div
             key={index}
@@ -66,10 +66,10 @@ const BannerProductCard = ({
           </div>
         ))}
       </div>
-      <div className="relative flex-shrink-0 overflow-hidden w-full rounded-t-2xl">
-        <div className="hidden sm:flex w-full object-cover ">
+      <div className="relative flex-shrink-0 overflow-hidden w-full">
+        <div className="hidden sm:flex object-cover bg-white h-48 items-center justify-center">
           <img
-            className="h-full w-full drop-shadow-xl rounded-t-2xl transition-all duration-200"
+            className="h-full rounded-t-2xl transition-all duration-200"
             src="/assets/pill.jpg"
           />
         </div>
@@ -91,7 +91,7 @@ const BannerProductCard = ({
         )}
       </button>
 
-      <div className={`px-6`}>
+      <div className={`px-5`}>
         <div className={` pt-2 pb-2 `}>
           <h2 className="font-semibold text-sm text-gray-600">
             {product.category}

@@ -36,11 +36,11 @@ export default function HomeHeaderSearch() {
   }, [router]);
 
   return (
-    <div className="w-[500px]">
-      <Popover className="relative w-[500px]">
+    <div className="w-[400px] xl:w-[500px]">
+      <Popover className="relative w-[400px] xl:w-[500px]">
         {({ open }) => (
           <>
-            <div className="bg-white flex items-center rounded-md w-[500px] relative z-50">
+            <div className="bg-white flex items-center rounded-md w-[400px] xl:w-[500px] relative z-50">
               <input
                 ref={inputRef}
                 onFocus={handleInputFocus}

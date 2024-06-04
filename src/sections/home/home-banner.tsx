@@ -8,10 +8,11 @@ import { SampleNextArrow, SamplePrevArrow } from "@/utils/react-slick-utils";
 
 const HomeBanner = () => {
   const sliderRef = useRef<Slider | null>(null);
+  const bannerRef = useRef<Slider | null>(null);
   var settings = {
     dots: false,
-    infinite: false,
-    loop: true,
+    infinite: true,
+    lop: true,
     speed: 500,
     autoplay: true,
     slidesToShow: 1,
@@ -27,6 +28,13 @@ const HomeBanner = () => {
 
   const next = () => {
     sliderRef.current?.slickNext();
+  };
+  const bannerPrevious = () => {
+    bannerRef.current?.slickPrev();
+  };
+
+  const bannerNext = () => {
+    bannerRef.current?.slickNext();
   };
 
   const banners = ["assets/banner.avif", "assets/banner2.avif"];
@@ -68,23 +76,32 @@ const HomeBanner = () => {
   }, [page, size]);
   return (
     <div className="bg-gray-100 w-full">
-      <div className="max-w-6xl mx-auto flex  lg:gap-5 pt-2">
-        <div className="w-[75%]">
-          <Slider {...settings}>
+      <div className="max-w-6xl mx-auto flex lg:gap-5 pt-2 flex-col lg:flex-row sm:px-3 md:px-5 xl:px-0">
+        <div className="flex-1 w-full lg:w-[60%]">
+          <Slider {...settings} ref={bannerRef}>
             {banners.map((banner, index) => (
               <div
                 key={index}
-                className="flex items-center justify-center w-full h-52 md:h-96 lg:h-[501px]"
+                className="flex items-center justify-center w-full h-52 sm:h-72 md:h-[400px] lg:h-[491px] relative lg:rounded-2xl"
               >
-                <img src={banner} className="w-full h-full object-cover " />
-                <div className="absolute inset-0 left-5 right-5 flex items-center justify-between">
-                  <button className="text-white h-11 flex items-center justify-center w-11 bg-black bg-opacity-50 rounded-full hover:text-orange-600 transition-all duration-150">
+                <img
+                  src={banner}
+                  className="w-full h-full object-cover lg:rounded-2xl"
+                />
+                <div className="absolute inset-0 left-5 right-5 flex items-center justify-between z-20">
+                  <button
+                    className="text-white h-11 flex items-center justify-center w-11 bg-black bg-opacity-50 rounded-full hover:text-orange-600 transition-all duration-150"
+                    onClick={bannerPrevious}
+                  >
                     <Icon
                       icon="iconamoon:arrow-left-2-thin"
                       className="text-3xl"
                     />
                   </button>
-                  <button className="text-white h-11 flex items-center justify-center w-11 bg-black bg-opacity-50 rounded-full hover:text-orange-600 transition-all duration-150">
+                  <button
+                    className="text-white h-11 flex items-center justify-center w-11 bg-black bg-opacity-50 rounded-full hover:text-orange-600 transition-all duration-150"
+                    onClick={bannerNext}
+                  >
                     <Icon
                       icon="iconamoon:arrow-right-2-thin"
                       className="text-3xl"
@@ -95,7 +112,7 @@ const HomeBanner = () => {
             ))}
           </Slider>
         </div>
-        <div className="w-full lg:w-[25%] h-full border-2 border-green-500 rounded-2xl py-5 bg-white">
+        <div className="w-full hidden lg:block sm:max-w-[18rem] h-full border-2 border-green-500 rounded-2xl py-5 bg-white">
           <div className="flex items-center justify-between px-5">
             <h2 className="text-xl font-bold text-green-500">Special Deal</h2>
             <div className="flex items-center gap-3">

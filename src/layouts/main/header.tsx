@@ -9,9 +9,10 @@ import { Popover } from "@headlessui/react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import logo from "../../../public/assets/shop_logo.png";
-import CartHeaderPopup from "../common/modal/cart-header-popover";
+import CartHeaderPopover from "../common/modal/cart-header-popover";
 import { paths } from "../paths";
 import HomeHeaderSearch from "../common/search/home-header-search";
+import ProfilePopover from "../common/modal/profile-popover";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -50,7 +51,10 @@ export default function Header() {
                   onClick={() => setOpen(!open)}
                   className="rounded-lg text-neutral-700 focus:outline-none flex items-center justify-center"
                 >
-                  <Icon icon="ion:menu-outline" className="text-2xl" />
+                  <Icon
+                    icon="ion:menu-outline"
+                    className="text-3xl text-white"
+                  />
                 </button>
               </div>
               <div className="flex items-center">
@@ -177,160 +181,13 @@ export default function Header() {
                   </div>
                 </div>
               </Link>
-
-              {/* <div className=" flex items-center justify-end gap-3">
-                {user?.uid && (
-                  <div className="hidden lg:block">
-                    <div className=" md:relative">
-                      <button
-                        id="profileButton"
-                        onClick={toggleProfile}
-                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-full text-white hover:text-orange-700 focus:outline-none flex items-center justify-center border-[2px] border-orange-700"
-                        type="button"
-                      >
-                        <svg
-                          className=" w-6 h-6"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z"
-                            stroke="currentColor"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          ></path>
-                          <path
-                            d="M20.5899 22C20.5899 18.13 16.7399 15 11.9999 15C7.25991 15 3.40991 18.13 3.40991 22"
-                            stroke="currentColor"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          ></path>
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                <div className="relative">
-                  <button
-                    id="wishlistButton"
-                    onClick={toggleWishlist}
-                    className={` hidden text-opacity-90 group w-10 h-10 sm:w-12 sm:h-12 hover:bg-slate100 rounded-full lg:inline-flex items-center justify-center focus:outline-none focus-visible:ring-2 border-2 border-orange-700 focus-visible:ring-white focus-visible:ring-opacity-75 cursor-pointer relative" type="button ${
-                      wishlistItems?.length === 0
-                        ? "bg-red-50 text-red-500"
-                        : " text-white hover:text-orange-700"
-                    }`}
-                  >
-                    <div
-                      className={`w-4 h-4 flex items-center justify-center absolute top-1 right-[1px] rounded-full text-[10px] leading-none text-white font-medium ${
-                        wishlistItems?.length === 0
-                          ? "bg-red-500 text-white"
-                          : "bg-blue-500"
-                      }`}
-                    >
-                      <span className="">{wishlistItems?.length}</span>
-                    </div>
-                    <AiOutlineHeart size={24} />
-                  </button>
-                </div>
-
-                <div className="relative">
-                  <button
-                    id="cartButton"
-                    onClick={toggleCart}
-                    className={` hidden text-opacity-90 group w-10 h-10 sm:w-12 sm:h-12 hover:bg-slate100 rounded-full lg:inline-flex items-center justify-center focus:outline-none focus-visible:ring-2 border-2 border-orange-700 focus-visible:ring-white focus-visible:ring-opacity-75 cursor-pointer relative" type="button ${
-                      cartItems?.length === 0
-                        ? "bg-red-50 text-red-500"
-                        : " text-white hover:text-orange-700"
-                    }`}
-                  >
-                    <div
-                      className={`w-4 h-4 flex items-center justify-center absolute top-1 right-[1px] rounded-full text-[10px] leading-none text-white font-medium ${
-                        cartItems?.length === 0
-                          ? "bg-red-500 text-white"
-                          : "bg-blue-500"
-                      }`}
-                    >
-                      <span className="">{cartItems?.length}</span>
-                    </div>
-                    <HiOutlineShoppingBag size={24} />
-                  </button>
-
-                  <Link
-                    to="/cart"
-                    className={` lg:hidden text-opacity-90 group w-10 h-10 sm:w-12 sm:h-12 hover:bg-slate100 rounded-full inline-flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 cursor-pointer relative" type="button ${
-                      cartItems?.length === 0
-                        ? "bg-red-50 text-red-500"
-                        : "bg-slate-100"
-                    }`}
-                  >
-                    <div
-                      className={`w-4 h-4 flex items-center justify-center absolute top-1.5 right-[1px] rounded-full text-[10px] leading-none text-white font-medium ${
-                        cartItems?.length === 0
-                          ? "bg-red-500 text-white"
-                          : "bg-blue-500"
-                      }`}
-                    >
-                      <span className="mt-[1px]">{cartItems?.length}</span>
-                    </div>
-                    <HiOutlineShoppingBag size={24} />
-                  </Link>
-
-                  <div
-                    ref={cartDivRef}
-                    id="cartDiv"
-                    className={`${
-                      cartOpen ? "block opacity-100" : "hidden opacity-0 "
-                    } transition-opacity duration-300 ease-in-out`}
-                    onClick={toggleCart}
-                  >
-                    <CartedISubMenu
-                      cartItems={cartItems}
-                      handleIncrease={handleIncrease}
-                      handleDecrease={handleDecrease}
-                      removeFromCart={removeFromCart}
-                    />
-                  </div>
-
-                  <div
-                    ref={profileRef}
-                    id="profileDiv"
-                    className={`${
-                      profileOpen ? "block opacity-100" : "hidden opacity-0 "
-                    } transition-opacity duration-300 ease-in-out`}
-                    onClick={toggleProfile}
-                  >
-                    <ProfileSubMenu />
-                  </div>
-
-                  <div
-                    ref={wishlistRef}
-                    id="wishlistDiv"
-                    className={`${
-                      wishlistOpen ? "block opacity-100" : "hidden opacity-0 "
-                    } transition-opacity duration-300 ease-in-out`}
-                    onClick={toggleWishlist}
-                  >
-                    <WistlistNavbarCard
-                      wishlistItems={wishlistItems}
-                      addToWishlist={addToWishlist}
-                    />
-                  </div>
-                </div>
-              </div> */}
-              <div>
-                <CartHeaderPopup />
+              <div className="flex items-center gap-3">
+                <ProfilePopover />
+                <CartHeaderPopover />
               </div>
             </div>
           </div>
         </div>
-        {/* <CartSIdebar
-          lastAddedItem={lastAddedItem}
-          showCartSidebar={showCartSidebar}
-        /> */}
       </div>
     </header>
   );

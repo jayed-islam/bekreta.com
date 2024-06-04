@@ -14,4 +14,9 @@ export const paths = {
   },
   page404: "/error/404",
   checkout: "/checkout",
+  order: "/orders",
+  account: {
+    root: "/account",
+    wistlist: "/account/wishlist",
+  },
 };

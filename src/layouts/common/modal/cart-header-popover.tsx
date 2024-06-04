@@ -5,7 +5,7 @@ import { Fragment } from "react";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import { paths } from "@/layouts/paths";
 
-const CartHeaderPopup = () => {
+const CartHeaderPopover = () => {
   return (
     <div className="">
       <Popover className="relative">
@@ -15,15 +15,15 @@ const CartHeaderPopup = () => {
               className={`${open ? "text-white" : "text-white/90"}`}
             >
               <button
-                className={`text-opacity-90 group w-10 h-10 sm:w-12 sm:h-12 rounded-full lg:inline-flex items-center justify-center outline-none border-2 border-orange-700  cursor-pointer relative focus:outline-none focus:ring-0`}
+                className={`text-opacity-90 group w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center outline-none border-2 border-orange-700  cursor-pointer relative focus:outline-none focus:ring-0`}
                 type="button"
               >
                 <div
-                  className={`w-4 h-4 right-0 flex items-center justify-center absolute top-1 rounded-full text-[10px] leading-none text-white font-medium bg-blue-500`}
+                  className={`w-4 h-4 right-0 flex items-center justify-center absolute top-1 rounded-full text-[10px] leading-none text-white font-medium bg-green-500`}
                 >
                   <span className="">0</span>
                 </div>
-                <Icon icon="iconoir:cart" className="text-2xl" />
+                <Icon icon="iconoir:cart" className="text-lg md:text-2xl" />
               </button>
             </Popover.Button>
             <Transition
@@ -154,4 +154,4 @@ const CartHeaderPopup = () => {
   );
 };
 
-export default CartHeaderPopup;
+export default CartHeaderPopover;

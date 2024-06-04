@@ -1,3 +1,5 @@
+import { paths } from "@/layouts/paths";
+
 const bannerImages = [
   "https://img.freepik.com/premium-photo/shopping-cart-moves-speed-light-backdrop-with-balloons-gift-boxes-all-live-futuristic-atmosphere-3d-render_172660-11.jpg?size=626&ext=jpg",
   "https://img.freepik.com/free-photo/arrangement-black-friday-shopping-carts-with-copy-space_23-2148667047.jpg?size=626&ext=jpg",
@@ -175,6 +177,24 @@ const payment_methode = [
   },
 ];
 
+const profileInfo = [
+  {
+    title: "My Account",
+    path: paths.account.root,
+    icon: "solar:user-outline",
+  },
+  {
+    title: "My Orders",
+    path: paths.order,
+    icon: "solar:document-broken",
+  },
+  {
+    title: "Wishlist",
+    path: paths.order,
+    icon: "ph:heart-light",
+  },
+];
+
 export {
   bannerImages,
   categories,
@@ -182,4 +202,5 @@ export {
   queries,
   features,
   payment_methode,
+  profileInfo,
 };
