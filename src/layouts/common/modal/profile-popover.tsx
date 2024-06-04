@@ -52,6 +52,7 @@ const ProfilePopover = () => {
                         <div className="w-full border-b border-neutral-200"></div>
                         {profileInfo.map((info, index) => (
                           <Link
+                            onClick={() => close()}
                             href={info.path}
                             className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-gray-100 focus:outline-none"
                           >
@@ -67,7 +68,10 @@ const ProfilePopover = () => {
                         ))}
                         <div className="w-full border-b border-neutral-200"></div>
 
-                        <button className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
+                        <button
+                          className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                          onClick={() => close()}
+                        >
                           <div className="flex items-center justify-center flex-shrink-0 text-neutral-500">
                             <Icon icon="solar:logout-2-outline" />
                           </div>

@@ -185,12 +185,12 @@ const profileInfo = [
   },
   {
     title: "My Orders",
-    path: paths.order,
+    path: paths.account.orders,
     icon: "solar:document-broken",
   },
   {
     title: "Wishlist",
-    path: paths.order,
+    path: paths.account.wistlist,
     icon: "ph:heart-light",
   },
 ];

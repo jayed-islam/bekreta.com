@@ -18,5 +18,8 @@ export const paths = {
   account: {
     root: "/account",
     wistlist: "/account/wishlist",
+    chagePassword: "/account/change-password",
+    orders: "/account/order",
+    bilingAddress: "/account/biling-address",
   },
 };

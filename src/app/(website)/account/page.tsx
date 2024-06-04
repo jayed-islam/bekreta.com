@@ -1,7 +1,8 @@
+import { UserAccountView } from "@/sections/account/view";
 import React from "react";
 
 const UserAccountPage = () => {
-  return <div>UserAccountPage</div>;
+  return <UserAccountView />;
 };
 
 export default UserAccountPage;
