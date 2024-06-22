@@ -1,20 +1,15 @@
-const withMT = require("@material-tailwind/react/utils/withMT");
-
-module.exports = withMT({
+/** @type {import('tailwindcss').Config} */
+module.exports = {
   content: [
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/**/*.{js,ts,jsx,tsx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-
   theme: {
-    extend: {
-      fontFamily: {
-        uthmani: ["var(--font-uthmani)"],
-        satoshi: ["var(--font-satoshi)"],
-      },
-    },
+    extend: {},
   },
-
   plugins: [],
-});
+};

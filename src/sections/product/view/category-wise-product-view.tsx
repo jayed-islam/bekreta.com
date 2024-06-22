@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import PageHeader from "@/components/common/page-header";
 import ProductsSceleton from "@/components/skeleton/product-skeleton";
-import ProductCard from "@/sections/home/common/product-card";
+
 import Pagination from "../common/product-filtered-pagination";
 import Link from "next/link";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
@@ -15,12 +15,15 @@ import { availabilities } from "@/utils/products";
 import { paths } from "@/layouts/paths";
 import NoDataFoundView from "@/components/no-data/no-data-view";
 import HeadFilterSectionView from "../head-filter-section";
+import ProductCard from "@/layouts/common/product/product-card";
+import useBoolean from "@/hooks/use-boolean";
 
 interface CategoryWiseProductProps {}
 
 const CategoryWiseProductFilterView: React.FC<
   CategoryWiseProductProps
 > = () => {
+  const filterSidebar = useBoolean();
   const { register, handleSubmit } = useForm();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [values, setValues] = useState<[number, number]>([5, 2001]);
@@ -39,7 +42,7 @@ const CategoryWiseProductFilterView: React.FC<
 
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
-  const fakeArray: number[] = Array.from({ length: 16 });
+  const fakeArray: number[] = Array.from({ length: 12 });
 
   const handleToggle = (): void => {
     setActive(!isActive);
@@ -78,17 +81,7 @@ const CategoryWiseProductFilterView: React.FC<
     };
 
     fetchProducts();
-  }, [
-    page,
-    count,
-    size,
-    sortId,
-    values,
-    categoryId,
-    search,
-    selectedFilters,
-    selectedBrands,
-  ]);
+  }, []);
 
   const handleFilterChange = (filter: string): void => {
     if (selectedFilters.includes(filter)) {
@@ -165,26 +158,26 @@ const CategoryWiseProductFilterView: React.FC<
         breadcrumbItems={breadcrumbItems}
         pageName="Choice your favirote Brands"
       />
-      <HeadFilterSectionView
+      {/* <HeadFilterSectionView
         isLoading={isLoading}
         uniqueBrandNames={uniqueBrandNames}
-      />
+      /> */}
 
       <div className="max-w-6xl mx-auto px-3 xl:px-0">
         <div className="flex flex-col lg:flex-row gap-5 mt-5">
           <div
-            className={`z-30 lg:hidden flex w-full h-full justify-end overflow-x-hidden bg-black bg-opacity-20 px-2 absolute right-0 top-0 transform ${
-              isActive && "translate-x-full lg:hidden"
-            } transition duration-200 ease-in-out`}
+            className={`z-40 lg:hidden flex w-full  justify-end h-full overflow-x-hidden bg-black bg-opacity-20 fixed right-0 top-0 transform transition duration-200 ease-in-out  ${
+              !filterSidebar.value && "translate-x-full lg:hidden"
+            }`}
           >
-            <div className="w-[281px] bg-white relative">
+            <div className=" mt-20 w-[281px] bg-white relative">
               <div>
-                <button
-                  onClick={handleToggle}
-                  className="px-2 py-2 bg-gray-100  -left-5 top-10 absolute border border-gray-400"
+                <div
+                  onClick={filterSidebar.setFalse}
+                  className="px-2 py-1 bg-gray-100  -left-5 top-9 absolute border border-gray-400 flex items-center justify-center h-9 cursor-pointer"
                 >
                   <Icon icon="mingcute:close-line" className="text-xl" />
-                </button>
+                </div>
               </div>
 
               <LeftSideFilter
@@ -220,7 +213,7 @@ const CategoryWiseProductFilterView: React.FC<
               <h3 className="text-md font-semibold hidden lg:block">Router</h3>
               <div className="lg:hidden">
                 <button
-                  onClick={handleToggle}
+                  onClick={filterSidebar.setTrue}
                   className="flex items-center text-sm gap-2 px-3 py-1 rounded-sm bg-gray-100"
                 >
                   <Icon icon="ion:filter" className="text-xl" />
@@ -282,123 +275,6 @@ const CategoryWiseProductFilterView: React.FC<
                       />
                     ))}
                   </div>
-
-                  {/* pagination */}
-
-                  {/* <div className="flex items-center justify-between mt-11">
-                      <button
-                        disabled={page === 0}
-                        onClick={handlePrevClick}
-                        className={`flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 ${
-                          page === 0 ? "cursor-not-allowed" : undefined
-                        }`}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke-width="1.5"
-                          stroke="currentColor"
-                          className="w-5 h-5 rtl:-scale-x-100"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
-                          />
-                        </svg>
-
-                        <span>previous</span>
-                      </button>
-
-                      <div className=" hidden md:flex items-center gap-5">
-                        <div>
-                          <h3 className="text-md">
-                            Showing{" "}
-                            <span className="font-bold">{page * size + 1}</span>{" "}
-                            to{" "}
-                            <span className="font-bold">
-                              {Math.min((page + 1) * size, count)}
-                            </span>{" "}
-                            of{" "}
-                            <span className="font-bold text-blue-700">
-                              {" "}
-                              {count}
-                            </span>{" "}
-                            entries
-                          </h3>
-                        </div>
-                        <div className="items-center hidden md:flex gap-x-3">
-                          {renderPageButtons()}
-                        </div>
-                        <div className="relative">
-                          <select
-                            className="border py-1.5 px-1 w-11 rounded outline-none appearance-none bg-transparent "
-                            value={size}
-                            onChange={handleSizeChange}
-                          >
-                            <option value="3">3</option>
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="15">15</option>
-                            <option value="20">20</option>
-                          </select>
-                          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-600 ">
-                            <svg
-                              className="fill-current h-5 w-5"
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 20 20"
-                            >
-                              <path d="M10 12L6 8h8l-4 4z" />
-                            </svg>
-                          </div>
-                        </div>
-                        <button
-                          onClick={handleLastPageClick}
-                          href="#"
-                          className={`border py-2.5 px-1 w-11 rounded outline-none hover:bg-gray-100 flex items-center justify-center ${
-                            page === pages - 1
-                              ? "cursor-not-allowed"
-                              : undefined
-                          }`}
-                        >
-                          <HiOutlineChevronDoubleRight />
-                        </button>
-                      </div>
-
-                      <button
-                        disabled={page === pages - 1}
-                        onClick={handleNextClick}
-                        className={`flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 ${
-                          page === pages - 1 ? "cursor-not-allowed" : undefined
-                        }`}
-                      >
-                        <span>Next</span>
-
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke-width="1.5"
-                          stroke="currentColor"
-                          className="w-5 h-5 rtl:-scale-x-100"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-                          />
-                        </svg>
-                      </button>
-                    </div> */}
-
-                  <Pagination
-                    page={page}
-                    pages={pages}
-                    handlePrevClick={handlePrevClick}
-                    handleNextClick={handleNextClick}
-                    handleLastPageClick={handleLastPageClick}
-                  />
                 </div>
                 {/* ) : (
                   <NoDataFoundView />

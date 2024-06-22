@@ -15,7 +15,7 @@ interface IProductCardProps {
   rootPath: string;
 }
 
-const ProductCard = ({
+const ProductPrevCard = ({
   product,
   className,
   newPadding,
@@ -154,4 +154,4 @@ const ProductCard = ({
   );
 };
 
-export default ProductCard;
+export default ProductPrevCard;

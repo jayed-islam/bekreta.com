@@ -124,7 +124,7 @@ const ProductsDetailsView = ({ id, product }: IProductDetailsProps) => {
             imageTitle={`Image ${lightboxIndex + 1} of ${images.length}`}
           />
         )} */}
-      {sidebar.value && <CartSidebar dialog={sidebar} />}
+    
     </>
   );
 };

@@ -5,7 +5,7 @@ import Timer from "@/components/timer/timer";
 import Link from "next/link";
 import TimerMini from "@/components/timer/timer-mini";
 import FlashSaleProductCard from "../common/flash-sale-product-card";
-import ProductCard from "../common/product-card";
+import ProductCard from "../../../layouts/common/product/product-card";
 import ProductsSceleton from "@/components/skeleton/product-skeleton";
 import FlashSaleProductSkeleton from "@/components/skeleton/flash-sale-product-skelaton";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";

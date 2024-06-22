@@ -1,6 +1,6 @@
 "use client";
 
-import { RHFOTextField } from "@/components/react-hook-form";
+import { RHFTextField } from "@/components/react-hook-form";
 import FormProvider from "@/components/react-hook-form/hook-form-controller";
 import { paths } from "@/layouts/paths";
 import Link from "next/link";
@@ -35,17 +35,12 @@ const SignUpView = () => {
 
           <div className="w-full mt-8">
             <h2 className="text-md font-bold">Your Email</h2>
-            <RHFOTextField label="Email" name="email" sx="mt-2" />
+            <RHFTextField label="Email" name="email" />
           </div>
 
           <div className="w-full mt-4">
             <h2 className="text-md font-bold">Your Password</h2>
-            <RHFOTextField
-              label="Password"
-              type="password"
-              name="password"
-              sx="mt-2"
-            />
+            <RHFTextField label="Password" type="password" name="password" />
           </div>
 
           <div className="mt-6">

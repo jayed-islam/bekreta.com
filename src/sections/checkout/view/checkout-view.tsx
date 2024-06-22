@@ -1,14 +1,13 @@
 "use client";
 
 import PageHeader from "@/components/common/page-header";
-import { RHFOTextField } from "@/components/react-hook-form";
+import { RHFTextField } from "@/components/react-hook-form";
 import FormProvider from "@/components/react-hook-form/hook-form-controller";
 import Link from "next/link";
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import CheckoutProductRow from "../checkout-item-row";
-import { Icon } from "@iconify-icon/react/dist/iconify.mjs";
-import CheckoutOrderSummery from "../checkout-order-summary";
+import OrderSummery from "../../cart/common/order-summary";
 
 const CheckoutProudctView = () => {
   const methods = useForm();
@@ -60,25 +59,35 @@ const CheckoutProudctView = () => {
                     Billing details
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <RHFOTextField name="title" label="Title" />
-                    <RHFOTextField name="title" label="Title" />
-                    <RHFOTextField name="title" label="Title" sx="col-span-2" />
-                    <RHFOTextField name="title" label="Title" />
-                    <RHFOTextField name="title" label="Title" />
-                    <RHFOTextField name="title" label="Title" />
+                    <RHFTextField name="title" label="Title" />
+                    <RHFTextField name="title" label="Title" />
+                    <RHFTextField
+                      name="title"
+                      label="Title"
+                      className="col-span-2"
+                    />
+                    <RHFTextField name="title" label="Title" />
+                    <RHFTextField name="title" label="Title" />
+                    <RHFTextField name="title" label="Title" />
                   </div>
                 </div>
                 <div className="flex-shrink-0 border-t lg:border-t-0 lg:border-l border-slate-200 my-10 lg:my-0 lg:mx-11"></div>
-                <div className="w-full lg:w-[35%] sticky top-20 bg-white p-5 rounded-2xl">
-                  <h3 className="text-2xl font-semibold">Order Summary</h3>
-                  <div className="mt-8 flex flex-col gap-2 divide-slate-200/70">
-                    {[1, 2, 3].map((items, i) => (
-                      <CheckoutProductRow />
-                    ))}
-                  </div>
-
+                <div className="w-full lg:w-[35%] rounded-2xl">
                   {/* summary */}
-                  <CheckoutOrderSummery />
+                  <OrderSummery
+                    buttonTitle="Place Order"
+                    isSubmit
+                    onSubmit={() => {}}
+                  />
+
+                  <div className="bg-white rounded-2xl p-5 mt-5">
+                    <h3 className="text-xl font-semibold pb-3">Your Basket</h3>
+                    <div className="mt-5 flex flex-col gap-3 divide-slate-200/70">
+                      {[1, 2, 3].map((items, i) => (
+                        <CheckoutProductRow />
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             </FormProvider>

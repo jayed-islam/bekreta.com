@@ -41,17 +41,15 @@ const CartRow = () => {
                   </div>
                 </div>
                 <div className="mt-3 flex justify-between w-full sm:hidden relative">
-                  <select
-                    name="qty"
-                    id="qty"
-                    className="form-select text-sm rounded-md py-1 border-slate-200  relative z-10"
-                  >
-                    {[1, 2, 3, 4, 5].map((item, i) => (
-                      <option key={i} value={i}>
-                        {i}
-                      </option>
-                    ))}
-                  </select>
+                  <div className="flex items-center justify-between space-x-5 relative z-10">
+                    <div className="flex items-center justify-between w-[104px] sm:w-28">
+                      <ActionButton icon="ph:plus" />
+                      <span className="select-none block flex-1 text-center leading-none">
+                        5
+                      </span>
+                      <ActionButton icon="ph:minus" />
+                    </div>
+                  </div>
                   <div className="">
                     <div className="flex items-center border-2 border-green-500 rounded-lg py-1 px-2 md:py-1.5 md:px-2.5 text-sm font-medium h-full">
                       <span className="text-green-500 !leading-none">$500</span>
@@ -60,48 +58,12 @@ const CartRow = () => {
                 </div>
               </div>
               <div className="hidden sm:block text-center relative">
-                <div className="nc-NcInputNumber flex items-center justify-between space-x-5 relative z-10">
-                  <div className="nc-NcInputNumber__content flex items-center justify-between w-[104px] sm:w-28">
-                    {/* <button
-                      className="w-8 h-8 rounded-full flex items-center justify-center border border-neutral-400  bg-white  focus:outline-none hover:border-neutral-700  disabled:hover:border-neutral-400  disabled:opacity-50 disabled:cursor-default"
-                      type="button"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        aria-hidden="true"
-                        className="w-4 h-4"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          d="M3.75 12a.75.75 0 01.75-.75h15a.75.75 0 010 1.5h-15a.75.75 0 01-.75-.75z"
-                          clip-rule="evenodd"
-                        ></path>
-                      </svg>
-                    </button> */}
+                <div className="flex items-center justify-between space-x-5 relative z-10">
+                  <div className="flex items-center justify-between w-[104px] sm:w-28">
                     <ActionButton icon="ph:plus" />
                     <span className="select-none block flex-1 text-center leading-none">
                       5
                     </span>
-                    {/* <button
-                      className="w-8 h-8 rounded-full flex items-center justify-center border border-neutral-400  bg-white focus:outline-none hover:border-neutral-700  disabled:hover:border-neutral-400  disabled:opacity-50 disabled:cursor-default"
-                      type="button"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        aria-hidden="true"
-                        className="w-4 h-4"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z"
-                          clip-rule="evenodd"
-                        ></path>
-                      </svg>
-                    </button> */}
                     <ActionButton icon="ph:minus" />
                   </div>
                 </div>
@@ -136,7 +98,7 @@ const CartRow = () => {
             </div>
             <button
               onClick={dialog.setTrue}
-              className="relative z-10 flex items-center mt-3 font-bold text-blue-600 hover:text-primary-500 text-sm "
+              className="relative z-10 flex items-center mt-3 font-bold text-green-600 hover:text-primary-500 text-sm "
             >
               <span>Remove</span>
             </button>

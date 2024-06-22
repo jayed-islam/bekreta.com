@@ -1,6 +1,6 @@
 import ProductsSceleton from "@/components/skeleton/product-skeleton";
 import React, { useEffect, useState } from "react";
-import ProductCard from "../common/product-card";
+import ProductCard from "../../../layouts/common/product/product-card";
 import { paths } from "@/layouts/paths";
 
 const BestSellerProductTab = () => {
