@@ -4,6 +4,7 @@ import { Roboto_Condensed } from "next/font/google";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { CssBaseline } from "@mui/material";
+import { ReduxProvider } from "@/redux/ReduxProvider";
 
 const roboto_condensed = Roboto_Condensed({
   weight: ["400"],
@@ -20,10 +21,10 @@ export default function RootLayout({
     <html lang="en" className={roboto_condensed.className}>
       <body>
         <CssBaseline />
-        {/* <ReduxProvider> */}
-        {children}
-        <Toaster />
-        {/* </ReduxProvider> */}
+        <ReduxProvider>
+          {children}
+          <Toaster />
+        </ReduxProvider>
       </body>
     </html>
   );

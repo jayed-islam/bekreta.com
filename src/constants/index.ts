@@ -195,6 +195,30 @@ const profileInfo = [
   },
 ];
 
+const actionButtonsInfo = [
+  {
+    icon: "ph:heart-light",
+    action: () => {
+      console.log("action, wishlist");
+    },
+    title: "Add to wishlist",
+  },
+  {
+    icon: "carbon:view",
+    action: () => {
+      console.log("action, view");
+    },
+    title: "View Detail",
+  },
+  {
+    icon: "solar:bag-4-linear",
+    action: () => {
+      console.log("action, view");
+    },
+    title: "Add to cart",
+  },
+];
+
 export {
   bannerImages,
   categories,
@@ -203,4 +227,5 @@ export {
   features,
   payment_methode,
   profileInfo,
+  actionButtonsInfo,
 };

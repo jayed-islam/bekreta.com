@@ -3,7 +3,6 @@
 import PageHeader from "@/components/common/page-header";
 import Link from "next/link";
 import CartRow from "../cart-row-view";
-import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import { paths } from "@/layouts/paths";
 import OrderSummery from "@/sections/cart/common/order-summary";
 

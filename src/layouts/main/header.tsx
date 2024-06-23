@@ -41,7 +41,7 @@ export default function Header() {
   const isIncluded: boolean = pathname.includes("/checkout");
 
   return (
-    <header className="w-full bg-blue-gray-900 sticky top-0 z-20">
+    <header className="w-full bg-slate-900 sticky top-0 z-20">
       <div className="relative shadow-sm border-slate-100 ">
         <div className="max-w-6xl mx-auto px-5 xl:px-0">
           <div className="h-20 flex justify-between items-center w-full">

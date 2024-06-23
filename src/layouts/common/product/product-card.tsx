@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import Link from "next/link";
-import { Tooltip } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
+import { actionButtonsInfo } from "@/constants";
+import { useAppDispatch } from "@/redux/hooks";
+import { openCartDrawer } from "@/redux/reducers/cart/cartSlice";
 
 interface IProductCardProps {
   product: any;
@@ -22,32 +25,12 @@ const ProductCard = ({
   rootPath,
 }: IProductCardProps) => {
   const { name, images, price, desc, review, _id } = product;
-  // const [selectedImage, setSelectedImage] = useState(images[0]);
   const [isLoading, setLoading] = useState(false);
+  const dispatch = useAppDispatch();
 
-  const actionButtonsInfo = [
-    {
-      icon: "ic:baseline-compare-arrows",
-      action: () => {
-        console.log("action, compare");
-      },
-      title: "Compaire",
-    },
-    {
-      icon: "ph:heart-light",
-      action: () => {
-        console.log("action, wishlist");
-      },
-      title: "Add to wishlist",
-    },
-    {
-      icon: "carbon:view",
-      action: () => {
-        console.log("action, view");
-      },
-      title: "View Detail",
-    },
-  ];
+  const handleOpen = () => {
+    dispatch(openCartDrawer());
+  };
 
   return (
     <div
@@ -106,18 +89,12 @@ const ProductCard = ({
 
       <div className={`px-3 ${newPadding}`}>
         <div className={`pt-2 pb-2 `}>
-          <h2 className="font-semibold text-sm text-gray-600 hidden md:flex">
-            {product.category}
-          </h2>
           <Link href="/">
-            <h2 className="text-lg font-bold hover:text-green-500 transition-all duration-300 ease-in pb-2 leading-6 hidden sm:block">
-              test desc
-            </h2>
-            <h2 className="text-sm sm:hidden font-semibold hover:text-green-500 transition-all duration-300 ease-in text-ellipsis line-clamp-2">
+            <h2 className=" text-sm md:text-lg font-bold hover:text-green-500 transition-all duration-300 ease-in pb-2 leading-6">
               test desc
             </h2>
           </Link>
-          <div className="flex items-center justify-between mt-2">
+          <div className="flex items-center sm:mt-2 justify-between">
             <div className="flex items-center">
               {[1, 2, 3, 4].map((i) => (
                 <Icon icon="noto:star" className="text-md" />
@@ -128,21 +105,26 @@ const ProductCard = ({
               />
               <p className="text-xs text-gray-500 pl-1">(5)</p>
             </div>
-          </div>
-          <div className="flex items-center sm:items-end gap-2 sm:mt-2 justify-between">
-            <h3 className="text-green-500 text-md sm:text-[19px] font-bold price">
+            <h3 className="text-green-500 text-lg sm:text-[19px] font-bold">
               ৳50
             </h3>
-            <Tooltip
-              title="Add to cart"
-              placement="top"
-              className="bg-opacity-65 text-xs px-1.5 py-[2px]"
-            >
-              <div className="bg-gray-200 h-9 w-9 hover:bg-green-500 transition-all duration-200 rounded-full flex items-center justify-center hover:text-white">
-                <Icon icon="solar:bag-4-linear" className="text-xl" />
-              </div>
-            </Tooltip>
           </div>
+          <Button
+            onClick={handleOpen}
+            variant="contained"
+            fullWidth
+            sx={{
+              mt: 2,
+              bgcolor: "#fc8934",
+              textTransform: "capitalize",
+              borderRadius: "0.7rem",
+              "&:hover": {
+                bgcolor: "#e77a2f",
+              },
+            }}
+          >
+            Quick Add
+          </Button>
         </div>
       </div>
     </div>
