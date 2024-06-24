@@ -219,6 +219,42 @@ const actionButtonsInfo = [
   },
 ];
 
+const addressOptions = [
+  { value: "home", label: "Home" },
+  { value: "office", label: "Office" },
+  { value: "others", label: "Others" },
+];
+
+const addressData = [
+  {
+    id: "home",
+    type: "Home",
+    district: "District A",
+    division: "Division 1",
+    subdistrict: "Subdistrict X",
+    detailedAddress: "123 Main St, Hometown, HT 12345",
+    details: "This is the home address.",
+  },
+  // {
+  //   id: "office",
+  //   type: "Office",
+  //   district: "District B",
+  //   division: "Division 2",
+  //   subdistrict: "Subdistrict Y",
+  //   detailedAddress: "456 Corporate Blvd, City, CT 67890",
+  //   details: "This is the office address.",
+  // },
+  // {
+  //   id: "others",
+  //   type: "Others",
+  //   district: "District C",
+  //   division: "Division 3",
+  //   subdistrict: "Subdistrict Z",
+  //   detailedAddress: "789 Rural Rd, Village, VT 10111",
+  //   details: "This is another address.",
+  // },
+];
+
 export {
   bannerImages,
   categories,
@@ -228,4 +264,6 @@ export {
   payment_methode,
   profileInfo,
   actionButtonsInfo,
+  addressOptions,
+  addressData,
 };

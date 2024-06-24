@@ -13,9 +13,19 @@ import CartHeaderPopover from "../common/modal/cart-header-popover";
 import { paths } from "../paths";
 import HomeHeaderSearch from "../common/search/home-header-search";
 import ProfilePopover from "../common/modal/profile-popover";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { openCartDrawer } from "@/redux/reducers/cart/cartSlice";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+
+  // const {} = useAppSelector((state) => state.cart)
+
+  const dispatch = useAppDispatch();
+
+  const handleOpenDrawer = () => {
+    dispatch(openCartDrawer());
+  };
 
   const [scrolled, setScrolled] = useState(false);
   const router = useRouter();
@@ -179,7 +189,19 @@ export default function Header() {
             </Link>
             <div className="flex items-center gap-3">
               <ProfilePopover />
-              <CartHeaderPopover />
+              {/* <CartHeaderPopover /> */}
+              <button
+                className={`text-opacity-90 group w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center outline-none border-2 border-orange-700  cursor-pointer relative focus:outline-none focus:ring-0 text-white`}
+                type="button"
+                onClick={handleOpenDrawer}
+              >
+                <div
+                  className={`w-4 h-4 right-0 flex items-center justify-center absolute top-1 rounded-full text-[10px] leading-none text-white font-medium bg-green-500`}
+                >
+                  <span className="">0</span>
+                </div>
+                <Icon icon="iconoir:cart" className="text-lg md:text-2xl" />
+              </button>
             </div>
           </div>
         </div>

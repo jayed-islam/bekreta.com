@@ -8,6 +8,7 @@ import { Icon } from "@iconify-icon/react/dist/iconify.mjs";
 import { Box, Drawer, IconButton } from "@mui/material";
 import Link from "next/link";
 import React from "react";
+import ActionButton from "../buttons/action-button";
 
 const CartDrawer = () => {
   const { isCartDrawerOpen } = useAppSelector((state) => state.cart);
@@ -26,20 +27,26 @@ const CartDrawer = () => {
     >
       <Box
         sx={{
-          width: isSmUp ? "25rem" : "15rem",
+          width: isSmUp ? "25rem" : "21rem",
+          height: "100vh",
         }}
       >
         <div className="">
           <div className="flex items-center justify-between px-5 pt-5">
-            <h3 className="text-2xl font-semibold text-black ">Your Basket</h3>
-            <IconButton>
+            <h3 className="text-xl md:text-2xl font-semibold text-black ">
+              Your Basket
+            </h3>
+            <IconButton
+              onClick={handleClose}
+              className="h-[2rem] w-[2rem] md:h-[3rem] md:w-[3rem]"
+            >
               <Icon icon="carbon:close" className="text-3xl" />
             </IconButton>
           </div>
-          <div className="flex flex-col justify-etween h-full">
-            <div className="max-h-[61vh] p-5 overflow-y-auto">
+          <div className="flex flex-col justify-between h-full ">
+            <div className="max-h-[51vh] md:max-h-[61vh] p-5 overflow-y-auto">
               <div className="divide-y divide-slate-100">
-                {[1, 2, 3, 4, 5].map((item) => (
+                {[1, 2, 2, 2, 2].map((item) => (
                   <div className="flex py-5 last:pb-0">
                     <div className="relative h-24 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
                       <img
@@ -50,10 +57,6 @@ const CartDrawer = () => {
                         src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D"
                         className="h-full w-full  object-cover"
                       />
-                      <a
-                        className="absolute inset-0"
-                        href="/product-detail"
-                      ></a>
                     </div>
                     <div className="ml-4 flex flex-1 flex-col">
                       <div>
@@ -78,11 +81,17 @@ const CartDrawer = () => {
                         </div>
                       </div>
                       <div className="flex flex-1 items-end justify-between text-sm">
-                        <p className="text-gray-500 ">Qty 1</p>
+                        <div className="flex items-center justify-between w-[104px] sm:w-28">
+                          <ActionButton icon="ph:plus" />
+                          <span className="select-none block flex-1 text-center leading-none">
+                            5
+                          </span>
+                          <ActionButton icon="ph:minus" />
+                        </div>
                         <div className="flex">
                           <button
                             type="button"
-                            className="font-medium text-blue-500 "
+                            className="text-green-600 font-semibold"
                           >
                             Remove
                           </button>
@@ -103,18 +112,19 @@ const CartDrawer = () => {
                 </span>
                 <span className="text-lg">$400</span>
               </p>
-              <div className="flex space-x-2 mt-5 w-full">
+              <div className="flex space-x-3 mt-5 w-full items-center">
                 <Link
+                  onClick={handleClose}
                   href={paths.cart.root}
-                  className="flex w-full items-center justify-center text rounded-full transition-colors text-sm sm:text-base font-medium py-3 px-4 sm:py-3.5 sm:px-6 bg-gray-200 text-slate-700 hover:bg-gray-100 flex-1 border"
+                  className="flex w-full items-center justify-center text rounded-full transition-colors text-sm sm:text-base font-medium py-3 px-4 sm:px-6 bg-gray-100 text-slate-700 shadow-md hvoer:shadow-xl hover:bg-gray-100 border-t"
                 >
                   View cart
                 </Link>
 
                 <Link
-                  href="/"
-                  onClick={() => close()}
-                  className="flex items-center justify-center rounded-full transition-all duration-300 text-sm sm:text-base font-medium py-3 px-4 sm:py-3.5 sm:px-6 shadow-md hover:shadow-xl text-white disabled:bg-opacity-90 bg-orange-600 w-full"
+                  onClick={handleClose}
+                  href={paths.checkout}
+                  className="flex items-center justify-center rounded-full transition-all duration-300 text-sm sm:text-base font-medium py-3 px-4 sm:px-6 shadow-md hover:shadow-xl text-white disabled:bg-opacity-90 bg-green-500 hover:bg-green-600 w-full"
                 >
                   Check out
                 </Link>

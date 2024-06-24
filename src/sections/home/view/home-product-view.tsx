@@ -53,24 +53,24 @@ const HomeProductsView = () => {
       </div>
       <div className="max-w-6xl mx-auto px-3 md:px-5 xl:px-0">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-x-3 md:gap-x-5 gap-y-3 md:gap-y-5 ">
-          {isLoading ? (
+          {/* {isLoading ? (
             <>
               {cardsArray.map((card, index) => (
                 <ProductsSceleton key={index} />
               ))}
             </>
           ) : (
-            <>
-              {products?.slice(19, 30).map((product, index) => (
-                <ProductCard
-                  key={index}
-                  product={product}
-                  index={index}
-                  rootPath={paths.product.root}
-                />
-              ))}
-            </>
-          )}
+            <> */}
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3].map((product, index) => (
+            <ProductCard
+              key={index}
+              product={product}
+              index={index}
+              rootPath={paths.product.root}
+            />
+          ))}
+          {/* </>
+          )} */}
         </div>
       </div>
     </div>

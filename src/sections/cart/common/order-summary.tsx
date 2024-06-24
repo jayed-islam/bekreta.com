@@ -13,7 +13,7 @@ interface Props {
 const OrderSummery = ({ buttonTitle, isSubmit = false, onSubmit }: Props) => {
   return (
     <div
-      className={`flex-1 px-5 py-5 rounded-2xl  bg-white h-min border ${
+      className={`flex-1 px-5 py-5 md:rounded-2xl  bg-white h-min border ${
         isSubmit ? "" : "sticky top-28"
       }`}
     >

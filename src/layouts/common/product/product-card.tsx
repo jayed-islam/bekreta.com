@@ -15,6 +15,7 @@ interface IProductCardProps {
   newSize?: number;
   timerBoolean?: boolean;
   rootPath: string;
+  btnStyle?: string;
 }
 
 const ProductCard = ({
@@ -23,6 +24,7 @@ const ProductCard = ({
   newPadding,
   timerBoolean,
   rootPath,
+  btnStyle,
 }: IProductCardProps) => {
   const { name, images, price, desc, review, _id } = product;
   const [isLoading, setLoading] = useState(false);
@@ -35,7 +37,7 @@ const ProductCard = ({
   return (
     <div
       className={twMerge(
-        "relative flex z-10 flex-col w-full group shadow bg-white border-2 rounded-2xl p-1 md:p-3 group cursor-pointer hover:border-green-500 overflow-hidden",
+        "relative flex z-10 flex-col w-full group shadow bg-white border-2 rounded-2xl p-1 group cursor-pointer hover:border-green-500 overflow-hidden",
         className
       )}
     >
@@ -90,12 +92,12 @@ const ProductCard = ({
       <div className={`px-3 ${newPadding}`}>
         <div className={`pt-2 pb-2 `}>
           <Link href="/">
-            <h2 className=" text-sm md:text-lg font-bold hover:text-green-500 transition-all duration-300 ease-in pb-2 leading-6">
+            <h2 className=" text-sm md:text-lg font-bold hover:text-green-500 transition-all duration-300 ease-in leading-6">
               test desc
             </h2>
           </Link>
-          <div className="flex items-center sm:mt-2 justify-between">
-            <div className="flex items-center">
+          <div className="flex items-center justify-between">
+            <div className="sm:flex items-center hidden">
               {[1, 2, 3, 4].map((i) => (
                 <Icon icon="noto:star" className="text-md" />
               ))}
@@ -109,22 +111,24 @@ const ProductCard = ({
               ৳50
             </h3>
           </div>
-          <Button
+          <button
             onClick={handleOpen}
-            variant="contained"
-            fullWidth
-            sx={{
-              mt: 2,
-              bgcolor: "#fc8934",
-              textTransform: "capitalize",
-              borderRadius: "0.7rem",
-              "&:hover": {
-                bgcolor: "#e77a2f",
-              },
-            }}
+            className={twMerge(
+              "bg-green-500 hover:bg-green-600 transition-all duration-200 text-center py-1 sm:py-2 w-full rounded-xl font-semibold text-white mt-2 text-sm",
+              btnStyle
+            )}
+            // sx={{
+            //   mt: 2,
+            //   bgcolor: "#fc8934",
+            //   textTransform: "capitalize",
+            //   borderRadius: "0.7rem",
+            //   "&:hover": {
+            //     bgcolor: "#e77a2f",
+            //   },
+            // }}
           >
             Quick Add
-          </Button>
+          </button>
         </div>
       </div>
     </div>

@@ -255,32 +255,32 @@ const CategoryWiseProductFilterView: React.FC<
                 </div>
               </div>
             </div>
-            {isLoading ? (
+            {/* {isLoading ? (
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-x-3 md:gap-x-3 gap-y-3 md:gap-y-5 mt-3">
                 {fakeArray.map((_, index) => (
                   <ProductsSceleton key={index} />
                 ))}
               </div>
             ) : (
-              <>
-                {/* {filteredProducts?.length > 0 ? ( */}
-                <div>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-x-3 md:gap-x-3 gap-y-3 md:gap-y-5 mt-3">
-                    {[1, 2, 3, 4, 5, 6, 7, 8].map((product, index) => (
-                      <ProductCard
-                        key={index}
-                        product={product}
-                        index={index}
-                        rootPath={paths.product.root}
-                      />
-                    ))}
-                  </div>
-                </div>
-                {/* ) : (
+              <> */}
+            {/* {filteredProducts?.length > 0 ? ( */}
+
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-x-3 md:gap-x-3 gap-y-3 md:gap-y-5 mt-3">
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((product, index) => (
+                <ProductCard
+                  key={index}
+                  product={product}
+                  index={index}
+                  rootPath={paths.product.root}
+                  btnStyle="py-1 rounded-lg"
+                />
+              ))}
+            </div>
+            {/* ) : (
                   <NoDataFoundView />
                 )} */}
-              </>
-            )}
+            {/* </>
+            )} */}
           </div>
         </div>
       </div>

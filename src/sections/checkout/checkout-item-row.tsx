@@ -20,8 +20,8 @@ const CheckoutProductRow = () => {
 
       <div className="flex flex-1 flex-col">
         <div className="flex justify-between ">
-          <div className="flex-[1.5] ">
-            <h3 className="text-base font-semibold">
+          <div className="flex-[1.5]">
+            <h3 className="text-base font-semibold line-clamp-1 overflow-ellipsis">
               <a href="/product-detail">Modern Table Lamp</a>
             </h3>
             <div className="mt-1.5 sm:mt-2.5  hidden sm:flex text-sm text-slate-600 ">
@@ -36,7 +36,7 @@ const CheckoutProductRow = () => {
               </div>
             </div>
             <div className="mt-3 flex justify-between w-full sm:hidden relative">
-              <div className="flex items-center justify-between w-[104px] sm:w-28">
+              <div className="flex items-center justify-between gap-3 sm:w-28">
                 <ActionButton icon="ph:plus" />
                 <span className="select-none block flex-1 text-center leading-none">
                   5
