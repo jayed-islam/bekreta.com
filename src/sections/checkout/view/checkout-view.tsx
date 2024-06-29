@@ -15,10 +15,12 @@ import { IDivision } from "@/types/address";
 import { addressData, addressOptions } from "@/constants";
 import AddressCard from "../address-card";
 import { Button, Card, Grid } from "@mui/material";
+import { checkoutSchema } from "@/validations/checkout-validation-schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const CheckoutProudctView = () => {
   const methods = useForm({
-    // resolver: zodResolver(checkoutSchema),
+    resolver: zodResolver(checkoutSchema),
   });
 
   const dispatch = useAppDispatch();
@@ -106,41 +108,15 @@ const CheckoutProudctView = () => {
             <FormProvider methods={methods} onSubmit={onSubmit}>
               <div className="flex flex-col lg:flex-row md:px-5 lg:px-0 py-9 ">
                 <div className="flex-1">
-                  <div className="w-full grid-cols-2 md:grid-cols-3 grid gap-3">
-                    {addressData.map((address) => (
-                      <AddressCard
-                        key={address.id}
-                        address={address}
-                        selectedValue={selectedValue}
-                        handleChange={handleChange}
-                      />
-                    ))}
-                    <div className="flex items-center">
-                      <Button
-                        variant="contained"
-                        size="small"
-                        className="capitalize"
-                        sx={{
-                          borderRadius: "0.5rem",
-                        }}
-                      >
-                        Add Address
-                      </Button>
-                    </div>
-                  </div>
                   <Card className="flex-1 md:rounded-2xl p-5 h-min">
                     <h3 className="text-2xl font-semibold mb-7">
                       Billing details
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                       <RHFTextField name="name" label="Name" />
+                      <RHFTextField name="email" label="Email" />
                       <RHFTextField name="phone" label="Phone" />
 
-                      <RHFSelect
-                        name="addressType"
-                        label="Address Type"
-                        options={addressOptions}
-                      />
                       <RHFSelect
                         name="division"
                         label="Division"
@@ -171,18 +147,18 @@ const CheckoutProudctView = () => {
                         }))}
                         disabled={!selectedDistrict}
                       />
-                      <div>
-                        <Button
-                          variant="contained"
-                          className="capitalize"
-                          sx={{
-                            borderRadius: "0.5rem",
-                          }}
-                        >
-                          Save Change
-                        </Button>
-                      </div>
                     </div>
+                    <RHFTextField
+                      name="detailAddress"
+                      label="Details Address"
+                      placeholder="Home address, street number, home number etc."
+                      fullWidth
+                      sx={{
+                        mt: 2,
+                      }}
+                      rows={4}
+                      multiline
+                    />
                   </Card>
                 </div>
                 <div className="flex-shrink-0 border-t lg:border-t-0 lg:border-l border-slate-200 my-5 lg:my-0 lg:mx-11"></div>
@@ -194,14 +170,14 @@ const CheckoutProudctView = () => {
                     onSubmit={() => {}}
                   />
 
-                  <div className="bg-white md:rounded-2xl p-5 md:p-5 mt-5">
+                  {/* <div className="bg-white md:rounded-2xl p-5 md:p-5 mt-5">
                     <h3 className="text-xl font-semibold pb-3">Your Basket</h3>
                     <div className="mt-5 flex flex-col gap-3 divide-slate-200/70">
                       {[1, 2, 3].map((items, i) => (
                         <CheckoutProductRow />
                       ))}
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </FormProvider>

@@ -1,6 +1,4 @@
 import useBoolean from "@/hooks/use-boolean";
-import AuthModal from "@/layouts/common/modal/auth-modal";
-import QuestionModal from "@/layouts/common/modal/question-modal";
 import { IProductItem } from "@/types/products";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import React from "react";
@@ -52,7 +50,6 @@ const ReviewSection: React.FC<ReviewTabProps> = ({
           <div></div>
         )}
       </div>
-      <AuthModal dialog={reviewModal} />
     </div>
   );
 };

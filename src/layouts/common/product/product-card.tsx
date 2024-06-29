@@ -2,19 +2,18 @@ import React, { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import Link from "next/link";
-import { Button, Tooltip } from "@mui/material";
+import { Tooltip } from "@mui/material";
 import { actionButtonsInfo } from "@/constants";
 import { useAppDispatch } from "@/redux/hooks";
 import { openCartDrawer } from "@/redux/reducers/cart/cartSlice";
+import { IProduct } from "@/types/products";
 
 interface IProductCardProps {
-  product: any;
+  product: IProduct;
   index: number;
   className?: string;
   newPadding?: number;
   newSize?: number;
-  timerBoolean?: boolean;
-  rootPath: string;
   btnStyle?: string;
 }
 
@@ -22,11 +21,9 @@ const ProductCard = ({
   product,
   className,
   newPadding,
-  timerBoolean,
-  rootPath,
   btnStyle,
 }: IProductCardProps) => {
-  const { name, images, price, desc, review, _id } = product;
+  const { name, images, price, _id, discount } = product;
   const [isLoading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
 
@@ -60,24 +57,31 @@ const ProductCard = ({
       </div>
       <div className="relative flex-shrink-0 overflow-hidden w-full  rounded-t-2xl">
         <Link
-          href={`${rootPath}/1`}
+          href={`product-detail/${_id}`}
           className="hidden sm:flex w-full object-cover"
         >
           <img
             className="h-full w-full drop-shadow-xl group-hover:scale-110 rounded-t-2xl transition-all duration-200"
-            src="/assets/pill.jpg"
+            src={images[0]}
           />
         </Link>
-        <Link href={`/product-detail/1`}>
+        <Link href={`/product-detail/${_id}`}>
           <div className="sm:hidden h-36 w-full flex items-center justify-center">
-            <img className=" bg-black h-full" src="/assets/pill.jpg" />
+            <img className=" bg-black h-full" src={images[0]} />
           </div>
         </Link>
       </div>
-      <div className="hidden rounded-full md:flex items-center justify-center absolute top-2 left-2 px-2.5 py-1.5 text-xs bg-green-500 text-white">
-        <Icon icon="iconamoon:discount-light" className="h-3 w-3 text-white" />
-        <span className="ml-1 leading-none">50% Discount</span>
-      </div>
+      {discount.isDiscount && (
+        <div className="hidden rounded-full md:flex items-center justify-center absolute top-2 left-2 px-2.5 py-1.5 text-xs bg-green-500 text-white">
+          <Icon
+            icon="iconamoon:discount-light"
+            className="h-3 w-3 text-white"
+          />
+          <span className="ml-1 leading-none">
+            {discount.percentage}% Discount
+          </span>
+        </div>
+      )}
 
       <button
         className={`w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 text-neutral-700 absolute right-3 top-2 md:hidden hover:bg-green-500 hover:text-white`}
@@ -91,9 +95,9 @@ const ProductCard = ({
 
       <div className={`px-3 ${newPadding}`}>
         <div className={`pt-2 pb-2 `}>
-          <Link href="/">
+          <Link href={`product-detail/${_id}`}>
             <h2 className=" text-sm md:text-lg font-bold hover:text-green-500 transition-all duration-300 ease-in leading-6">
-              test desc
+              {name}
             </h2>
           </Link>
           <div className="flex items-center justify-between">
@@ -108,7 +112,7 @@ const ProductCard = ({
               <p className="text-xs text-gray-500 pl-1">(5)</p>
             </div>
             <h3 className="text-green-500 text-lg sm:text-[19px] font-bold">
-              ৳50
+              ৳ {price}
             </h3>
           </div>
           <button
@@ -117,15 +121,6 @@ const ProductCard = ({
               "bg-green-500 hover:bg-green-600 transition-all duration-200 text-center py-1 sm:py-2 w-full rounded-xl font-semibold text-white mt-2 text-sm",
               btnStyle
             )}
-            // sx={{
-            //   mt: 2,
-            //   bgcolor: "#fc8934",
-            //   textTransform: "capitalize",
-            //   borderRadius: "0.7rem",
-            //   "&:hover": {
-            //     bgcolor: "#e77a2f",
-            //   },
-            // }}
           >
             Quick Add
           </button>

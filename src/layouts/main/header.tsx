@@ -15,6 +15,8 @@ import HomeHeaderSearch from "../common/search/home-header-search";
 import ProfilePopover from "../common/modal/profile-popover";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { openCartDrawer } from "@/redux/reducers/cart/cartSlice";
+import useBoolean from "@/hooks/use-boolean";
+import AuthModal from "../common/modal/auth-modal";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -29,6 +31,8 @@ export default function Header() {
 
   const [scrolled, setScrolled] = useState(false);
   const router = useRouter();
+
+  const authModal = useBoolean();
 
   const onSubmit = (data: any) => {
     router.push(`${paths.product.category}?search=${data.search}`);
@@ -149,7 +153,10 @@ export default function Header() {
 
             {/* ooffers section */}
 
-            <div className="lg:flex items-center gap-3 mr-7 cursor-pointer hidden">
+            <div
+              className="lg:flex items-center gap-3 mr-7 cursor-pointer hidden"
+              onClick={authModal.setTrue}
+            >
               <Icon
                 icon="ph:gift-light"
                 className="text-orange-600 font-extrabold text-2xl"
@@ -205,6 +212,7 @@ export default function Header() {
             </div>
           </div>
         </div>
+        <AuthModal dialog={authModal} />
       </div>
     </header>
   );

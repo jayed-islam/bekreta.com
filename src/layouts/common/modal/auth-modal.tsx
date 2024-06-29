@@ -1,4 +1,4 @@
-import { RHFOTextField } from "@/components/react-hook-form";
+import { RHFTextField } from "@/components/react-hook-form";
 import FormProvider from "@/components/react-hook-form/hook-form-controller";
 import SignUpView from "@/sections/auth/siginup-view";
 import SignInView from "@/sections/auth/signin-view";
@@ -53,7 +53,7 @@ const AuthModal = ({ dialog }: IAuthModalProps) => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-[25rem] transform overflow-hidden rounded-xl bg-white text-left align-middle shadow-xl transition-all p-7">
+                <Dialog.Panel className="w-full max-w-[25rem] transform overflow-hidden rounded-xl bg-white text-left align-middle shadow-xl transition-all p-7 mx-auto">
                   <FormProvider methods={methods} onSubmit={onSubmit}>
                     <h1 className="mt-3 text-2xl font-semibold capitalize sm:text-3xl">
                       sign In
@@ -65,16 +65,15 @@ const AuthModal = ({ dialog }: IAuthModalProps) => {
 
                     <div className="w-full mt-8">
                       <h2 className="text-md font-bold">Your Email</h2>
-                      <RHFOTextField label="Email" name="email" sx="mt-2" />
+                      <RHFTextField label="Email" name="email" />
                     </div>
 
                     <div className="w-full mt-4">
                       <h2 className="text-md font-bold">Your Password</h2>
-                      <RHFOTextField
+                      <RHFTextField
                         label="Password"
                         type="password"
                         name="password"
-                        sx="mt-2"
                       />
                     </div>
 

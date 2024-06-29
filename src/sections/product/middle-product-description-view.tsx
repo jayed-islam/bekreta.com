@@ -2,7 +2,6 @@ import CartSidebar from "@/components/common/add-to-carted-product-notify-view";
 import { features, socialInfo } from "@/constants";
 import useBoolean from "@/hooks/use-boolean";
 import ActionButton from "@/layouts/common/buttons/action-button";
-import AuthModal from "@/layouts/common/modal/auth-modal";
 import { IProductItem } from "@/types/products";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import React from "react";
@@ -13,7 +12,6 @@ type TMiddleDescriptionProps = {
 
 const MiddleProductDescription = ({ product }: TMiddleDescriptionProps) => {
   const sidebar = useBoolean();
-  const authModal = useBoolean();
   const { name, price, desc, review, images, _id, status, brand, category } =
     product;
   return (
@@ -88,11 +86,7 @@ const MiddleProductDescription = ({ product }: TMiddleDescriptionProps) => {
             </div>
           </div>
         </div>
-        <button
-          // onClick={sidebar.toggle}
-          onClick={authModal.setTrue}
-          className="w-full relative flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium px-4 sm:px-6 bg-blue-gray-700 text-white disabled:bg-opacity-90  hover:bg-blue-gray-800 shadow-xl flex-1"
-        >
+        <button className="w-full relative flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium px-4 sm:px-6 bg-blue-gray-700 text-white disabled:bg-opacity-90  hover:bg-blue-gray-800 shadow-xl flex-1">
           <Icon icon="iconamoon:shopping-bag-light" className="text-xl" />
           <span className="ml-3">Add to cart</span>
         </button>
@@ -119,7 +113,6 @@ const MiddleProductDescription = ({ product }: TMiddleDescriptionProps) => {
         </div>
       </div>
       {sidebar.value && <CartSidebar dialog={sidebar} />}
-      <AuthModal dialog={authModal} />
     </div>
   );
 };
