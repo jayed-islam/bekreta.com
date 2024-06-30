@@ -48,10 +48,19 @@ export interface IGetProductListResponse {
 }
 
 export interface IProductGetBody {
+  minPrice?: number;
+  maxPrice?: number;
   searchTerm?: string;
   category?: string;
   page?: number;
   limit?: number;
+}
+
+export interface IProductFilters {
+  minPrice: number;
+  maxPrice: number;
+  searchTerm: string;
+  category: string;
 }
 
 export interface IFeaturedProductGetBody {

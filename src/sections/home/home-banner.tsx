@@ -4,24 +4,17 @@ import React, { useEffect, useRef, useState } from "react";
 import Slider from "react-slick";
 import { paths } from "@/layouts/paths";
 import BannerProductCard from "./common/banner-product-card";
-import { SampleNextArrow, SamplePrevArrow } from "@/utils/react-slick-utils";
+import {
+  SampleNextArrow,
+  SamplePrevArrow,
+  bannerSettings,
+  offerProductSettings,
+} from "@/utils/react-slick-utils";
 import { useGetOfferetProductsQuery } from "@/redux/reducers/product/productApi";
 
 const HomeBanner = () => {
   const sliderRef = useRef<Slider | null>(null);
   const bannerRef = useRef<Slider | null>(null);
-  var settings = {
-    dots: false,
-    infinite: true,
-    lop: true,
-    speed: 500,
-    autoplay: true,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    initialSlide: 1,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
-  };
 
   const previous = () => {
     sliderRef.current?.slickPrev();
@@ -48,7 +41,7 @@ const HomeBanner = () => {
     <div className="bg-gray-100 w-full">
       <div className="max-w-6xl mx-auto flex lg:gap-5 pt-2 flex-col lg:flex-row sm:px-3 md:px-5 xl:px-0">
         <div className="flex-1 w-full lg:w-[60%]">
-          <Slider {...settings} ref={bannerRef}>
+          <Slider {...bannerSettings} ref={bannerRef}>
             {banners.map((banner, index) => (
               <div
                 key={index}
@@ -100,19 +93,22 @@ const HomeBanner = () => {
               </div>
             </div>
           </div>
-          <Slider {...settings} ref={sliderRef}>
+          <Slider {...offerProductSettings} ref={sliderRef}>
             {isLoading
               ? fakeArr.map((i) => (
-                  <div className="animate-pulse flex space-x-4" key={i}>
-                    <div className="rounded-full bg-slate-200 h-56 w-full"></div>
-                    <div className="flex-1 space-y-6 py-1">
-                      <div className="h-2 bg-slate-200 rounded"></div>
-                      <div className="space-y-3">
-                        <div className="grid grid-cols-3 gap-4">
-                          <div className="h-2 bg-slate-200 rounded col-span-2"></div>
-                          <div className="h-2 bg-slate-200 rounded col-span-1"></div>
+                  <div className="animate-pulse flex px-5 mt-5" key={i}>
+                    <div className="rounded-lg bg-slate-200 h-48 w-full"></div>
+                    <div className="flex-1 py-1 mt-3">
+                      <div className="h-3 bg-slate-200 rounded"></div>
+                      <div className="h-3 bg-slate-200 rounded mt-2"></div>
+                      <div className="">
+                        <div className="grid grid-cols-3 gap-4 mt-5">
+                          <div className="h-3 bg-slate-200 rounded col-span-2"></div>
+                          <div className="h-3 bg-slate-200 rounded col-span-1"></div>
                         </div>
-                        <div className="h-2 bg-slate-200 rounded"></div>
+                        <div className="h-3 mt-3 bg-slate-200 rounded"></div>
+                        <div className="h-3 mt-3 bg-slate-200 rounded"></div>
+                        <div className="h-[3rem] mt-5 bg-slate-200 rounded"></div>
                       </div>
                     </div>
                   </div>

@@ -10,18 +10,14 @@ import { IProduct } from "@/types/products";
 
 interface IProductCardProps {
   product: IProduct;
-  index: number;
   className?: string;
-  newPadding?: number;
-  newSize?: number;
-  btnStyle?: string;
+  size: "sm" | "lg";
 }
 
 const ProductCard = ({
   product,
   className,
-  newPadding,
-  btnStyle,
+  size = "lg",
 }: IProductCardProps) => {
   const { name, images, price, _id, discount } = product;
   const [isLoading, setLoading] = useState(false);
@@ -48,27 +44,23 @@ const ProductCard = ({
             <div
               key={index}
               onClick={() => action.action()}
-              className="bg-gray-200 h-9 w-9 hover:bg-green-500 transition-all duration-200 rounded-full flex items-center justify-center hover:text-white"
+              className="bg-gray-300 h-9 w-9 hover:bg-green-500 transition-all duration-200 rounded-full flex items-center justify-center hover:text-white"
             >
               <Icon icon={action.icon} className="text-xl" />
             </div>
           </Tooltip>
         ))}
       </div>
-      <div className="relative flex-shrink-0 overflow-hidden w-full  rounded-t-2xl">
-        <Link
-          href={`product-detail/${_id}`}
-          className="hidden sm:flex w-full object-cover"
-        >
+      <div
+        className={`w-full h-44 border-b overflow-hidden ${
+          size === "sm" ? "h-44" : "h-44 md:h-64"
+        }`}
+      >
+        <Link href={`/${_id}`}>
           <img
-            className="h-full w-full drop-shadow-xl group-hover:scale-110 rounded-t-2xl transition-all duration-200"
+            className="h-full w-full group-hover:scale-110 rounded-t-2xl transition-all duration-200 object-cover"
             src={images[0]}
           />
-        </Link>
-        <Link href={`/product-detail/${_id}`}>
-          <div className="sm:hidden h-36 w-full flex items-center justify-center">
-            <img className=" bg-black h-full" src={images[0]} />
-          </div>
         </Link>
       </div>
       {discount.isDiscount && (
@@ -93,16 +85,20 @@ const ProductCard = ({
         )}
       </button>
 
-      <div className={`px-3 ${newPadding}`}>
+      <div className={`px-3`}>
         <div className={`pt-2 pb-2 `}>
           <Link href={`product-detail/${_id}`}>
-            <h2 className=" text-sm md:text-lg font-bold hover:text-green-500 transition-all duration-300 ease-in leading-6">
+            <h2
+              className={`font-bold hover:text-green-500 transition-all duration-300 ease-in leading-5 line-clamp-2 overflow-ellipsis ${
+                size === "sm" ? "text-sm" : "text-sm md:text-lg"
+              }`}
+            >
               {name}
             </h2>
           </Link>
           <div className="flex items-center justify-between">
             <div className="sm:flex items-center hidden">
-              {[1, 2, 3, 4].map((i) => (
+              {[1, 2, 3].map((i) => (
                 <Icon icon="noto:star" className="text-md" />
               ))}
               <Icon
@@ -117,10 +113,9 @@ const ProductCard = ({
           </div>
           <button
             onClick={handleOpen}
-            className={twMerge(
-              "bg-green-500 hover:bg-green-600 transition-all duration-200 text-center py-1 sm:py-2 w-full rounded-xl font-semibold text-white mt-2 text-sm",
-              btnStyle
-            )}
+            className={`bg-green-500 hover:bg-green-600 transition-all duration-200 text-center w-full rounded-lg font-semibold text-white mt-2 ${
+              size === "sm" ? "text-sm py-1" : "text-md py-1 sm:py-2"
+            }`}
           >
             Quick Add
           </button>

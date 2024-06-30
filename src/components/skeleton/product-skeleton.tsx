@@ -4,7 +4,7 @@ const ProductsSceleton = () => {
   return (
     <div className="flex flex-col animate-pulse">
       <div className="flex-shrink-0">
-        <span className="w-full h-60 block bg-gray-200 "></span>
+        <span className="w-full h-44 block bg-gray-200 "></span>
       </div>
 
       <div className="mt-2 w-full">

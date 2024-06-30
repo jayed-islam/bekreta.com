@@ -1,39 +1,39 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import PageHeader from "@/components/common/page-header";
 import ProductsSceleton from "@/components/skeleton/product-skeleton";
 
-import Pagination from "../common/product-filtered-pagination";
-import Link from "next/link";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import LeftSideFilter from "../common/left-side-filtered-section";
 import { useSearchParams } from "next/navigation";
-import { IProductItem } from "@/types/products";
+import { IProductFilters, IProductItem } from "@/types/products";
 import { availabilities } from "@/utils/products";
-import { paths } from "@/layouts/paths";
 import NoDataFoundView from "@/components/no-data/no-data-view";
-import HeadFilterSectionView from "../head-filter-section";
 import ProductCard from "@/layouts/common/product/product-card";
 import useBoolean from "@/hooks/use-boolean";
 import { useGetProductsQuery } from "@/redux/reducers/product/productApi";
+import useDebounce from "@/hooks/use-debounce";
 
 interface CategoryWiseProductProps {}
+
+const defaultFilters: IProductFilters = {
+  category: "",
+  searchTerm: "",
+  maxPrice: Number.MAX_SAFE_INTEGER,
+  minPrice: 1,
+};
 
 const CategoryWiseProductFilterView: React.FC<
   CategoryWiseProductProps
 > = () => {
   const filterSidebar = useBoolean();
-  const { register, handleSubmit } = useForm();
-  // const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [filters, setFilters] = useState(defaultFilters);
   const [values, setValues] = useState<[number, number]>([5, 2001]);
-  const [isActive, setActive] = useState<boolean>(true);
-
   const [count, setCount] = useState<number>(0);
   const [page, setPage] = useState<number>(0);
   const [size, setSize] = useState<number>(5);
-  const [products, setProducts] = useState<IProductItem[]>([]);
   const [sortId, setSortId] = useState<number>(1);
   const pages: number = Math.ceil(count / size);
 
@@ -41,13 +41,14 @@ const CategoryWiseProductFilterView: React.FC<
   const categoryId: string | null = searchParams.get("category");
   const search: string | null = searchParams.get("search");
 
-  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
-  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const fakeArray: number[] = Array.from({ length: 12 });
 
-  const handleToggle = (): void => {
-    setActive(!isActive);
-  };
+  const handleFilters = useCallback((name: string, value: string | number) => {
+    setFilters((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }, []);
 
   const handleSizeChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -57,45 +58,6 @@ const CategoryWiseProductFilterView: React.FC<
     setPage(0);
   };
 
-  const handleFilterChange = (filter: string): void => {
-    if (selectedFilters.includes(filter)) {
-      setSelectedFilters(selectedFilters.filter((item) => item !== filter));
-    } else {
-      setSelectedFilters([...selectedFilters, filter]);
-    }
-  };
-
-  const handleBrandChange = (brandName: string): void => {
-    if (selectedBrands.includes(brandName)) {
-      setSelectedBrands(selectedBrands.filter((item) => item !== brandName));
-    } else {
-      setSelectedBrands([...selectedBrands, brandName]);
-    }
-  };
-
-  const handleBrandClick = (brandName: string): void => {
-    if (selectedBrands.includes(brandName)) {
-      setSelectedBrands(selectedBrands.filter((item) => item !== brandName));
-    } else {
-      setSelectedBrands([...selectedBrands, brandName]);
-    }
-  };
-
-  const filteredProducts = products.filter((product) => {
-    if (selectedBrands.length > 0 && !selectedBrands.includes(product.brand)) {
-      return false;
-    }
-
-    if (selectedFilters.length === 0) {
-      return true;
-    } else {
-      return selectedFilters.includes(product.status);
-    }
-  });
-
-  const brandSet = new Set(products.map((product) => product.brand));
-  const uniqueBrandNames: string[] = Array.from(brandSet);
-
   const handleSortChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ): void => {
@@ -103,32 +65,19 @@ const CategoryWiseProductFilterView: React.FC<
     setSortId(selectedSortId);
   };
 
-  const handlePrevClick = (): void => {
-    setPage(page - 1);
-  };
+  const debouncedFilters = useDebounce(filters, 1000);
 
-  const handleNextClick = (): void => {
-    setPage(page + 1);
-  };
-
-  const handleLastPageClick = (): void => {
-    setPage(pages - 1);
-    const lastpage: number = pages - 1;
-    localStorage.setItem("curAppPage", lastpage.toString());
-  };
-
-  const { data, isLoading } = useGetProductsQuery({
+  const { data, isFetching } = useGetProductsQuery({
     category: categoryId as string,
+    limit: 25,
+    minPrice: debouncedFilters.minPrice,
+    maxPrice: debouncedFilters.maxPrice,
   });
 
   const breadcrumbItems = [
     { id: 1, name: "Home", url: "/" },
     { id: 2, name: "Category", url: "/" },
   ];
-
-  const onSubmit = (data: any): void => {
-    console.log(data);
-  };
 
   return (
     <div className="relative w-full bg-gray-100 z-10 pb-32 overflow-x-hidden">
@@ -161,12 +110,7 @@ const CategoryWiseProductFilterView: React.FC<
               <LeftSideFilter
                 values={values}
                 setValues={setValues}
-                selectedFilters={selectedFilters}
-                handleFilterChange={handleFilterChange}
-                selectedBrands={selectedBrands}
-                handleBrandChange={handleBrandChange}
-                uniqueBrandNames={uniqueBrandNames}
-                availabilities={availabilities}
+                onFilters={handleFilters}
               />
             </div>
           </div>
@@ -176,12 +120,7 @@ const CategoryWiseProductFilterView: React.FC<
             <LeftSideFilter
               values={values}
               setValues={setValues}
-              selectedFilters={selectedFilters}
-              handleFilterChange={handleFilterChange}
-              selectedBrands={selectedBrands}
-              handleBrandChange={handleBrandChange}
-              uniqueBrandNames={uniqueBrandNames}
-              availabilities={availabilities}
+              onFilters={handleFilters}
             />
           </div>
 
@@ -233,25 +172,23 @@ const CategoryWiseProductFilterView: React.FC<
                 </div>
               </div>
             </div>
-            {/* {isLoading ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-x-3 md:gap-x-3 gap-y-3 md:gap-y-5 mt-3">
-                {fakeArray.map((_, index) => (
-                  <ProductsSceleton key={index} />
-                ))}
-              </div>
-            ) : (
-              <> */}
-            {/* {filteredProducts?.length > 0 ? ( */}
-
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-x-3 md:gap-x-3 gap-y-3 md:gap-y-5 mt-3">
-              {data?.data.products.map((product, index) => (
-                <ProductCard
-                  key={index}
-                  product={product}
-                  index={index}
-                  btnStyle="py-1 rounded-lg"
-                />
-              ))}
+            <div>
+              {isFetching && (
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-x-3 md:gap-x-3 gap-y-3 md:gap-y-5 mt-3">
+                  {fakeArray.map((_, index) => (
+                    <ProductsSceleton key={index} />
+                  ))}
+                </div>
+              )}
+              {data?.data && data?.data.products.length > 0 ? (
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-x-3 md:gap-x-3 gap-y-3 md:gap-y-5 mt-3">
+                  {data?.data.products.map((product, index) => (
+                    <ProductCard key={index} product={product} size="sm" />
+                  ))}
+                </div>
+              ) : (
+                <NoDataFoundView category={categoryId as string} />
+              )}
             </div>
             {/* ) : (
                   <NoDataFoundView />

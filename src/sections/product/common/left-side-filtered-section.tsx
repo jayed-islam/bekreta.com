@@ -1,29 +1,42 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Range, getTrackBackground } from "react-range";
 
 interface LeftSideFilterProps {
-  //   values: number[];
-  //   setValues: React.Dispatch<React.SetStateAction<number[]>>;
-  values: [number, number]; // Values should be a tuple of two numbers
+  values: [number, number];
   setValues: React.Dispatch<React.SetStateAction<[number, number]>>;
-  selectedFilters: string[];
-  handleFilterChange: (filter: string) => void;
-  selectedBrands: string[];
-  handleBrandChange: (brandName: string) => void;
-  uniqueBrandNames: string[];
-  availabilities: { name: string; keyword: string }[];
+  onFilters: (name: string, value: string | number) => void;
 }
 
 const LeftSideFilter: React.FC<LeftSideFilterProps> = ({
   values,
   setValues,
-  selectedFilters,
-  handleFilterChange,
-  selectedBrands,
-  handleBrandChange,
-  uniqueBrandNames,
-  availabilities,
+  onFilters,
 }) => {
+  const handleFilterChange = useCallback(
+    (name: string, event: React.ChangeEvent<HTMLInputElement>) => {
+      // onFilters(name, event.target.value);
+      const value = Number(event.target.value);
+      onFilters(name, value);
+      setValues((prevValues) => {
+        if (name === "minPrice") {
+          return [value, prevValues[1]];
+        } else {
+          return [prevValues[0], value];
+        }
+      });
+    },
+    [onFilters]
+  );
+
+  const handlePriceRangeChange = useCallback(
+    (values: [number, number]) => {
+      setValues(values);
+      onFilters("minPrice", values[0]);
+      onFilters("maxPrice", values[1]);
+    },
+    [setValues, onFilters]
+  );
+
   return (
     <div className="w-full lg:w-[281px]">
       <div className="bg-white w-full rounded-lg shadow-sm pb-5">
@@ -37,9 +50,9 @@ const LeftSideFilter: React.FC<LeftSideFilterProps> = ({
               step={1}
               min={0}
               max={3001}
-              onChange={(values) => {
-                setValues(values as [number, number]);
-              }}
+              onChange={(values) =>
+                handlePriceRangeChange(values as [number, number])
+              }
               renderTrack={({ props, children }) => (
                 <div
                   onMouseDown={props.onMouseDown}
@@ -108,11 +121,12 @@ const LeftSideFilter: React.FC<LeftSideFilterProps> = ({
                   $
                 </span>
                 <input
-                  id="maxPrice"
+                  id="minPrice"
                   className="block w-24 pr-10 pl-4 py-2 sm:text-sm border  border-neutral-400 rounded-full bg-transparent outline-none"
                   type="text"
-                  name="maxPrice"
+                  name="minPrice"
                   value={values[0]}
+                  onChange={(e) => handleFilterChange("minPrice", e)}
                 />
               </div>
             </div>
@@ -129,6 +143,7 @@ const LeftSideFilter: React.FC<LeftSideFilterProps> = ({
                   type="text"
                   name="maxPrice"
                   value={values[1]}
+                  onChange={(e) => handleFilterChange("maxPrice", e)}
                 />
               </div>
             </div>
@@ -141,7 +156,7 @@ const LeftSideFilter: React.FC<LeftSideFilterProps> = ({
         </h3>
 
         <div className="flex flex-col px-5 py-6 space-y-5">
-          {availabilities.map((item, i) => (
+          {/* {availabilities.map((item, i) => (
             <div key={i} className="">
               <div className="flex text-sm sm:text-base items-center cursor-pointer">
                 <input
@@ -161,7 +176,7 @@ const LeftSideFilter: React.FC<LeftSideFilterProps> = ({
                 </label>
               </div>
             </div>
-          ))}
+          ))} */}
         </div>
       </div>
 
@@ -169,7 +184,7 @@ const LeftSideFilter: React.FC<LeftSideFilterProps> = ({
         <h3 className="text-md font-semibold px-5 py-3 border-b">Brands</h3>
 
         <div className="flex flex-col px-5 py-6 space-y-5">
-          {uniqueBrandNames.map((brandName, index) => (
+          {/* {uniqueBrandNames.map((brandName, index) => (
             <div
               key={index}
               className="flex text-sm sm:text-base items-center cursor-pointer"
@@ -188,7 +203,7 @@ const LeftSideFilter: React.FC<LeftSideFilterProps> = ({
                 <span className="text-slate-900 font-medium">{brandName}</span>
               </label>
             </div>
-          ))}
+          ))} */}
         </div>
       </div>
     </div>

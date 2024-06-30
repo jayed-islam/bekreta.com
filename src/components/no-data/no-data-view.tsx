@@ -1,19 +1,25 @@
+import { paths } from "@/layouts/paths";
 import Link from "next/link";
 import React from "react";
 
-const NoDataFoundView = () => {
+interface Props {
+  category?: string;
+}
+
+const NoDataFoundView = ({ category }: Props) => {
   return (
     <div className="w-full px-3 sm:px-0 py-11">
-      <div className="border border-blue-400 px-5 py-2 mb-7">
+      <div className="border border-green-500 px-5 py-2 mb-7">
         <h1>
           No product found in the{" "}
-          <span className="font-semibold text-red-400">{}</span> category.
+          <span className="font-semibold text-green-500">{category}</span>{" "}
+          category.
         </h1>
       </div>
 
       <Link
-        href="/"
-        className=" bg-green-500 px-5 text-sm font-semibold py-2 rounded-full"
+        href={paths.root}
+        className=" bg-green-500 px-5 text-sm font-semibold py-2 rounded-full text-white"
       >
         RETURN TO SHOP
       </Link>

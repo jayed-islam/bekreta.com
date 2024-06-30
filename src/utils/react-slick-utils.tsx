@@ -19,3 +19,30 @@ export function SamplePrevArrow(props: any) {
     />
   );
 }
+
+export var bannerSettings = {
+  dots: false,
+  infinite: true,
+  fade: true,
+  lop: true,
+  speed: 500,
+  autoplay: true,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  initialSlide: 1,
+  nextArrow: <SampleNextArrow />,
+  prevArrow: <SamplePrevArrow />,
+};
+
+export var offerProductSettings = {
+  dots: false,
+  infinite: true,
+  lop: true,
+  speed: 500,
+  autoplay: true,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  initialSlide: 1,
+  nextArrow: <SampleNextArrow />,
+  prevArrow: <SamplePrevArrow />,
+};
