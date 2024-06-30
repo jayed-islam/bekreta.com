@@ -1,6 +1,7 @@
 import {
   IFeaturedProductGetBody,
   IGetProductListResponse,
+  IOfferedProductGetBody,
   IProduct,
   IProductGetBody,
 } from "@/types/products";
@@ -31,6 +32,16 @@ export const productApi = api.injectEndpoints({
         body,
       }),
     }),
+    getOfferetProducts: builder.query<
+      IGetProductListResponse,
+      IOfferedProductGetBody
+    >({
+      query: (body) => ({
+        url: "product/offered",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
   overrideExisting: true,
 });
@@ -39,4 +50,5 @@ export const {
   useGetProductsQuery,
   useGetProductByIdQuery,
   useGetFeaturedProductsQuery,
+  useGetOfferetProductsQuery,
 } = productApi;

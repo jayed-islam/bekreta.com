@@ -17,6 +17,7 @@ import NoDataFoundView from "@/components/no-data/no-data-view";
 import HeadFilterSectionView from "../head-filter-section";
 import ProductCard from "@/layouts/common/product/product-card";
 import useBoolean from "@/hooks/use-boolean";
+import { useGetProductsQuery } from "@/redux/reducers/product/productApi";
 
 interface CategoryWiseProductProps {}
 
@@ -25,7 +26,7 @@ const CategoryWiseProductFilterView: React.FC<
 > = () => {
   const filterSidebar = useBoolean();
   const { register, handleSubmit } = useForm();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  // const [isLoading, setIsLoading] = useState<boolean>(false);
   const [values, setValues] = useState<[number, number]>([5, 2001]);
   const [isActive, setActive] = useState<boolean>(true);
 
@@ -55,33 +56,6 @@ const CategoryWiseProductFilterView: React.FC<
     setSize(newSize);
     setPage(0);
   };
-
-  useEffect(() => {
-    const fetchProducts = async (): Promise<void> => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_SERVER_API}/api/v1/shop/categorywise?category=${categoryId}&page=${page}&size=${size}&sortId=${sortId}&min=${values[0]}&max=${values[1]}&search=${search}`
-        );
-        if (response.ok) {
-          const data = await response.json();
-          if (data?.status === "success") {
-            setProducts(data?.data);
-            setCount(data?.count);
-            setIsLoading(false);
-          }
-        } else {
-          console.error("Failed to fetch products");
-          setIsLoading(false);
-        }
-      } catch (error) {
-        console.error("Error while fetching products:", error);
-        setIsLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
 
   const handleFilterChange = (filter: string): void => {
     if (selectedFilters.includes(filter)) {
@@ -142,6 +116,10 @@ const CategoryWiseProductFilterView: React.FC<
     const lastpage: number = pages - 1;
     localStorage.setItem("curAppPage", lastpage.toString());
   };
+
+  const { data, isLoading } = useGetProductsQuery({
+    category: categoryId as string,
+  });
 
   const breadcrumbItems = [
     { id: 1, name: "Home", url: "/" },
@@ -266,12 +244,11 @@ const CategoryWiseProductFilterView: React.FC<
             {/* {filteredProducts?.length > 0 ? ( */}
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-x-3 md:gap-x-3 gap-y-3 md:gap-y-5 mt-3">
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((product, index) => (
+              {data?.data.products.map((product, index) => (
                 <ProductCard
                   key={index}
                   product={product}
                   index={index}
-                  rootPath={paths.product.root}
                   btnStyle="py-1 rounded-lg"
                 />
               ))}

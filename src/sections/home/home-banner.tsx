@@ -5,6 +5,7 @@ import Slider from "react-slick";
 import { paths } from "@/layouts/paths";
 import BannerProductCard from "./common/banner-product-card";
 import { SampleNextArrow, SamplePrevArrow } from "@/utils/react-slick-utils";
+import { useGetOfferetProductsQuery } from "@/redux/reducers/product/productApi";
 
 const HomeBanner = () => {
   const sliderRef = useRef<Slider | null>(null);
@@ -17,7 +18,7 @@ const HomeBanner = () => {
     autoplay: true,
     slidesToShow: 1,
     slidesToScroll: 1,
-    initialSlide: 0,
+    initialSlide: 1,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
   };
@@ -39,41 +40,10 @@ const HomeBanner = () => {
 
   const banners = ["assets/banner.avif", "assets/banner2.avif"];
 
-  const [page, setPage] = useState(0);
-  const [size, setSize] = useState(5);
-  const [count, setCount] = useState(0);
-  const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const fakeArr = Array.from({ length: 3 }, (_, index) => index);
 
-  const cardsArray = Array.from({ length: 10 }, (_, index) => index);
+  const { data, isLoading } = useGetOfferetProductsQuery({});
 
-  useEffect(() => {
-    setIsLoading(true);
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_SERVER_API}/api/v1/shop/products?page=${page}&size=${size}`
-        );
-        console.log(response);
-        if (response.ok) {
-          const data = await response.json();
-          if (data?.status === "success") {
-            setProducts(data?.data);
-            setCount(data?.count);
-            setIsLoading(false);
-          }
-        } else {
-          console.error("Failed to fetch products");
-          setIsLoading(false);
-        }
-      } catch (error) {
-        console.error("Error while fetching products:", error);
-        setIsLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, [page, size]);
   return (
     <div className="bg-gray-100 w-full">
       <div className="max-w-6xl mx-auto flex lg:gap-5 pt-2 flex-col lg:flex-row sm:px-3 md:px-5 xl:px-0">
@@ -131,17 +101,32 @@ const HomeBanner = () => {
             </div>
           </div>
           <Slider {...settings} ref={sliderRef}>
-            {products?.slice(19, 30).map((product, index) => (
-              <div className="w-full">
-                <BannerProductCard
-                  key={index}
-                  product={product}
-                  index={index}
-                  rootPath={paths.product.root}
-                  timerBoolean
-                />
-              </div>
-            ))}
+            {isLoading
+              ? fakeArr.map((i) => (
+                  <div className="animate-pulse flex space-x-4" key={i}>
+                    <div className="rounded-full bg-slate-200 h-56 w-full"></div>
+                    <div className="flex-1 space-y-6 py-1">
+                      <div className="h-2 bg-slate-200 rounded"></div>
+                      <div className="space-y-3">
+                        <div className="grid grid-cols-3 gap-4">
+                          <div className="h-2 bg-slate-200 rounded col-span-2"></div>
+                          <div className="h-2 bg-slate-200 rounded col-span-1"></div>
+                        </div>
+                        <div className="h-2 bg-slate-200 rounded"></div>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              : data?.data.products?.map((product, index) => (
+                  <div className="w-full">
+                    <BannerProductCard
+                      key={index}
+                      product={product}
+                      index={index}
+                      timerBoolean
+                    />
+                  </div>
+                ))}
           </Slider>
         </div>
       </div>

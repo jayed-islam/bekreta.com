@@ -58,3 +58,8 @@ export interface IFeaturedProductGetBody {
   page?: number;
   limit?: number;
 }
+
+export interface IOfferedProductGetBody {
+  page?: number;
+  limit?: number;
+}

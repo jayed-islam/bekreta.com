@@ -3,15 +3,15 @@ import { twMerge } from "tailwind-merge";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import Link from "next/link";
 import ProductCardTimer from "@/components/timer/product-card-timer";
+import { IProduct } from "@/types/products";
 
 interface IProductCardProps {
-  product: any;
+  product: IProduct;
   index: number;
   className?: string;
   newPadding?: number;
   newSize?: number;
   timerBoolean?: boolean;
-  rootPath: string;
 }
 
 const BannerProductCard = ({
@@ -19,9 +19,8 @@ const BannerProductCard = ({
   className,
   newPadding,
   timerBoolean,
-  rootPath,
 }: IProductCardProps) => {
-  const { name, images, price, desc, review, _id } = product;
+  const { name, images, price, _id } = product;
   const [selectedImage, setSelectedImage] = useState(images[0]);
   const [isLoading, setLoading] = useState(false);
 
@@ -70,13 +69,13 @@ const BannerProductCard = ({
         <div className="hidden sm:flex object-cover bg-white h-48 items-center justify-center">
           <img
             className="h-full rounded-t-2xl transition-all duration-200"
-            src="/assets/pill.jpg"
+            src={images[0]}
           />
         </div>
         <div className="sm:hidden flex aspect-w-11 h-36 md:h-64 w-full object-cover border">
           <img
             className="object-cover h-full w-full drop-shadow-xl"
-            src={selectedImage}
+            src={images[0]}
           />
         </div>
       </div>
@@ -98,10 +97,10 @@ const BannerProductCard = ({
           </h2>
           <Link href="/">
             <h2 className="text-lg  font-bold hover:text-green-500 transition-all duration-300 ease-in pb-2 leading-6 hidden sm:block ">
-              {desc.slice(0, 45)}
+              {name}
             </h2>
             <h2 className="text-xs sm:hidden font-semibold hover:text-red-500 transition-all duration-300 ease-in pb-2 text-ellipsis ">
-              {desc.slice(0, 45)}
+              {name}
             </h2>
           </Link>
           <div className="flex items-center sm:items-end gap-2 justify-between">

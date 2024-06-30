@@ -6,7 +6,7 @@ import React from "react";
 const HomeHeaderCategoryView = () => {
   return (
     <div className="bg-gray-100">
-      <div className="overflow-x-auto scrollbar-hide max-w-6xl mx-auto  py-3 md:py-5">
+      <div className="overflow-x-auto scrollbar-hide max-w-6xl mx-auto py-3 md:py-5">
         <div className="md:flex hidden gap-3 justify-between items-center md:pl-5 xl:pl-0">
           {categories.map((category, index) => (
             <Link
