@@ -1,4 +1,4 @@
-export interface Category {
+export interface ICategory {
   _id: string;
   name: string;
   description: string;
@@ -6,7 +6,8 @@ export interface Category {
 }
 
 export interface ICategoriesResponse {
+  statusCode: number;
   success: boolean;
   message: string;
-  data: Category[];
+  data: ICategory[];
 }

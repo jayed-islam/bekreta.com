@@ -23,6 +23,7 @@ const defaultFilters: IProductFilters = {
   searchTerm: "",
   maxPrice: Number.MAX_SAFE_INTEGER,
   minPrice: 1,
+  status: [],
 };
 
 const CategoryWiseProductFilterView: React.FC<
@@ -39,16 +40,25 @@ const CategoryWiseProductFilterView: React.FC<
 
   const searchParams: any = useSearchParams();
   const categoryId: string | null = searchParams.get("category");
-  const search: string | null = searchParams.get("search");
+  const searchQuery: string | null = searchParams.get("search");
+
+  console.log(searchQuery);
 
   const fakeArray: number[] = Array.from({ length: 12 });
 
-  const handleFilters = useCallback((name: string, value: string | number) => {
-    setFilters((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  }, []);
+  const handleFilters = useCallback(
+    (name: string, value: string | number | string[]) => {
+      setFilters((prev) => {
+        if (name === "status") {
+          const newStatus = Array.isArray(value) ? value : [value];
+          return { ...prev, status: newStatus } as IProductFilters;
+        } else {
+          return { ...prev, [name]: value } as IProductFilters;
+        }
+      });
+    },
+    []
+  );
 
   const handleSizeChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -68,10 +78,12 @@ const CategoryWiseProductFilterView: React.FC<
   const debouncedFilters = useDebounce(filters, 1000);
 
   const { data, isFetching } = useGetProductsQuery({
-    category: categoryId as string,
+    category: categoryId ? categoryId : "",
     limit: 25,
     minPrice: debouncedFilters.minPrice,
     maxPrice: debouncedFilters.maxPrice,
+    status: filters.status.length > 0 ? filters.status : [],
+    searchTerm: searchQuery ? searchQuery.trim() : "",
   });
 
   const breadcrumbItems = [
@@ -108,6 +120,7 @@ const CategoryWiseProductFilterView: React.FC<
               </div>
 
               <LeftSideFilter
+                filters={filters}
                 values={values}
                 setValues={setValues}
                 onFilters={handleFilters}
@@ -118,6 +131,7 @@ const CategoryWiseProductFilterView: React.FC<
           {/*left side filtered secttion for large screen  */}
           <div className="hidden lg:block">
             <LeftSideFilter
+              filters={filters}
               values={values}
               setValues={setValues}
               onFilters={handleFilters}

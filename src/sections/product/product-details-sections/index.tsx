@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ReactNode } from "react";
 
 interface ProductDetailTabProps {
@@ -5,26 +6,30 @@ interface ProductDetailTabProps {
   activeTab: string;
   onClick: (label: string) => void;
   label: string;
+  value: string;
 }
 
 const Tab: React.FC<ProductDetailTabProps> = ({
   label,
   activeTab,
   onClick,
+  value,
 }) => {
   const isActive = activeTab === label;
 
   return (
-    <button
-      className={`px-5 py-2 text-lg font-semibold rounded-md shadow-sm ${
-        isActive
-          ? "bg-green-600 text-white"
-          : "bg-white hover:bg-green-600 hover:text-white"
-      }`}
-      onClick={() => onClick(label)}
-    >
-      {label}
-    </button>
+    <Link href={`#${value}`}>
+      <button
+        className={`px-5 py-2 text-lg font-semibold rounded-md shadow-sm ${
+          isActive
+            ? "bg-green-600 text-white"
+            : "bg-white hover:bg-green-600 hover:text-white"
+        }`}
+        onClick={() => onClick(label)}
+      >
+        {label}
+      </button>
+    </Link>
   );
 };
 

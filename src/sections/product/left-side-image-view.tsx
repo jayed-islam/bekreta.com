@@ -1,23 +1,24 @@
+import { IProduct } from "@/types/products";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import React, { RefObject, useRef, useState } from "react";
 
 type TProps = {
-  images: string[];
+  product: IProduct;
 };
 
-const LeftSideImageView = ({ images }: TProps) => {
+const LeftSideImageView = ({ product }: TProps) => {
   const productImageRef: RefObject<HTMLImageElement> = useRef(null);
-  const [currentImage, setCurrentImage] = useState(images[0]);
+  const [currentImage, setCurrentImage] = useState(product.images[0]);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [isLove, setIsLove] = useState(false);
 
   const handleImageClick = async (index: number) => {
-    for (let i = 0; i < images.length; i++) {
+    for (let i = 0; i < product.images.length; i++) {
       if (i !== index) {
         await new Promise((resolve) => {
           const img = new Image();
-          img.src = images[i];
+          img.src = product.images[i];
           img.onload = resolve;
         });
       }
@@ -64,7 +65,7 @@ const LeftSideImageView = ({ images }: TProps) => {
           />
         </div>
         <div className="flex items-center gap-2 justify-start mt-5 shadow-md border p-2 xl:-ml-11 sm:w-[300px] mx-3">
-          {images?.map((img, i) => (
+          {product.images?.map((img, i) => (
             <div
               className={`border p-2 border-gray-300 ${
                 currentImage === img && "border-green-500"
@@ -74,7 +75,7 @@ const LeftSideImageView = ({ images }: TProps) => {
                 src={img}
                 alt=""
                 className={`h-11 w-11 sm:h-16 sm:w-16 object-cover`}
-                onClick={() => setCurrentImage(images[i])}
+                onClick={() => setCurrentImage(product.images[i])}
               />
             </div>
           ))}

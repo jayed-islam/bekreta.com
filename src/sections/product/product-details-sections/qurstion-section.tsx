@@ -1,13 +1,13 @@
 import useBoolean from "@/hooks/use-boolean";
 import QuestionModal from "@/layouts/common/modal/question-modal";
-import { IProductItem } from "@/types/products";
+import { IProduct, IProductItem } from "@/types/products";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import React from "react";
 
 interface QuestionTabProps {
   activeTab: string;
   questions: number;
-  product: IProductItem;
+  product: IProduct;
 }
 
 const QuestionSection: React.FC<QuestionTabProps> = ({
@@ -52,7 +52,7 @@ const QuestionSection: React.FC<QuestionTabProps> = ({
           )}
         </div>
       </div>
-      <QuestionModal dialog={questionModal} product={product} />
+      {/* <QuestionModal dialog={questionModal} product={product} /> */}
     </div>
   );
 };

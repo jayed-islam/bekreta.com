@@ -7,6 +7,7 @@ import { actionButtonsInfo } from "@/constants";
 import { useAppDispatch } from "@/redux/hooks";
 import { openCartDrawer } from "@/redux/reducers/cart/cartSlice";
 import { IProduct } from "@/types/products";
+import { paths } from "@/layouts/paths";
 
 interface IProductCardProps {
   product: IProduct;
@@ -56,7 +57,7 @@ const ProductCard = ({
           size === "sm" ? "h-44" : "h-44 md:h-64"
         }`}
       >
-        <Link href={`/${_id}`}>
+        <Link href={`${paths.product.root}/${_id}`}>
           <img
             className="h-full w-full group-hover:scale-110 rounded-t-2xl transition-all duration-200 object-cover"
             src={images[0]}
@@ -87,7 +88,7 @@ const ProductCard = ({
 
       <div className={`px-3`}>
         <div className={`pt-2 pb-2 `}>
-          <Link href={`product-detail/${_id}`}>
+          <Link href={`${paths.product.root}/${_id}`}>
             <h2
               className={`font-bold hover:text-green-500 transition-all duration-300 ease-in leading-5 line-clamp-2 overflow-ellipsis ${
                 size === "sm" ? "text-sm" : "text-sm md:text-lg"

@@ -1,11 +1,22 @@
 import {
   IFeaturedProductGetBody,
+  IGetCategoryWiseProductListResponse,
   IGetProductListResponse,
   IOfferedProductGetBody,
   IProduct,
   IProductGetBody,
 } from "@/types/products";
 import { api } from "../../api";
+
+interface IGetSingleProductRecponse {
+  data: IProduct;
+  message: string;
+  state: boolean;
+}
+
+interface CategoryProps {
+  category: string;
+}
 
 export const productApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -16,9 +27,9 @@ export const productApi = api.injectEndpoints({
         body,
       }),
     }),
-    getProductById: builder.query<IProduct, string>({
+    getProductById: builder.query<IGetSingleProductRecponse, string>({
       query: (id) => ({
-        url: `product/${id}`,
+        url: `/product/get-single/${id}`,
         method: "GET",
       }),
     }),
@@ -42,6 +53,15 @@ export const productApi = api.injectEndpoints({
         body,
       }),
     }),
+    getCategoryWiseProduct: builder.query<
+      IGetCategoryWiseProductListResponse,
+      CategoryProps
+    >({
+      query: ({ category }) => ({
+        url: `/product/category/${category}`,
+        method: "GET",
+      }),
+    }),
   }),
   overrideExisting: true,
 });
@@ -51,4 +71,5 @@ export const {
   useGetProductByIdQuery,
   useGetFeaturedProductsQuery,
   useGetOfferetProductsQuery,
+  useGetCategoryWiseProductQuery,
 } = productApi;

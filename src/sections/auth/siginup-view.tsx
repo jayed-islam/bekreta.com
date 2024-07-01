@@ -34,12 +34,12 @@ const SignUpView = () => {
           </h3>
 
           <div className="w-full mt-8">
-            <h2 className="text-md font-bold">Your Email</h2>
+            {/* <h2 className="text-md font-bold">Your Email</h2> */}
             <RHFTextField label="Email" name="email" />
           </div>
 
           <div className="w-full mt-4">
-            <h2 className="text-md font-bold">Your Password</h2>
+            {/* <h2 className="text-md font-bold">Your Password</h2> */}
             <RHFTextField label="Password" type="password" name="password" />
           </div>
 
@@ -48,7 +48,7 @@ const SignUpView = () => {
               Sign up
             </button>
 
-            <p className="mt-4 text-center text-gray-600 dark:text-gray-400">
+            {/* <p className="mt-4 text-center text-gray-600 dark:text-gray-400">
               or sign up with
             </p>
 
@@ -76,12 +76,12 @@ const SignUpView = () => {
               </svg>
 
               <span className="mx-2">Sign up with Google</span>
-            </a>
+            </a> */}
 
             <div className="mt-6 text-center ">
               <Link
                 href={paths.website.signup}
-                className="text-sm text-blue-500 hover:underline dark:text-blue-400"
+                className="text-sm text-green-500 hover:underline"
               >
                 Already have an account yet? Sign in
               </Link>

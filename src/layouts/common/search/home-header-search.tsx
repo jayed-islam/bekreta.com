@@ -1,5 +1,6 @@
 import useBoolean from "@/hooks/use-boolean";
 import { paths } from "@/layouts/paths";
+import { useAppSelector } from "@/redux/hooks";
 import { Popover, Transition } from "@headlessui/react";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import { useRouter } from "next/navigation";
@@ -7,6 +8,8 @@ import { Fragment, useEffect, useRef, useState } from "react";
 
 export default function HomeHeaderSearch() {
   const topSearchWord = ["enhance", "upgrade", "maximize", "child", "book"];
+
+  const { categories } = useAppSelector((state) => state.category);
   const inputRef = useRef<HTMLInputElement>(null);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
@@ -79,20 +82,22 @@ export default function HomeHeaderSearch() {
             >
               <Popover.Panel className="absolute left-0 right-0 z-10 mt-3 transform">
                 {({ close }) => (
-                  <div className="overflow-hidden rounded-lg shadow-lg bg-white p-5">
+                  <div className="overflow-hidden rounded-lg shadow-lg bg-white p-5 h-[300px] overflow-y-auto">
                     <div className="lg:flex flex-col items-center gap-2 w-full">
-                      {topSearchWord.map((word, index) => (
+                      {categories.map((caterory, index) => (
                         <div
                           onClick={async () => {
                             router.push(
-                              `${paths.product.category}?search=${word}`
+                              `${
+                                paths.product.category
+                              }?search=${caterory.name.toLocaleLowerCase()}`
                             );
                             close();
                           }}
                           key={index}
                           className="w-full hover:bg-gray-200 px-5 py-2 rounded-md text-left cursor-pointer"
                         >
-                          <h2 className="text-sm ">{word}</h2>
+                          <h2 className="text-sm lowercase">{caterory.name}</h2>
                         </div>
                       ))}
                     </div>

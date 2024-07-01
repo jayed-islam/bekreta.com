@@ -1,20 +1,24 @@
+import { availabilities } from "@/constants";
+import { IProductFilters, ProductStatus } from "@/types/products";
 import React, { useCallback } from "react";
 import { Range, getTrackBackground } from "react-range";
 
 interface LeftSideFilterProps {
+  filters: IProductFilters;
   values: [number, number];
   setValues: React.Dispatch<React.SetStateAction<[number, number]>>;
-  onFilters: (name: string, value: string | number) => void;
+  // onFilters: (name: string, value: string | number) => void;
+  onFilters: (name: string, value: string | number | string[]) => void;
 }
 
 const LeftSideFilter: React.FC<LeftSideFilterProps> = ({
   values,
   setValues,
   onFilters,
+  filters,
 }) => {
   const handleFilterChange = useCallback(
     (name: string, event: React.ChangeEvent<HTMLInputElement>) => {
-      // onFilters(name, event.target.value);
       const value = Number(event.target.value);
       onFilters(name, value);
       setValues((prevValues) => {
@@ -26,6 +30,21 @@ const LeftSideFilter: React.FC<LeftSideFilterProps> = ({
       });
     },
     [onFilters]
+  );
+
+  const handleStatusFilterChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value;
+      const checked = event.target.checked;
+
+      onFilters(
+        "status",
+        checked
+          ? [...filters.status, value]
+          : filters.status.filter((s) => s !== value)
+      );
+    },
+    [onFilters, filters.status]
   );
 
   const handlePriceRangeChange = useCallback(
@@ -156,27 +175,28 @@ const LeftSideFilter: React.FC<LeftSideFilterProps> = ({
         </h3>
 
         <div className="flex flex-col px-5 py-6 space-y-5">
-          {/* {availabilities.map((item, i) => (
-            <div key={i} className="">
+          {availabilities.map((item, index) => (
+            <div key={index} className="">
               <div className="flex text-sm sm:text-base items-center cursor-pointer">
                 <input
-                  id={item.name}
+                  id={item.value}
+                  value={item.value}
                   className="focus:ring-action-primary text-primary-500 rounded border-slate-400 hover:border-slate-700 bg-transparent focus:ring-primary-500 w-4 h-4"
                   type="checkbox"
-                  checked={selectedFilters.includes(item.keyword)}
-                  onChange={() => handleFilterChange(item.keyword)}
+                  onChange={handleStatusFilterChange}
+                  checked={filters.status.includes(item.value as ProductStatus)}
                 />
                 <label
-                  htmlFor={item.name}
+                  htmlFor={item.label}
                   className="pl-2.5 sm:pl-3.5 flex flex-col flex-1 justify-center select-none"
                 >
                   <span className="text-slate-900 font-medium">
-                    {item.name}
+                    {item.label}
                   </span>
                 </label>
               </div>
             </div>
-          ))} */}
+          ))}
         </div>
       </div>
 

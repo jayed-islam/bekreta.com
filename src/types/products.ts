@@ -47,6 +47,20 @@ export interface IGetProductListResponse {
   };
 }
 
+export interface IGetCategoryWiseProductListResponse {
+  statusCode: number;
+  message: string;
+  state: boolean;
+  data: IProduct[];
+}
+
+export type ProductStatus =
+  | "IN_STOCK"
+  | "OUT_OF_STOCK"
+  | "DISCOUNTED"
+  | "FEATURED"
+  | "ALL";
+
 export interface IProductGetBody {
   minPrice?: number;
   maxPrice?: number;
@@ -54,13 +68,15 @@ export interface IProductGetBody {
   category?: string;
   page?: number;
   limit?: number;
+  status?: ProductStatus[];
 }
 
 export interface IProductFilters {
   minPrice: number;
   maxPrice: number;
-  searchTerm: string;
   category: string;
+  status: ProductStatus[];
+  searchTerm: string;
 }
 
 export interface IFeaturedProductGetBody {

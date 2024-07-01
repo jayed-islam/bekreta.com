@@ -1,12 +1,12 @@
 import useBoolean from "@/hooks/use-boolean";
-import { IProductItem } from "@/types/products";
+import { IProduct, IProductItem } from "@/types/products";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import React from "react";
 
 interface ReviewTabProps {
   activeTab: string;
   questions: number;
-  product: IProductItem;
+  product: IProduct;
 }
 
 const ReviewSection: React.FC<ReviewTabProps> = ({
@@ -16,7 +16,7 @@ const ReviewSection: React.FC<ReviewTabProps> = ({
 }) => {
   const reviewModal = useBoolean();
   return (
-    <div className={`bg-white px-5 pt-5 pb-7 shadow-sm mt-6`}>
+    <div id="reviews" className={`bg-white px-5 pt-5 pb-7 shadow-sm mt-6`}>
       <div className="flex items-start sm:items-center gap-3 sm:gap-0 flex-col sm:flex-row justify-between pb-7">
         <div>
           <h3 className="font-semibold text-xl">Reviews (0)</h3>
@@ -27,7 +27,7 @@ const ReviewSection: React.FC<ReviewTabProps> = ({
         <button
           disabled
           onClick={reviewModal.setTrue}
-          className="border-2 border-indigo-700 rounded px-5 py-2 hover:bg-indigo-700 text-indigo-700 hover:text-white transition-all duration-200 ease-in text-md font-semibold cursor-pointer"
+          className="border-2 border-green-700 rounded px-5 py-2 hover:bg-green-700 text-green-700 hover:text-white transition-all duration-200 ease-in text-md font-semibold cursor-pointer"
         >
           Write a Review
         </button>

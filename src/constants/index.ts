@@ -117,18 +117,18 @@ const socialInfo = [
 ];
 
 const queries = [
-  {
-    id: "specification",
-    name: "Specification",
-  },
+  // {
+  //   id: "specification",
+  //   name: "Specification",
+  // },
   {
     id: "description",
     name: "Description",
   },
-  {
-    id: "questions",
-    name: "Questions",
-  },
+  // {
+  //   id: "questions",
+  //   name: "Questions",
+  // },
   {
     id: "reviews",
     name: "Reviews",
@@ -255,6 +255,13 @@ const addressData = [
   // },
 ];
 
+const availabilities = [
+  { label: "In Stock", value: "IN_STOCK" },
+  { label: "Out of Stock", value: "OUT_OF_STOCK" },
+  { label: "Discounted", value: "DISCOUNTED" },
+  { label: "Featured", value: "FEATURED" },
+];
+
 export {
   bannerImages,
   categories,
@@ -266,4 +273,5 @@ export {
   actionButtonsInfo,
   addressOptions,
   addressData,
+  availabilities,
 };
