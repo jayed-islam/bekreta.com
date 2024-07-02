@@ -21,7 +21,7 @@ import AuthModal from "../common/modal/auth-modal";
 export default function Header() {
   const [open, setOpen] = useState(false);
 
-  // const {} = useAppSelector((state) => state.cart)
+  const { cartItems } = useAppSelector((state) => state.cart);
 
   const dispatch = useAppDispatch();
 
@@ -205,7 +205,7 @@ export default function Header() {
                 <div
                   className={`w-4 h-4 right-0 flex items-center justify-center absolute top-1 rounded-full text-[10px] leading-none text-white font-medium bg-green-500`}
                 >
-                  <span className="">0</span>
+                  <span className="">{cartItems.length}</span>
                 </div>
                 <Icon icon="iconoir:cart" className="text-lg md:text-2xl" />
               </button>

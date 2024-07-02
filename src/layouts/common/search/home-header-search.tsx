@@ -7,16 +7,15 @@ import { useRouter } from "next/navigation";
 import { Fragment, useEffect, useRef, useState } from "react";
 
 export default function HomeHeaderSearch() {
-  const topSearchWord = ["enhance", "upgrade", "maximize", "child", "book"];
-
   const { categories } = useAppSelector((state) => state.category);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [query, setQuery] = useState("");
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   const router = useRouter();
 
-  const onSubmit = (data: any) => {
-    router.push(`${paths.product.category}?search=${data.search}`);
+  const onSubmit = (searchTerm: string) => {
+    router.push(`${paths.product.category}?search=${searchTerm}`);
   };
 
   const handleInputFocus = () => {
@@ -50,21 +49,18 @@ export default function HomeHeaderSearch() {
                 type="text"
                 placeholder="Search for products..."
                 className="flex-grow bg-white px-5 rounded-md h-[55px] w-full border-none focus:outline-none"
-                onChange={onSubmit}
+                onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     setIsPopoverOpen(false);
-                    onSubmit({ search: inputRef.current?.value });
-                    router.push(
-                      `${paths.product.category}?search=${inputRef.current?.value}`
-                    );
+                    onSubmit(query);
                   }
                 }}
               />
               <Icon
                 icon="teenyicons:search-outline"
                 onClick={() => {
-                  onSubmit;
+                  onSubmit(query);
                   setIsPopoverOpen(false);
                 }}
                 className="text-xl mt-1 text-gray-600 absolute right-5"
@@ -87,11 +83,7 @@ export default function HomeHeaderSearch() {
                       {categories.map((caterory, index) => (
                         <div
                           onClick={async () => {
-                            router.push(
-                              `${
-                                paths.product.category
-                              }?search=${caterory.name.toLocaleLowerCase()}`
-                            );
+                            onSubmit(caterory.name);
                             close();
                           }}
                           key={index}

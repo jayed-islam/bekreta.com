@@ -2,17 +2,53 @@ import CartSidebar from "@/components/common/add-to-carted-product-notify-view";
 import { features, socialInfo } from "@/constants";
 import useBoolean from "@/hooks/use-boolean";
 import ActionButton from "@/layouts/common/buttons/action-button";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { addToCart, openCartDrawer } from "@/redux/reducers/cart/cartSlice";
 import { IProduct, IProductItem } from "@/types/products";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
-import React from "react";
+import React, { useState } from "react";
+import { getProductStatus, getStatusStyles } from "./common/product-constants";
 
 type TMiddleDescriptionProps = {
   product: IProduct;
 };
 
 const MiddleProductDescription = ({ product }: TMiddleDescriptionProps) => {
+  const { isCartDrawerOpen } = useAppSelector((state) => state.cart);
   const sidebar = useBoolean();
-  const { name, price, category, about, specifications } = product;
+  const { name, price, category, about, specifications, status } = product;
+
+  const [quantity, setQuantity] = useState(1);
+  const dispatch = useAppDispatch();
+
+  const handleAddToCart = () => {
+    const { _id, name, images, price, category } = product;
+    dispatch(
+      addToCart({
+        productId: _id,
+        name,
+        image: images[0],
+        price,
+        category,
+        quantity,
+      })
+    );
+  };
+
+  const handleIncrease = () => {
+    setQuantity((prev) => prev + 1);
+  };
+
+  const handleDecrease = () => {
+    if (quantity > 1) {
+      setQuantity((prev) => prev - 1);
+    }
+  };
+
+  const handeAddToCartMain = () => {
+    handleAddToCart();
+    dispatch(openCartDrawer());
+  };
   return (
     <div className='className="w-full px-3 flex-1 mt-7 md:mt-0 lg:pl-7 xl:pl-9 2xl:pl-10"'>
       <div>
@@ -71,8 +107,12 @@ const MiddleProductDescription = ({ product }: TMiddleDescriptionProps) => {
               <span className="text-gray-400 pl-2 line-through ">৳{price}</span>
             </h3>
           </div>
-          <div className="px-2 py-1 bg-green-500 border border-green-700 text-white font-semibold text-sm">
-            In stock
+          <div
+            className={`px-2 py-1 border text-white font-semibold text-sm ${getStatusStyles(
+              status
+            )}`}
+          >
+            {getProductStatus(status)}
           </div>
         </div>
       </div>
@@ -81,15 +121,23 @@ const MiddleProductDescription = ({ product }: TMiddleDescriptionProps) => {
         <div className="flex items-center justify-center bg-slate-100/70 px-2 py-3 sm:p-3.5 rounded-full">
           <div className=" flex items-center justify-between space-x-5 w-full">
             <div className="flex items-center justify-between w-[104px] sm:w-28">
-              <ActionButton icon="ph:minus" />
+              <ActionButton icon="ph:minus" onClick={handleDecrease} />
               <span className="select-none block flex-1 text-center leading-none">
-                5
+                {quantity}
               </span>
-              <ActionButton icon="ph:plus" />
+              <ActionButton icon="ph:plus" onClick={handleIncrease} />
             </div>
           </div>
         </div>
-        <button className="w-full relative flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium px-4 sm:px-6 bg-gray-800 text-white disabled:bg-opacity-90  hover:bg-gray-900 shadow-xl flex-1 h-13">
+        <button
+          disabled={status === "OUT_OF_STOCK"}
+          onClick={handeAddToCartMain}
+          className={`w-full relative flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium px-4 sm:px-6 bg-gray-800 text-white hover:bg-gray-900 shadow-xl flex-1 h-13 ${
+            status === "OUT_OF_STOCK"
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : ""
+          }`}
+        >
           <Icon icon="iconamoon:shopping-bag-light" className="text-xl" />
           <span className="ml-3">Add to cart</span>
         </button>

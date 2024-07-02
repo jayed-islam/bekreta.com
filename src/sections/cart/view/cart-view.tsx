@@ -5,12 +5,15 @@ import Link from "next/link";
 import CartRow from "../cart-row-view";
 import { paths } from "@/layouts/paths";
 import OrderSummery from "@/sections/cart/common/order-summary";
+import { useAppSelector } from "@/redux/hooks";
 
 const CartedProductListView = () => {
   const breadcrumbItems = [
     { id: 1, name: "Home", url: "/" },
     { id: 2, name: "Cart", url: "/cart" },
   ];
+
+  const { cartItems } = useAppSelector((state) => state.cart);
 
   return (
     <div className="bg-gray-100">
@@ -20,9 +23,13 @@ const CartedProductListView = () => {
 
         <div className="flex flex-col lg:flex-row">
           <div className="w-full lg:w-[60%] xl:w-[55%]">
-            {[1, 2, 3, 5, 5].map((item, index) => (
-              <CartRow key={index} />
-            ))}
+            {cartItems.length === 0 ? (
+              <div></div>
+            ) : (
+              cartItems.map((item, index) => (
+                <CartRow key={index} item={item} />
+              ))
+            )}
           </div>
           <div className="border-t lg:border-t-0 lg:border-l border-slate-200  my-10 lg:my-0 lg:mx-11 flex-shrink-0"></div>
 

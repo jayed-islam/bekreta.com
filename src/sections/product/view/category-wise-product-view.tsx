@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { useCallback, useEffect, useState } from "react";
 import PageHeader from "@/components/common/page-header";
 import ProductsSceleton from "@/components/skeleton/product-skeleton";
 
@@ -9,14 +8,19 @@ import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import LeftSideFilter from "../common/left-side-filtered-section";
 import { useSearchParams } from "next/navigation";
 import { IProductFilters, IProductItem } from "@/types/products";
-import { availabilities } from "@/utils/products";
 import NoDataFoundView from "@/components/no-data/no-data-view";
 import ProductCard from "@/layouts/common/product/product-card";
 import useBoolean from "@/hooks/use-boolean";
 import { useGetProductsQuery } from "@/redux/reducers/product/productApi";
 import useDebounce from "@/hooks/use-debounce";
+import { useRouter } from "next/navigation";
 
 interface CategoryWiseProductProps {}
+
+interface QueryParams {
+  category: string | null;
+  searchTerm: string | null;
+}
 
 const defaultFilters: IProductFilters = {
   category: "",
@@ -32,19 +36,69 @@ const CategoryWiseProductFilterView: React.FC<
   const filterSidebar = useBoolean();
   const [filters, setFilters] = useState(defaultFilters);
   const [values, setValues] = useState<[number, number]>([5, 2001]);
+  const [queries, setQueries] = useState<QueryParams>({
+    category: null,
+    searchTerm: null,
+  });
   const [count, setCount] = useState<number>(0);
   const [page, setPage] = useState<number>(0);
   const [size, setSize] = useState<number>(5);
   const [sortId, setSortId] = useState<number>(1);
-  const pages: number = Math.ceil(count / size);
 
-  const searchParams: any = useSearchParams();
-  const categoryId: string | null = searchParams.get("category");
-  const searchQuery: string | null = searchParams.get("search");
+  // const searchParams: any = useSearchParams();
+  // const categoryId: string | null = searchParams.get("category");
+  // const searchQuery: string | null = searchParams.get("search");
 
-  console.log(searchQuery);
+  // useEffect(() => {
+  //   const urlParams = new URLSearchParams(window.location.search);
+  //   const queryParamCategory = urlParams.get("category");
+  //   const queryParamSearch = urlParams.get("search");
+  //   setQueries((prev) => ({
+  //     ...prev,
+  //     category: queryParamCategory,
+  //     searchTerm: queryParamSearch,
+  //   }));
+  // }, []);
+
+  const searchParams = useSearchParams();
+  const categoryId = searchParams.get("category");
+  const searchQuery = searchParams.get("search");
+
+  useEffect(() => {
+    // setQueries({
+    //   category: categoryId,
+    //   searchTerm: searchQuery,
+    // });
+    setFilters((prev) => ({
+      ...prev,
+      category: categoryId as string,
+      searchTerm: searchQuery as string,
+    }));
+  }, [categoryId, searchQuery]);
+
+  console.log("query", queries);
+
+  console.log("query", queries);
+  // console.log("search", search);
 
   const fakeArray: number[] = Array.from({ length: 12 });
+
+  // const handleFilters = useCallback(
+  //   (name: string, value: string | number | string[]) => {
+  //     setFilters((prev) => {
+  //       if (name === "status") {
+  //         const newStatus = Array.isArray(value) ? value : [value];
+  //         return { ...prev, status: newStatus } as IProductFilters;
+  //       } else {
+  //         if (name === "category") {
+  //           return { ...prev, [name]: value } as IProductFilters;
+  //         }
+  //         return { ...prev, [name]: value } as IProductFilters;
+  //       }
+  //     });
+  //   },
+  //   []
+  // );
 
   const handleFilters = useCallback(
     (name: string, value: string | number | string[]) => {
@@ -52,6 +106,8 @@ const CategoryWiseProductFilterView: React.FC<
         if (name === "status") {
           const newStatus = Array.isArray(value) ? value : [value];
           return { ...prev, status: newStatus } as IProductFilters;
+        } else if (name === "category") {
+          return { ...defaultFilters, category: value } as IProductFilters;
         } else {
           return { ...prev, [name]: value } as IProductFilters;
         }
@@ -78,12 +134,12 @@ const CategoryWiseProductFilterView: React.FC<
   const debouncedFilters = useDebounce(filters, 1000);
 
   const { data, isFetching } = useGetProductsQuery({
-    category: categoryId ? categoryId : "",
+    category: filters.category ? filters.category : "",
     limit: 25,
     minPrice: debouncedFilters.minPrice,
     maxPrice: debouncedFilters.maxPrice,
     status: filters.status.length > 0 ? filters.status : [],
-    searchTerm: searchQuery ? searchQuery.trim() : "",
+    searchTerm: filters.searchTerm ? filters.searchTerm : "",
   });
 
   const breadcrumbItems = [

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Tooltip } from "@mui/material";
 import { actionButtonsInfo } from "@/constants";
 import { useAppDispatch } from "@/redux/hooks";
-import { openCartDrawer } from "@/redux/reducers/cart/cartSlice";
+import { addToCart, openCartDrawer } from "@/redux/reducers/cart/cartSlice";
 import { IProduct } from "@/types/products";
 import { paths } from "@/layouts/paths";
 
@@ -20,11 +20,27 @@ const ProductCard = ({
   className,
   size = "lg",
 }: IProductCardProps) => {
-  const { name, images, price, _id, discount } = product;
+  const { name, images, price, _id, discount, status } = product;
   const [isLoading, setLoading] = useState(false);
+
   const dispatch = useAppDispatch();
 
+  const handleAddToCart = () => {
+    const { _id, name, images, price, category } = product;
+    dispatch(
+      addToCart({
+        productId: _id,
+        name,
+        image: images[0],
+        price,
+        category,
+        quantity: 1,
+      })
+    );
+  };
+
   const handleOpen = () => {
+    handleAddToCart();
     dispatch(openCartDrawer());
   };
 
@@ -53,7 +69,7 @@ const ProductCard = ({
         ))}
       </div>
       <div
-        className={`w-full h-44 border-b overflow-hidden ${
+        className={`relative w-full h-44 border-b overflow-hidden ${
           size === "sm" ? "h-44" : "h-44 md:h-64"
         }`}
       >
@@ -63,6 +79,12 @@ const ProductCard = ({
             src={images[0]}
           />
         </Link>
+
+        {status === "OUT_OF_STOCK" && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-t-2xl">
+            <span className="text-white font-bold text-lg">OUT OF STOCK</span>
+          </div>
+        )}
       </div>
       {discount.isDiscount && (
         <div className="hidden rounded-full md:flex items-center justify-center absolute top-2 left-2 px-2.5 py-1.5 text-xs bg-green-500 text-white">
@@ -90,8 +112,10 @@ const ProductCard = ({
         <div className={`pt-2 pb-2 `}>
           <Link href={`${paths.product.root}/${_id}`}>
             <h2
-              className={`font-bold hover:text-green-500 transition-all duration-300 ease-in leading-5 line-clamp-2 overflow-ellipsis ${
-                size === "sm" ? "text-sm" : "text-sm md:text-lg"
+              className={`font-bold hover:text-green-500 transition-all duration-300 ease-in leading-5 line-clamp-2 overflow-ellipsis  ${
+                size === "sm"
+                  ? "text-sm h-9"
+                  : "text-sm md:text-lg h-9 md:h-[4rem]"
               }`}
             >
               {name}
@@ -112,9 +136,23 @@ const ProductCard = ({
               ৳ {price}
             </h3>
           </div>
-          <button
+          {/* <button
+            disabled={status === "OUT_OF_STOCK"}
             onClick={handleOpen}
             className={`bg-green-500 hover:bg-green-600 transition-all duration-200 text-center w-full rounded-lg font-semibold text-white mt-2 ${
+              size === "sm" ? "text-sm py-1" : "text-md py-1 sm:py-2"
+            }`}
+          >
+            Quick Add
+          </button> */}
+          <button
+            disabled={status === "OUT_OF_STOCK"}
+            onClick={handleOpen}
+            className={`${
+              status === "OUT_OF_STOCK"
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-green-500 hover:bg-green-600"
+            } transition-all duration-200 text-center w-full rounded-lg font-semibold text-white mt-2 ${
               size === "sm" ? "text-sm py-1" : "text-md py-1 sm:py-2"
             }`}
           >

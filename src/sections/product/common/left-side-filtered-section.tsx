@@ -1,4 +1,6 @@
 import { availabilities } from "@/constants";
+import { scrollToTop } from "@/hooks/use-clicktoTop";
+import { useAppSelector } from "@/redux/hooks";
 import { IProductFilters, ProductStatus } from "@/types/products";
 import React, { useCallback } from "react";
 import { Range, getTrackBackground } from "react-range";
@@ -7,7 +9,6 @@ interface LeftSideFilterProps {
   filters: IProductFilters;
   values: [number, number];
   setValues: React.Dispatch<React.SetStateAction<[number, number]>>;
-  // onFilters: (name: string, value: string | number) => void;
   onFilters: (name: string, value: string | number | string[]) => void;
 }
 
@@ -17,6 +18,7 @@ const LeftSideFilter: React.FC<LeftSideFilterProps> = ({
   onFilters,
   filters,
 }) => {
+  const { categories } = useAppSelector((state) => state.category);
   const handleFilterChange = useCallback(
     (name: string, event: React.ChangeEvent<HTMLInputElement>) => {
       const value = Number(event.target.value);
@@ -54,6 +56,15 @@ const LeftSideFilter: React.FC<LeftSideFilterProps> = ({
       onFilters("maxPrice", values[1]);
     },
     [setValues, onFilters]
+  );
+
+  const handleCategoryChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value;
+      onFilters("category", value);
+      scrollToTop();
+    },
+    [onFilters]
   );
 
   return (
@@ -169,7 +180,7 @@ const LeftSideFilter: React.FC<LeftSideFilterProps> = ({
           </div>
         </div>
       </div>
-      <div className="bg-white w-full rounded-lg shadow-sm mt-2">
+      <div className="bg-white w-full rounded-lg shadow-sm mt-3">
         <h3 className="text-md font-semibold px-5 py-3 border-b">
           Availability
         </h3>
@@ -199,31 +210,34 @@ const LeftSideFilter: React.FC<LeftSideFilterProps> = ({
           ))}
         </div>
       </div>
-
-      <div className="bg-white w-full rounded-lg shadow-sm mt-2">
-        <h3 className="text-md font-semibold px-5 py-3 border-b">Brands</h3>
+      <div className="bg-white w-full rounded-lg shadow-sm mt-3">
+        <h3 className="text-md font-semibold px-5 py-3 border-b">Categories</h3>
 
         <div className="flex flex-col px-5 py-6 space-y-5">
-          {/* {uniqueBrandNames.map((brandName, index) => (
+          {categories.map((category) => (
             <div
-              key={index}
+              key={category.name}
               className="flex text-sm sm:text-base items-center cursor-pointer"
             >
               <input
-                id={brandName}
+                id={category.name}
+                name="category"
+                value={category.name}
                 className="focus:ring-action-primary text-primary-500 rounded border-slate-400 hover:border-slate-700 bg-transparent focus:ring-primary-500 w-4 h-4 cursor-pointer"
-                type="checkbox"
-                checked={selectedBrands.includes(brandName)}
-                onChange={() => handleBrandChange(brandName)}
+                type="radio"
+                onChange={handleCategoryChange}
+                checked={filters.category === category.name}
               />
               <label
-                htmlFor={brandName}
+                htmlFor={category.name}
                 className="pl-2.5 sm:pl-3.5 flex flex-col flex-1 justify-center select-none"
               >
-                <span className="text-slate-900 font-medium">{brandName}</span>
+                <span className="text-slate-900 font-medium">
+                  {category.name}
+                </span>
               </label>
             </div>
-          ))} */}
+          ))}
         </div>
       </div>
     </div>

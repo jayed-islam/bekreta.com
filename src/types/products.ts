@@ -31,6 +31,7 @@ export interface IProduct {
     percentage: number;
   };
   isFeatured: boolean;
+  status: "IN_STOCK" | "OUT_OF_STOCK" | "DISCOUNTED" | "FEATURED";
 }
 
 export interface IPagination {
