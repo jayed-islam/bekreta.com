@@ -3,16 +3,18 @@
 import useResponsive from "@/hooks/use-responsive";
 import { paths } from "@/layouts/paths";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import {
-  closeCartDrawer,
-  removeFromCart,
-  updateCartItemQuantity,
-} from "@/redux/reducers/cart/cartSlice";
+import { closeCartDrawer } from "@/redux/reducers/cart/cartSlice";
 import { Icon } from "@iconify-icon/react/dist/iconify.mjs";
 import { Box, Divider, Drawer, IconButton } from "@mui/material";
 import Link from "next/link";
 import React from "react";
 import ActionButton from "../buttons/action-button";
+import {
+  useRemoveFromCartMutation,
+  useUpdateCartItemQuantityMutation,
+} from "@/redux/reducers/cart/cartApi";
+import toast from "react-hot-toast";
+import { getProductStatus } from "@/sections/product/common/product-constants";
 
 const CartDrawer = () => {
   const { isCartDrawerOpen, cartItems } = useAppSelector((state) => state.cart);
@@ -22,11 +24,42 @@ const CartDrawer = () => {
   const handleClose = () => {
     dipatch(closeCartDrawer());
   };
-  const handleUpdateQuantity = (productId: string, increment: boolean) => {
-    dipatch(updateCartItemQuantity({ productId, increment }));
+
+  const [updateQuantity, { isLoading }] = useUpdateCartItemQuantityMutation();
+
+  const [removeFromCart, { isLoading: isRemoveItemLoading }] =
+    useRemoveFromCartMutation();
+  const handleUpdateQuantity = async (
+    productId: string,
+    action: "increase" | "decrease"
+  ) => {
+    try {
+      const res = await updateQuantity({ productId, action }).unwrap();
+      if (res.success) {
+        console.log(res.message);
+        toast.success(res.message);
+      } else {
+        toast.error(res.message);
+      }
+    } catch (err: any) {
+      console.log(err);
+      toast.error(err.data.message);
+    }
   };
-  const handleRemoveProduct = (productId: string) => {
-    dipatch(removeFromCart(productId));
+
+  const handleRemoveProduct = async (productId: string) => {
+    try {
+      const res = await removeFromCart(productId).unwrap();
+      if (res.success) {
+        console.log(res.message);
+        toast.success(res.message);
+      } else {
+        toast.error(res.message);
+      }
+    } catch (err: any) {
+      console.log(err);
+      toast.error(err.data.message);
+    }
   };
 
   return (
@@ -76,42 +109,47 @@ const CartDrawer = () => {
                     <div className="flex py-5 last:pb-0">
                       <div className="relative h-24 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
                         <img
-                          src={item.image}
+                          src={item.product.images[0]}
                           className="h-full w-full  object-cover"
                         />
                       </div>
                       <div className="ml-4 flex flex-1 flex-col">
                         <div>
-                          <div className="flex justify-between ">
+                          <div className="flex justify-between">
                             <div>
-                              <h3 className="text-base font-medium ">
+                              <h3 className="text-sm font-medium line-clamp-1 overflow-ellipsis">
                                 <Link
-                                  href={`${paths.product.root}/${item.productId}`}
+                                  href={`${paths.product.root}/${item.product._id}`}
                                 >
-                                  {item.name}
+                                  {item.product.name}
                                 </Link>
                               </h3>
                               <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                                <span>Natural</span>
+                                <span>{item.product.category}</span>
                                 <span className="mx-2 border-l border-slate-200 dark:border-slate-700 h-4"></span>
-                                <span>XL</span>
+                                <span>
+                                  {getProductStatus(item.product.status)}
+                                </span>
                               </p>
                             </div>
                             <div className="mt-0.5">
                               <div className="flex items-center border-2 border-green-500 rounded-lg py-1 px-2 md:py-1.5 md:px-2.5 text-sm font-medium">
                                 <span className="text-green-500 !leading-none">
-                                  ${item.price}
+                                  ${item.product.price}
                                 </span>
                               </div>
                             </div>
                           </div>
                         </div>
-                        <div className="flex flex-1 items-end justify-between text-sm">
+                        <div className="flex flex-1 items-end justify-between text-sm pb-2">
                           <div className="flex items-center justify-between w-[104px] sm:w-28">
                             <ActionButton
                               icon="ph:minus"
                               onClick={() =>
-                                handleUpdateQuantity(item.productId, false)
+                                handleUpdateQuantity(
+                                  item.product._id,
+                                  "decrease"
+                                )
                               }
                             />
                             <span className="select-none block flex-1 text-center leading-none">
@@ -120,14 +158,17 @@ const CartDrawer = () => {
                             <ActionButton
                               icon="ph:plus"
                               onClick={() =>
-                                handleUpdateQuantity(item.productId, true)
+                                handleUpdateQuantity(
+                                  item.product._id,
+                                  "increase"
+                                )
                               }
                             />
                           </div>
                           <div className="flex">
                             <button
                               onClick={() =>
-                                handleRemoveProduct(item.productId)
+                                handleRemoveProduct(item.product._id)
                               }
                               type="button"
                               className="text-green-600 font-semibold"

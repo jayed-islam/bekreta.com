@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import CheckoutProductRow from "../checkout-item-row";
 import OrderSummery from "../../cart/common/order-summary";
 import useLocationSelect from "@/hooks/use-location";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import divisions from "@/data/division";
 import { IDivision } from "@/types/address";
 import { addressData, addressOptions } from "@/constants";
@@ -17,8 +17,10 @@ import AddressCard from "../address-card";
 import { Button, Card, Grid } from "@mui/material";
 import { checkoutSchema } from "@/validations/checkout-validation-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import CheckoutInstantSignin from "../checkout-instant-signin";
 
 const CheckoutProudctView = () => {
+  const { cartItems } = useAppSelector((state) => state.cart);
   const methods = useForm({
     resolver: zodResolver(checkoutSchema),
   });
@@ -106,7 +108,10 @@ const CheckoutProudctView = () => {
         ) : (
           <div className="w-full max-w-6xl mx-auto">
             <FormProvider methods={methods} onSubmit={onSubmit}>
-              <div className="flex flex-col lg:flex-row md:px-5 lg:px-0 py-9 ">
+              <div className="pt-9">
+                <CheckoutInstantSignin />
+              </div>
+              <div className="flex flex-col lg:flex-row md:px-5 lg:px-0 py-9">
                 <div className="flex-1">
                   <Card className="flex-1 md:rounded-2xl p-5 h-min">
                     <h3 className="text-2xl font-semibold mb-7">
@@ -170,14 +175,14 @@ const CheckoutProudctView = () => {
                     onSubmit={() => {}}
                   />
 
-                  {/* <div className="bg-white md:rounded-2xl p-5 md:p-5 mt-5">
+                  <div className="bg-white md:rounded-2xl p-5 md:p-5 mt-5">
                     <h3 className="text-xl font-semibold pb-3">Your Basket</h3>
                     <div className="mt-5 flex flex-col gap-3 divide-slate-200/70">
                       {[1, 2, 3].map((items, i) => (
                         <CheckoutProductRow />
                       ))}
                     </div>
-                  </div> */}
+                  </div>
                 </div>
               </div>
             </FormProvider>

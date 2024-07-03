@@ -6,6 +6,7 @@ import CartRow from "../cart-row-view";
 import { paths } from "@/layouts/paths";
 import OrderSummery from "@/sections/cart/common/order-summary";
 import { useAppSelector } from "@/redux/hooks";
+import NoData from "@/layouts/common/no-data";
 
 const CartedProductListView = () => {
   const breadcrumbItems = [
@@ -24,7 +25,9 @@ const CartedProductListView = () => {
         <div className="flex flex-col lg:flex-row">
           <div className="w-full lg:w-[60%] xl:w-[55%]">
             {cartItems.length === 0 ? (
-              <div></div>
+              <div>
+                <NoData message="No cart item found. Try to add some product in your cart and make order." />
+              </div>
             ) : (
               cartItems.map((item, index) => (
                 <CartRow key={index} item={item} />

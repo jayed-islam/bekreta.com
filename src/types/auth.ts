@@ -46,3 +46,9 @@ export interface IRegisterResponse {
   message: string;
   data: RegisterData;
 }
+
+export interface IGetMeResponse {
+  success: boolean;
+  message: string;
+  data: IUser;
+}

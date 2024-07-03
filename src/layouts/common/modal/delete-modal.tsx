@@ -1,13 +1,37 @@
+import { useAppDispatch } from "@/redux/hooks";
+import { useRemoveFromCartMutation } from "@/redux/reducers/cart/cartApi";
 import { BooleanState } from "@/types/utils";
 import { Dialog, Transition } from "@headlessui/react";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import { Fragment, useContext, useState } from "react";
+import toast from "react-hot-toast";
 
 interface ICartDialogProps {
   dialog: BooleanState;
+  productId: string;
 }
 
-const DeleteConformationModal = ({ dialog }: ICartDialogProps) => {
+const DeleteConformationModal = ({ dialog, productId }: ICartDialogProps) => {
+  const dispatch = useAppDispatch();
+
+  const [removeFromCart, { isLoading: isRemoveItemLoading }] =
+    useRemoveFromCartMutation();
+
+  const handleRemoveProduct = async (productId: string) => {
+    try {
+      const res = await removeFromCart(productId).unwrap();
+      if (res.success) {
+        console.log(res.message);
+        toast.success(res.message);
+      } else {
+        toast.error(res.message);
+      }
+    } catch (err: any) {
+      console.log(err);
+      toast.error(err.data.message);
+    }
+  };
+
   return (
     <>
       <Transition appear show={dialog.value} as={Fragment}>
@@ -59,7 +83,7 @@ const DeleteConformationModal = ({ dialog }: ICartDialogProps) => {
                   </button>
                   <div className=" bg-white flex flex-col items-start justify-center">
                     <h3 className="text-sm pt-2 pb-6">
-                      Item(s) will be removed from order
+                      Item(s) will be removed from cart
                     </h3>
                     <div className="flex items-center gap-2 justify-end w-full">
                       <div
@@ -68,9 +92,12 @@ const DeleteConformationModal = ({ dialog }: ICartDialogProps) => {
                       >
                         <p>CANCEL</p>
                       </div>
-                      <div className="px-5 text-sm rounded-3xl bg-cyan-300 hover:bg-cyan-400 transition-all duration-300 text-white flex items-center justify-center h-9 border border-transparent cursor-pointer">
+                      <button
+                        className="px-5 text-sm rounded-3xl bg-cyan-300 hover:bg-cyan-400 transition-all duration-300 text-white flex items-center justify-center h-9 border border-transparent cursor-pointer"
+                        onClick={() => handleRemoveProduct(productId)}
+                      >
                         <p>REMOVE</p>
-                      </div>
+                      </button>
                     </div>
                   </div>
                 </Dialog.Panel>

@@ -1,4 +1,12 @@
 import { paths } from "@/layouts/paths";
+import { useAppSelector } from "@/redux/hooks";
+import {
+  selectCartSubtotal,
+  selectCartTotalItems,
+  selectCartTotalPrice,
+  selectDeliveryCharge,
+} from "@/redux/reducers/cart/cartSlice";
+import { RootState } from "@/redux/store";
 import { Icon } from "@iconify-icon/react/dist/iconify.mjs";
 import { Button } from "@mui/material";
 import Link from "next/link";
@@ -11,6 +19,18 @@ interface Props {
 }
 
 const OrderSummery = ({ buttonTitle, isSubmit = false, onSubmit }: Props) => {
+  const subtotal = useAppSelector((state: RootState) =>
+    selectCartSubtotal(state)
+  );
+  const deliveryCharge = useAppSelector((state: RootState) =>
+    selectDeliveryCharge(state)
+  );
+  const totalPrice = useAppSelector((state: RootState) =>
+    selectCartTotalPrice(state)
+  );
+  const totalItems = useAppSelector((state: RootState) =>
+    selectCartTotalItems(state)
+  );
   return (
     <div
       className={`flex-1 px-5 py-5 md:rounded-2xl  bg-white h-min border ${
@@ -23,20 +43,22 @@ const OrderSummery = ({ buttonTitle, isSubmit = false, onSubmit }: Props) => {
         </div>
         <div className="mt-7 text-sm text-slate-500 divide-y divide-slate-200/70 ">
           <div className="flex justify-between pb-4">
-            <span>Subtotal</span>
-            <span className="font-semibold text-slate-900 text-lg">$500</span>
+            <span>Subtotal Items({totalItems})</span>
+            <span className="font-semibold text-slate-900 text-lg">
+              ৳{subtotal.toFixed(2)}
+            </span>
           </div>
           <div className="flex justify-between py-4">
-            <span>Shipping estimate</span>
-            <span className="font-semibold text-slate-900 text-lg">$50</span>
-          </div>
-          <div className="flex justify-between py-4">
-            <span>Tax estimate</span>
-            <span className="font-semibold text-slate-900 text-lg">$20</span>
+            <span>Delivery Charge (Inside Dhaka)</span>
+            <span className="font-semibold text-slate-900 text-lg">
+              ৳{deliveryCharge}
+            </span>
           </div>
           <div className="flex justify-between font-semibold text-slate-900  text-base pt-4">
             <span>Order total</span>
-            <span className="text-xl  text-green-700">$570</span>
+            <span className="text-xl  text-green-700">
+              ৳{totalPrice.toFixed(2)}
+            </span>
           </div>
         </div>
         {isSubmit ? (

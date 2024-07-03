@@ -210,13 +210,13 @@ const actionButtonsInfo = [
     },
     title: "View Detail",
   },
-  {
-    icon: "solar:bag-4-linear",
-    action: () => {
-      console.log("action, view");
-    },
-    title: "Add to cart",
-  },
+  // {
+  //   icon: "solar:bag-4-linear",
+  //   action: () => {
+  //     console.log("action, view");
+  //   },
+  //   title: "Add to cart",
+  // },
 ];
 
 const addressOptions = [

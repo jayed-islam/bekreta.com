@@ -3,36 +3,49 @@ import { features, socialInfo } from "@/constants";
 import useBoolean from "@/hooks/use-boolean";
 import ActionButton from "@/layouts/common/buttons/action-button";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { addToCart, openCartDrawer } from "@/redux/reducers/cart/cartSlice";
-import { IProduct, IProductItem } from "@/types/products";
+import { openCartDrawer } from "@/redux/reducers/cart/cartSlice";
+import { IProduct } from "@/types/products";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import React, { useState } from "react";
 import { getProductStatus, getStatusStyles } from "./common/product-constants";
+import { useAddToCartMutation } from "@/redux/reducers/cart/cartApi";
+import toast from "react-hot-toast";
+import SmallLoader from "@/components/loader/small-loader";
 
 type TMiddleDescriptionProps = {
   product: IProduct;
 };
 
 const MiddleProductDescription = ({ product }: TMiddleDescriptionProps) => {
-  const { isCartDrawerOpen } = useAppSelector((state) => state.cart);
+  const { user } = useAppSelector((state) => state.auth);
+
   const sidebar = useBoolean();
+
   const { name, price, category, about, specifications, status } = product;
 
   const [quantity, setQuantity] = useState(1);
   const dispatch = useAppDispatch();
 
-  const handleAddToCart = () => {
-    const { _id, name, images, price, category } = product;
-    dispatch(
-      addToCart({
-        productId: _id,
-        name,
-        image: images[0],
-        price,
-        category,
-        quantity,
-      })
-    );
+  const [addToCart, { isLoading }] = useAddToCartMutation();
+
+  const handleAddToCart = async () => {
+    try {
+      const res = await addToCart({
+        item: {
+          product: product._id,
+          quantity,
+        },
+      }).unwrap();
+
+      if (res.success) {
+        toast.success(res.message);
+        dispatch(openCartDrawer());
+      } else {
+        toast.error(res.message);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleIncrease = () => {
@@ -49,6 +62,7 @@ const MiddleProductDescription = ({ product }: TMiddleDescriptionProps) => {
     handleAddToCart();
     dispatch(openCartDrawer());
   };
+
   return (
     <div className='className="w-full px-3 flex-1 mt-7 md:mt-0 lg:pl-7 xl:pl-9 2xl:pl-10"'>
       <div>
@@ -131,14 +145,18 @@ const MiddleProductDescription = ({ product }: TMiddleDescriptionProps) => {
         </div>
         <button
           disabled={status === "OUT_OF_STOCK"}
-          onClick={handeAddToCartMain}
+          onClick={handleAddToCart}
           className={`w-full relative flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium px-4 sm:px-6 bg-gray-800 text-white hover:bg-gray-900 shadow-xl flex-1 h-13 ${
             status === "OUT_OF_STOCK"
               ? "bg-gray-300 text-gray-500 cursor-not-allowed"
               : ""
           }`}
         >
-          <Icon icon="iconamoon:shopping-bag-light" className="text-xl" />
+          {isLoading ? (
+            <SmallLoader />
+          ) : (
+            <Icon icon="iconamoon:shopping-bag-light" className="text-xl" />
+          )}
           <span className="ml-3">Add to cart</span>
         </button>
       </div>

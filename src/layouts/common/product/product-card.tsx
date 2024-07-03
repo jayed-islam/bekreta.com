@@ -5,9 +5,11 @@ import Link from "next/link";
 import { Tooltip } from "@mui/material";
 import { actionButtonsInfo } from "@/constants";
 import { useAppDispatch } from "@/redux/hooks";
-import { addToCart, openCartDrawer } from "@/redux/reducers/cart/cartSlice";
+import { openCartDrawer } from "@/redux/reducers/cart/cartSlice";
 import { IProduct } from "@/types/products";
 import { paths } from "@/layouts/paths";
+import { useAddToCartMutation } from "@/redux/reducers/cart/cartApi";
+import toast from "react-hot-toast";
 
 interface IProductCardProps {
   product: IProduct;
@@ -21,27 +23,31 @@ const ProductCard = ({
   size = "lg",
 }: IProductCardProps) => {
   const { name, images, price, _id, discount, status } = product;
-  const [isLoading, setLoading] = useState(false);
+
+  const isOutOfStock = product.status === "OUT_OF_STOCK";
 
   const dispatch = useAppDispatch();
 
-  const handleAddToCart = () => {
-    const { _id, name, images, price, category } = product;
-    dispatch(
-      addToCart({
-        productId: _id,
-        name,
-        image: images[0],
-        price,
-        category,
-        quantity: 1,
-      })
-    );
-  };
+  const [addToCart, { isLoading }] = useAddToCartMutation();
 
-  const handleOpen = () => {
-    handleAddToCart();
-    dispatch(openCartDrawer());
+  const handleAddToCart = async () => {
+    try {
+      const res = await addToCart({
+        item: {
+          product: product._id,
+          quantity: 1,
+        },
+      }).unwrap();
+
+      if (res.success) {
+        toast.success(res.message);
+        dispatch(openCartDrawer());
+      } else {
+        toast.error(res.message);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -121,31 +127,35 @@ const ProductCard = ({
               {name}
             </h2>
           </Link>
-          <div className="flex items-center justify-between">
-            <div className="sm:flex items-center hidden">
-              {[1, 2, 3].map((i) => (
-                <Icon icon="noto:star" className="text-md" />
-              ))}
-              <Icon
-                icon="clarity:half-star-solid"
-                className="text-gray-400 text-md"
-              />
-              <p className="text-xs text-gray-500 pl-1">(5)</p>
-            </div>
+          <div className="sm:flex items-center hidden mt-2">
+            {[1, 2, 3].map((i) => (
+              <Icon icon="noto:star" className="text-md" />
+            ))}
+            <Icon
+              icon="clarity:half-star-solid"
+              className="text-gray-400 text-md"
+            />
+            <p className="text-xs text-gray-500 pl-1">(5)</p>
+          </div>
+          <div className="flex items-center justify-between w-full">
             <h3 className="text-green-500 text-lg sm:text-[19px] font-bold">
               ৳ {price}
             </h3>
+            <Tooltip title="Add to cart">
+              <button
+                disabled={isOutOfStock}
+                className={`h-9 w-9 transition-all duration-200 rounded-full flex items-center justify-center ${
+                  isOutOfStock
+                    ? "bg-gray-300 text-gray-500"
+                    : "bg-gray-200 hover:bg-green-600 hover:text-white"
+                }`}
+                onClick={handleAddToCart}
+              >
+                <Icon icon="solar:bag-4-linear" className="text-xl" />
+              </button>
+            </Tooltip>
           </div>
           {/* <button
-            disabled={status === "OUT_OF_STOCK"}
-            onClick={handleOpen}
-            className={`bg-green-500 hover:bg-green-600 transition-all duration-200 text-center w-full rounded-lg font-semibold text-white mt-2 ${
-              size === "sm" ? "text-sm py-1" : "text-md py-1 sm:py-2"
-            }`}
-          >
-            Quick Add
-          </button> */}
-          <button
             disabled={status === "OUT_OF_STOCK"}
             onClick={handleOpen}
             className={`${
@@ -157,7 +167,7 @@ const ProductCard = ({
             }`}
           >
             Quick Add
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

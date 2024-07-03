@@ -18,7 +18,7 @@ export const getProductStatus = (status: ProductStatus) => {
 export const getStatusStyles = (status: ProductStatus) => {
   switch (status) {
     case "IN_STOCK":
-      return "bg-green-100 text-green-800 border-green-500";
+      return "bg-green-500 text-green-800 border-green-500";
     case "OUT_OF_STOCK":
       return "bg-red-100 text-red-800 border-red-500";
     case "DISCOUNTED":

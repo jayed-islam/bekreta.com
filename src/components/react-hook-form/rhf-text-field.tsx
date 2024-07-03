@@ -1,4 +1,5 @@
-import { TextField, TextFieldProps } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { IconButton, TextField, TextFieldProps } from "@mui/material";
 import React from "react";
 import { useFormContext, Controller } from "react-hook-form";
 
@@ -24,6 +25,11 @@ const RHFTextField: React.FC<Props> = ({
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
   return (
     <Controller
       name={name}
@@ -32,7 +38,7 @@ const RHFTextField: React.FC<Props> = ({
         <TextField
           variant="outlined"
           {...field}
-          type={type}
+          type={showPassword ? "text" : type}
           value={type === "number" && field.value === 0 ? "" : field.value}
           fullWidth
           onChange={(event) => {
@@ -49,6 +55,22 @@ const RHFTextField: React.FC<Props> = ({
           error={!!error}
           helperText={error ? error.message : helperText}
           {...others}
+          InputProps={
+            type === "password"
+              ? {
+                  endAdornment: (
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  ),
+                }
+              : undefined
+          }
         />
       )}
     />

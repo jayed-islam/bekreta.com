@@ -3,26 +3,67 @@
 import { RHFTextField } from "@/components/react-hook-form";
 import FormProvider from "@/components/react-hook-form/hook-form-controller";
 import { paths } from "@/layouts/paths";
+import { useRegisterMutation } from "@/redux/reducers/auth/authApi";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { AuthFormValues, authValidationSchema } from "./auth-validation";
+import { Alert, AlertTitle } from "@mui/material";
+import { useAppSelector } from "@/redux/hooks";
+import { useRouter } from "next/navigation";
 
 const SignUpView = () => {
-  const methods = useForm();
+  const methods = useForm<AuthFormValues>({
+    resolver: zodResolver(authValidationSchema),
+  });
+
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
+
+  const router = useRouter();
 
   const {
     handleSubmit,
     formState: { errors },
   } = methods;
 
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const [createUser, { isLoading }] = useRegisterMutation();
+
   const onSubmit = handleSubmit(async (data) => {
     try {
-    } catch (error) {
+      const response = await createUser(data).unwrap();
+      if (response.success) {
+        toast.success(response.message);
+        setErrorMessage(null);
+      } else {
+        toast.error(response.message);
+        setErrorMessage(response.message);
+      }
+    } catch (error: any) {
       console.error("Error submitting form:", error);
+      toast.error(error.data.message);
+      setErrorMessage(error.data.message);
     }
   });
+
+  useEffect(() => {
+    if (errorMessage) {
+      const timer = setTimeout(() => {
+        setErrorMessage(null);
+      }, 11000);
+      return () => clearTimeout(timer);
+    }
+  }, [errorMessage]);
+
+  if (isAuthenticated) {
+    router.replace(paths.root);
+  }
+
   return (
-    <div className="bg-gray-100 h-screen flex items-center justify-center w-full">
+    <div className="bg-gray-100 flex items-center justify-center w-full py-16 md:py-20 lg:py-28">
       <div className="w-full max-w-[25rem] rounded-xl bg-white shadow-xl p-7">
         <FormProvider methods={methods} onSubmit={onSubmit}>
           <h1 className="mt-3 text-2xl font-semibold capitalize sm:text-3xl">
@@ -32,6 +73,12 @@ const SignUpView = () => {
           <h3 className="text-sm pt-1">
             Enter your email and password to Sign Up.
           </h3>
+
+          {errorMessage && (
+            <Alert severity="error" sx={{ mt: 3 }}>
+              {errorMessage}
+            </Alert>
+          )}
 
           <div className="w-full mt-8">
             {/* <h2 className="text-md font-bold">Your Email</h2> */}
@@ -80,7 +127,7 @@ const SignUpView = () => {
 
             <div className="mt-6 text-center ">
               <Link
-                href={paths.website.signup}
+                href={paths.website.signin}
                 className="text-sm text-green-500 hover:underline"
               >
                 Already have an account yet? Sign in

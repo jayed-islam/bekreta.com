@@ -79,7 +79,7 @@ const CheckoutProductRow = () => {
           </button>
         </div>
       </div>
-      <DeleteConformationModal dialog={dialog} />
+      <DeleteConformationModal dialog={dialog} productId="" />
     </div>
   );
 };
