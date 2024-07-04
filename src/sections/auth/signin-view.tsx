@@ -3,20 +3,16 @@
 import { RHFTextField } from "@/components/react-hook-form";
 import FormProvider from "@/components/react-hook-form/hook-form-controller";
 import { paths } from "@/layouts/paths";
-import {
-  useLoginMutation,
-  useRegisterMutation,
-} from "@/redux/reducers/auth/authApi";
+import { useLoginMutation } from "@/redux/reducers/auth/authApi";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { AuthFormValues, authValidationSchema } from "./auth-validation";
 import toast from "react-hot-toast";
 import { Alert } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 import { setToken } from "@/redux/reducers/auth/authSlice";
 
 const SignInView = () => {
@@ -25,12 +21,7 @@ const SignInView = () => {
   });
   const dispatch = useAppDispatch();
 
-  const searchParams = useSearchParams();
-
-  const returnTo = searchParams.get("returnTo");
-
   const router = useRouter();
-  const { isAuthenticated } = useAppSelector((state) => state.auth);
 
   const {
     handleSubmit,
@@ -41,14 +32,21 @@ const SignInView = () => {
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  const redirectPath =
+    new URLSearchParams(window.location.search).get("redirect") || "/";
+
+  console.log("path", redirectPath);
+
   const onSubmit = handleSubmit(async (data) => {
     try {
       const response = await loginUser(data).unwrap();
       if (response.success) {
         toast.success(response.message);
         dispatch(setToken(response?.data?.accessToken));
-        const href = returnTo || "/";
-        router.push(href);
+        const redirectPath =
+          new URLSearchParams(window.location.search).get("redirect") || "/";
+        console.log("path", redirectPath);
+        router.push(redirectPath);
       } else {
         toast.error(response.message);
         setErrorMessage(response.message);
@@ -73,14 +71,14 @@ const SignInView = () => {
   // if (isAuthenticated) {
   //   router.replace(paths.root);
   // }
-  if (typeof window === "object") {
-    if (localStorage?.getItem("accessToken")) {
-      router.push(returnTo || "/");
-      // router.replace(paths.root);
-      // eslint-disable-next-line react/jsx-no-useless-fragment
-      return <></>;
-    }
-  }
+  // if (typeof window === "object") {
+  //   if (localStorage?.getItem("accessToken")) {
+  //     router.push(returnTo || "/");
+  //     // router.replace(paths.root);
+  //     // eslint-disable-next-line react/jsx-no-useless-fragment
+  //     return <></>;
+  //   }
+  // }
 
   return (
     <div className="bg-gray-100 py-16 md:py-20 lg:py-28 flex items-center justify-center w-full">

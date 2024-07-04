@@ -12,6 +12,7 @@ export interface IUser {
   _id: string;
   email: string;
   role: string;
+  name: string;
   addresses: any[];
   isDeleted: boolean;
   createdAt: string;

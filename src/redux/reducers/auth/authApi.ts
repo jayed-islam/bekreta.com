@@ -17,6 +17,7 @@ export const authApi = api.injectEndpoints({
         method: "POST",
         body: credentials,
       }),
+      invalidatesTags: ["user-me"],
     }),
     register: builder.mutation<IRegisterResponse, RegisterRequest>({
       query: (userDetails) => ({
@@ -24,6 +25,7 @@ export const authApi = api.injectEndpoints({
         method: "POST",
         body: userDetails,
       }),
+      invalidatesTags: ["user-me"],
     }),
     getMe: builder.query<IGetMeResponse, void>({
       query: () => ({

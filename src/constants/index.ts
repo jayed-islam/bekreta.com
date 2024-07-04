@@ -196,13 +196,13 @@ const profileInfo = [
 ];
 
 const actionButtonsInfo = [
-  {
-    icon: "ph:heart-light",
-    action: () => {
-      console.log("action, wishlist");
-    },
-    title: "Add to wishlist",
-  },
+  // {
+  //   icon: "ph:heart-light",
+  //   action: () => {
+  //     console.log("action, wishlist");
+  //   },
+  //   title: "Add to wishlist",
+  // },
   {
     icon: "carbon:view",
     action: () => {

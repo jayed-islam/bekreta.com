@@ -4,8 +4,14 @@ import React from "react";
 import { Fragment } from "react";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import { profileInfo } from "@/constants";
+import { useAppDispatch } from "@/redux/hooks";
+import { logout } from "@/redux/reducers/auth/authSlice";
 
 const ProfilePopover = () => {
+  const dispatch = useAppDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+  };
   return (
     <div className="">
       <Popover className="relative">
@@ -70,7 +76,10 @@ const ProfilePopover = () => {
 
                         <button
                           className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
-                          onClick={() => close()}
+                          onClick={() => {
+                            handleLogout();
+                            close();
+                          }}
                         >
                           <div className="flex items-center justify-center flex-shrink-0 text-neutral-500">
                             <Icon icon="solar:logout-2-outline" />

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IProduct, IProductItem } from "@/types/products";
 import RelatedProductsSection from "../product-details-related-product-view";
 import { queries } from "@/constants";
@@ -13,13 +13,15 @@ import ReviewSection from "../product-details-sections/review-section";
 import LeftSideImageView from "../left-side-image-view";
 import MiddleProductDescription from "../middle-product-description-view";
 import { useGetProductByIdQuery } from "@/redux/reducers/product/productApi";
+import { useAppDispatch } from "@/redux/hooks";
+import { addLastVisitedProduct } from "@/redux/reducers/product/productSlice";
 
 interface IProductDetailsProps {
   product?: IProductItem;
   id: string;
 }
 
-const ProductsDetailsView = ({ id }: IProductDetailsProps) => {
+const ProductsDetailsView = ({ id, product }: IProductDetailsProps) => {
   const [activeTab, setActiveTab] = useState("Description");
   const [relatedProducts, setRelatedProducts] = useState<IProductItem[]>([]);
 
@@ -27,6 +29,7 @@ const ProductsDetailsView = ({ id }: IProductDetailsProps) => {
 
   const questions = 0;
   const sidebar = useBoolean();
+  const dispatch = useAppDispatch();
 
   const handleClick = (label: string) => {
     setActiveTab(label);

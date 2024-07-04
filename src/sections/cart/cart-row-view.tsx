@@ -1,3 +1,4 @@
+import QuantityLoader from "@/components/loader/quantity-loder";
 import useBoolean from "@/hooks/use-boolean";
 import ActionButton from "@/layouts/common/buttons/action-button";
 import DeleteConformationModal from "@/layouts/common/modal/delete-modal";
@@ -8,7 +9,7 @@ import {
   useUpdateCartItemQuantityMutation,
 } from "@/redux/reducers/cart/cartApi";
 
-import { CartItem, IUserCartItem } from "@/types/cart";
+import { IUserCartItem } from "@/types/cart";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import Link from "next/link";
 import toast from "react-hot-toast";
@@ -17,13 +18,9 @@ interface Props {
   item: IUserCartItem;
 }
 const CartRow = ({ item }: Props) => {
-  const dispatch = useAppDispatch();
   const dialog = useBoolean();
 
   const [updateQuantity, { isLoading }] = useUpdateCartItemQuantityMutation();
-
-  const [removeFromCart, { isLoading: isRemoveItemLoading }] =
-    useRemoveFromCartMutation();
 
   const handleUpdateQuantity = async (
     productId: string,
@@ -31,21 +28,6 @@ const CartRow = ({ item }: Props) => {
   ) => {
     try {
       const res = await updateQuantity({ productId, action }).unwrap();
-      if (res.success) {
-        console.log(res.message);
-        toast.success(res.message);
-      } else {
-        toast.error(res.message);
-      }
-    } catch (err: any) {
-      console.log(err);
-      toast.error(err.data.message);
-    }
-  };
-
-  const handleRemoveProduct = async (productId: string) => {
-    try {
-      const res = await removeFromCart(productId).unwrap();
       if (res.success) {
         console.log(res.message);
         toast.success(res.message);
@@ -107,8 +89,8 @@ const CartRow = ({ item }: Props) => {
                           handleUpdateQuantity(item.product._id, "decrease")
                         }
                       />
-                      <span className="select-none block flex-1 text-center leading-none">
-                        {item.quantity}
+                      <span className="select-none  text-center leading-none">
+                        {isLoading ? <QuantityLoader /> : item.quantity}
                       </span>
 
                       <ActionButton
@@ -135,9 +117,9 @@ const CartRow = ({ item }: Props) => {
                         handleUpdateQuantity(item.product._id, "decrease")
                       }
                     />
-                    <span className="select-none block flex-1 text-center leading-none">
-                      {item.quantity}
-                    </span>
+                    <div className="select-none  text-center leading-none">
+                      {isLoading ? <QuantityLoader /> : item.quantity}
+                    </div>
                     <ActionButton
                       icon="ph:plus"
                       onClick={() =>

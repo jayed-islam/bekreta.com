@@ -4,6 +4,7 @@ import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import Link from "next/link";
 import ProductCardTimer from "@/components/timer/product-card-timer";
 import { IProduct } from "@/types/products";
+import { paths } from "@/layouts/paths";
 
 interface IProductCardProps {
   product: IProduct;
@@ -31,12 +32,12 @@ const BannerProductCard = ({
     //     console.log("action, compare");
     //   },
     // },
-    {
-      icon: "ph:heart-light",
-      action: () => {
-        console.log("action, wishlist");
-      },
-    },
+    // {
+    //   icon: "ph:heart-light",
+    //   action: () => {
+    //     console.log("action, wishlist");
+    //   },
+    // },
     {
       icon: "carbon:view",
       action: () => {
@@ -95,7 +96,7 @@ const BannerProductCard = ({
           <h2 className="font-semibold text-sm text-gray-600">
             {product.category}
           </h2>
-          <Link href="/">
+          <Link href={`${paths.product.root}/${_id}`}>
             <h2 className="text-lg  font-bold hover:text-green-500 transition-all duration-300 ease-in pb-2 leading-6 hidden sm:block ">
               {name}
             </h2>
@@ -109,12 +110,14 @@ const BannerProductCard = ({
                 ৳{price}
               </h3>
               <h3 className="text-gray-500 text-[15px] line-through price font-semibold">
-                ৳35.89
+                ৳{price}
               </h3>
             </div>
-            <div className="bg-gray-200 h-9 w-9 hover:bg-green-500 transition-all duration-200 rounded-full flex items-center justify-center hover:text-white">
-              <Icon icon="solar:bag-4-linear" className="text-xl" />
-            </div>
+            <Link href={`${paths.product.root}/${_id}`}>
+              <div className="bg-gray-200 h-9 w-9 hover:bg-green-500 transition-all duration-200 rounded-full flex items-center justify-center hover:text-white">
+                <Icon icon="solar:bag-4-linear" className="text-xl" />
+              </div>
+            </Link>
           </div>
           <div className="w-full mt-4">
             <h2 className="text-lg text-gray-600">Hurry Up Offer ends in:</h2>

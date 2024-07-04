@@ -12,17 +12,22 @@ import useLocationSelect from "@/hooks/use-location";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import divisions from "@/data/division";
 import { IDivision } from "@/types/address";
-import { addressData, addressOptions } from "@/constants";
-import AddressCard from "../address-card";
-import { Button, Card, Grid } from "@mui/material";
+import { addressData } from "@/constants";
+import { Card } from "@mui/material";
 import { checkoutSchema } from "@/validations/checkout-validation-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import CheckoutInstantSignin from "../checkout-instant-signin";
+import toast from "react-hot-toast";
 
 const CheckoutProudctView = () => {
   const { cartItems } = useAppSelector((state) => state.cart);
+  const { user } = useAppSelector((state) => state.auth);
+
   const methods = useForm({
     resolver: zodResolver(checkoutSchema),
+    defaultValues: {
+      name: user?.name,
+      email: user?.email,
+    },
   });
 
   const dispatch = useAppDispatch();
@@ -76,6 +81,10 @@ const CheckoutProudctView = () => {
   };
 
   const onSubmit = handleSubmit(async (data) => {
+    if (cartItems.length === 0) {
+      toast.error("Please add minimum 1 product for checkout");
+      return;
+    }
     const payload = {
       ...data,
       division: selectedDivisionName,
@@ -108,9 +117,9 @@ const CheckoutProudctView = () => {
         ) : (
           <div className="w-full max-w-6xl mx-auto">
             <FormProvider methods={methods} onSubmit={onSubmit}>
-              <div className="pt-9">
+              {/* <div className="pt-9">
                 <CheckoutInstantSignin />
-              </div>
+              </div> */}
               <div className="flex flex-col lg:flex-row md:px-5 lg:px-0 py-9">
                 <div className="flex-1">
                   <Card className="flex-1 md:rounded-2xl p-5 h-min">
@@ -119,7 +128,7 @@ const CheckoutProudctView = () => {
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                       <RHFTextField name="name" label="Name" />
-                      <RHFTextField name="email" label="Email" />
+                      <RHFTextField name="email" label="Email" disabled />
                       <RHFTextField name="phone" label="Phone" />
 
                       <RHFSelect
@@ -178,8 +187,8 @@ const CheckoutProudctView = () => {
                   <div className="bg-white md:rounded-2xl p-5 md:p-5 mt-5">
                     <h3 className="text-xl font-semibold pb-3">Your Basket</h3>
                     <div className="mt-5 flex flex-col gap-3 divide-slate-200/70">
-                      {[1, 2, 3].map((items, i) => (
-                        <CheckoutProductRow />
+                      {cartItems?.map((product, i) => (
+                        <CheckoutProductRow key={i} product={product} />
                       ))}
                     </div>
                   </div>

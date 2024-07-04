@@ -3,7 +3,10 @@
 import useResponsive from "@/hooks/use-responsive";
 import { paths } from "@/layouts/paths";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { closeCartDrawer } from "@/redux/reducers/cart/cartSlice";
+import {
+  closeCartDrawer,
+  selectCartSubtotal,
+} from "@/redux/reducers/cart/cartSlice";
 import { Icon } from "@iconify-icon/react/dist/iconify.mjs";
 import { Box, Divider, Drawer, IconButton } from "@mui/material";
 import Link from "next/link";
@@ -15,11 +18,16 @@ import {
 } from "@/redux/reducers/cart/cartApi";
 import toast from "react-hot-toast";
 import { getProductStatus } from "@/sections/product/common/product-constants";
+import { RootState } from "@/redux/store";
 
 const CartDrawer = () => {
   const { isCartDrawerOpen, cartItems } = useAppSelector((state) => state.cart);
   const dipatch = useAppDispatch();
   const isSmUp = useResponsive({ breakpoint: "sm", direction: "up" });
+
+  const subtotal = useAppSelector((state: RootState) =>
+    selectCartSubtotal(state)
+  );
 
   const handleClose = () => {
     dipatch(closeCartDrawer());
@@ -192,7 +200,7 @@ const CartDrawer = () => {
                       Shipping and taxes calculated at checkout.
                     </span>
                   </span>
-                  <span className="text-lg">$400</span>
+                  <span className="text-lg">৳{subtotal.toFixed(2)}</span>
                 </p>
                 <div className="flex space-x-3 mt-5 w-full items-center">
                   <Link

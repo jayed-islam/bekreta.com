@@ -5,6 +5,7 @@ export interface CartItem {
   price: number;
   category: string;
   quantity: number;
+  about?: string;
 }
 
 interface ICartItem {

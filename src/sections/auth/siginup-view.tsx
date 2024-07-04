@@ -12,7 +12,7 @@ import toast from "react-hot-toast";
 import { AuthFormValues, authValidationSchema } from "./auth-validation";
 import { Alert, AlertTitle } from "@mui/material";
 import { useAppSelector } from "@/redux/hooks";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const SignUpView = () => {
   const methods = useForm<AuthFormValues>({
@@ -22,6 +22,7 @@ const SignUpView = () => {
   const { isAuthenticated } = useAppSelector((state) => state.auth);
 
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const {
     handleSubmit,
@@ -38,6 +39,11 @@ const SignUpView = () => {
       if (response.success) {
         toast.success(response.message);
         setErrorMessage(null);
+        const redirectPath =
+          new URLSearchParams(window.location.search).get("redirect") || "/";
+        router.push(
+          `/auth/signin?redirect=${encodeURIComponent(redirectPath)}`
+        );
       } else {
         toast.error(response.message);
         setErrorMessage(response.message);
@@ -58,9 +64,10 @@ const SignUpView = () => {
     }
   }, [errorMessage]);
 
-  if (isAuthenticated) {
-    router.replace(paths.root);
-  }
+  // if (isAuthenticated) {
+  //   router.replace(paths.root);
+  // }
+  const redirect = searchParams.get("redirect");
 
   return (
     <div className="bg-gray-100 flex items-center justify-center w-full py-16 md:py-20 lg:py-28">
@@ -127,8 +134,10 @@ const SignUpView = () => {
 
             <div className="mt-6 text-center ">
               <Link
-                href={paths.website.signin}
-                className="text-sm text-green-500 hover:underline"
+                href={`${paths.website.signin}${
+                  redirect ? `?redirect=${encodeURIComponent(redirect)}` : ""
+                }`}
+                className="text-sm text-green-500 hover:underline cursor-pointer"
               >
                 Already have an account yet? Sign in
               </Link>

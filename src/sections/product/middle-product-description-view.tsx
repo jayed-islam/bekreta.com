@@ -6,20 +6,24 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { openCartDrawer } from "@/redux/reducers/cart/cartSlice";
 import { IProduct } from "@/types/products";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getProductStatus, getStatusStyles } from "./common/product-constants";
 import { useAddToCartMutation } from "@/redux/reducers/cart/cartApi";
 import toast from "react-hot-toast";
 import SmallLoader from "@/components/loader/small-loader";
+import AuthModal from "@/layouts/common/modal/auth-modal";
+import { addLastVisitedProduct } from "@/redux/reducers/product/productSlice";
+import { CartItem } from "@/types/cart";
 
 type TMiddleDescriptionProps = {
   product: IProduct;
 };
 
 const MiddleProductDescription = ({ product }: TMiddleDescriptionProps) => {
-  const { user } = useAppSelector((state) => state.auth);
+  const { user, accessToken } = useAppSelector((state) => state.auth);
 
   const sidebar = useBoolean();
+  const authModal = useBoolean();
 
   const { name, price, category, about, specifications, status } = product;
 
@@ -58,10 +62,27 @@ const MiddleProductDescription = ({ product }: TMiddleDescriptionProps) => {
     }
   };
 
-  const handeAddToCartMain = () => {
-    handleAddToCart();
-    dispatch(openCartDrawer());
+  const handleAddToCartMain = () => {
+    if (!user || !accessToken) {
+      authModal.setTrue();
+    } else {
+      handleAddToCart();
+    }
   };
+
+  const lastVisitItem: CartItem = {
+    category: product.category,
+    image: product.images[0],
+    name: product.name,
+    price: product.price,
+    productId: product._id,
+    quantity: 1,
+    about: product.about,
+  };
+
+  useEffect(() => {
+    dispatch(addLastVisitedProduct(lastVisitItem));
+  }, [dispatch, product]);
 
   return (
     <div className='className="w-full px-3 flex-1 mt-7 md:mt-0 lg:pl-7 xl:pl-9 2xl:pl-10"'>
@@ -145,7 +166,7 @@ const MiddleProductDescription = ({ product }: TMiddleDescriptionProps) => {
         </div>
         <button
           disabled={status === "OUT_OF_STOCK"}
-          onClick={handleAddToCart}
+          onClick={handleAddToCartMain}
           className={`w-full relative flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium px-4 sm:px-6 bg-gray-800 text-white hover:bg-gray-900 shadow-xl flex-1 h-13 ${
             status === "OUT_OF_STOCK"
               ? "bg-gray-300 text-gray-500 cursor-not-allowed"
@@ -182,6 +203,7 @@ const MiddleProductDescription = ({ product }: TMiddleDescriptionProps) => {
         </div>
       </div> */}
       {sidebar.value && <CartSidebar dialog={sidebar} />}
+      {authModal.value && <AuthModal dialog={authModal} />}
     </div>
   );
 };

@@ -4,12 +4,13 @@ import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import Link from "next/link";
 import { Tooltip } from "@mui/material";
 import { actionButtonsInfo } from "@/constants";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { openCartDrawer } from "@/redux/reducers/cart/cartSlice";
 import { IProduct } from "@/types/products";
 import { paths } from "@/layouts/paths";
 import { useAddToCartMutation } from "@/redux/reducers/cart/cartApi";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface IProductCardProps {
   product: IProduct;
@@ -24,6 +25,8 @@ const ProductCard = ({
 }: IProductCardProps) => {
   const { name, images, price, _id, discount, status } = product;
 
+  const { accessToken, user } = useAppSelector((state) => state.auth);
+  const router = useRouter();
   const isOutOfStock = product.status === "OUT_OF_STOCK";
 
   const dispatch = useAppDispatch();
@@ -50,6 +53,14 @@ const ProductCard = ({
     }
   };
 
+  const handleAddToCartMain = () => {
+    if (!user || !accessToken) {
+      router.push(`${paths.product.root}/${_id}`);
+    } else {
+      handleAddToCart();
+    }
+  };
+
   return (
     <div
       className={twMerge(
@@ -59,19 +70,21 @@ const ProductCard = ({
     >
       <div className="absolute -right-11 top-1/3 z-10 flex-col md:flex gap-2 group-hover:right-3 transition-all duration-500 hidden">
         {actionButtonsInfo.map((action, index) => (
-          <Tooltip
-            title={action.title}
-            placement="bottom"
-            className="bg-opacity-65 text-xs px-1.5 py-[2px]"
-          >
-            <div
-              key={index}
-              onClick={() => action.action()}
-              className="bg-gray-300 h-9 w-9 hover:bg-green-500 transition-all duration-200 rounded-full flex items-center justify-center hover:text-white"
+          <Link href={`${paths.product.root}/${_id}`}>
+            <Tooltip
+              title={action.title}
+              placement="bottom"
+              className="bg-opacity-65 text-xs px-1.5 py-[2px]"
             >
-              <Icon icon={action.icon} className="text-xl" />
-            </div>
-          </Tooltip>
+              <div
+                key={index}
+                onClick={() => action.action()}
+                className="bg-gray-300 h-9 w-9 hover:bg-green-500 transition-all duration-200 rounded-full flex items-center justify-center hover:text-white"
+              >
+                <Icon icon={action.icon} className="text-xl" />
+              </div>
+            </Tooltip>
+          </Link>
         ))}
       </div>
       <div
@@ -149,7 +162,7 @@ const ProductCard = ({
                     ? "bg-gray-300 text-gray-500"
                     : "bg-gray-200 hover:bg-green-600 hover:text-white"
                 }`}
-                onClick={handleAddToCart}
+                onClick={handleAddToCartMain}
               >
                 <Icon icon="solar:bag-4-linear" className="text-xl" />
               </button>

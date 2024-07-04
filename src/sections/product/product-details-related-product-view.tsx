@@ -5,6 +5,8 @@ import React from "react";
 import tShart from "../../../../public/assets/images/category/t-shart.jpg";
 import SideProductCard from "./common/side-product-card";
 import { useGetCategoryWiseProductQuery } from "@/redux/reducers/product/productApi";
+import { useAppSelector } from "@/redux/hooks";
+import RecentViewedProductCard from "./common/recent-viewed-product-card";
 
 interface Props {
   category: string;
@@ -12,6 +14,7 @@ interface Props {
 
 const RelatedProductsSection: React.FC<Props> = ({ category }) => {
   const { data, isLoading } = useGetCategoryWiseProductQuery({ category });
+  const { lastVisitedProducts } = useAppSelector((state) => state.product);
   return (
     <div className="w-full lg:w-[301px] mt-5 lg:mt-0">
       <div className=" bg-white py-5 px-5">
@@ -40,9 +43,9 @@ const RelatedProductsSection: React.FC<Props> = ({ category }) => {
         <h3 className="text-xl font-semibold text-green-700 text-center pb-5">
           Recently Viewed
         </h3>
-        {/* {recentItems?.slice(1, 3).map((product) => (
-          <SideProductCard />
-        ))} */}
+        {lastVisitedProducts.map((product, index) => (
+          <RecentViewedProductCard product={product} />
+        ))}
       </div>
     </div>
   );

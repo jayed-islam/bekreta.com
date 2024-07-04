@@ -5,6 +5,7 @@ import { CartItem } from "@/types/cart";
 import { setCartItems } from "./cartSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useGetUserCartsQuery } from "./cartApi";
+import { setLastVisitedProducts } from "../product/productSlice";
 
 interface Props {
   children: ReactNode;
@@ -15,13 +16,17 @@ const CartInitializer: React.FC<Props> = ({ children }) => {
 
   const { data } = useGetUserCartsQuery(user?._id as string);
 
-  // useEffect(() => {
-  //   const storedCartItems = localStorage.getItem("cartItems");
-  //   if (storedCartItems) {
-  //     const cartItems: CartItem[] = JSON.parse(storedCartItems);
-  //     dispatch(setCartItems(cartItems));
-  //   }
-  // }, [dispatch]);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const loadLastVisitedProducts = (): CartItem[] => {
+      const storedProducts = localStorage.getItem("lastVisitedProducts");
+      return storedProducts ? JSON.parse(storedProducts) : [];
+    };
+
+    const lastVisitedProducts = loadLastVisitedProducts();
+    dispatch(setLastVisitedProducts(lastVisitedProducts));
+  }, [dispatch]);
 
   return <>{children}</>;
 };

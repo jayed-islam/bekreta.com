@@ -22,6 +22,7 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   const { cartItems } = useAppSelector((state) => state.cart);
+  const { user } = useAppSelector((state) => state.auth);
 
   const dispatch = useAppDispatch();
 
@@ -153,10 +154,7 @@ export default function Header() {
 
             {/* ooffers section */}
 
-            <div
-              className="lg:flex items-center gap-3 mr-7 cursor-pointer hidden"
-              onClick={authModal.setTrue}
-            >
+            <div className="lg:flex items-center gap-3 mr-7 cursor-pointer hidden">
               <Icon
                 icon="ph:gift-light"
                 className="text-orange-600 font-extrabold text-2xl"
@@ -195,7 +193,7 @@ export default function Header() {
               </div>
             </Link>
             <div className="flex items-center gap-3">
-              <ProfilePopover />
+              {user && user._id && <ProfilePopover />}
               {/* <CartHeaderPopover /> */}
               <button
                 className={`text-opacity-90 group w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center outline-none border-2 border-orange-700  cursor-pointer relative focus:outline-none focus:ring-0 text-white`}
@@ -212,7 +210,6 @@ export default function Header() {
             </div>
           </div>
         </div>
-        <AuthModal dialog={authModal} />
       </div>
     </header>
   );
