@@ -1,7 +1,8 @@
+import { UserOrderView } from "@/sections/user-account/order/view";
 import React from "react";
 
 const OrderPage = () => {
-  return <div>OrderPage</div>;
+  return <UserOrderView />;
 };
 
 export default OrderPage;

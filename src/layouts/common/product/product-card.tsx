@@ -11,6 +11,7 @@ import { paths } from "@/layouts/paths";
 import { useAddToCartMutation } from "@/redux/reducers/cart/cartApi";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface IProductCardProps {
   product: IProduct;
@@ -88,14 +89,17 @@ const ProductCard = ({
         ))}
       </div>
       <div
-        className={`relative w-full h-44 border-b overflow-hidden ${
-          size === "sm" ? "h-44" : "h-44 md:h-64"
+        className={`relative w-full h-36 border-b overflow-hidden ${
+          size === "sm" ? "h-36 md:h-44" : "h-44 md:h-64"
         }`}
       >
         <Link href={`${paths.product.root}/${_id}`}>
-          <img
-            className="h-full w-full group-hover:scale-110 rounded-t-2xl transition-all duration-200 object-cover"
+          <Image
+            alt={product.name}
+            className="group-hover:scale-110 rounded-t-2xl transition-all duration-200  object-cover h-full w-full"
             src={images[0]}
+            height={500}
+            width={500}
           />
         </Link>
 

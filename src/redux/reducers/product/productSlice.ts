@@ -9,24 +9,41 @@ const initialState: ProductState = {
   lastVisitedProducts: [],
 };
 
+const loadLastVisitedProducts = (): CartItem[] => {
+  const storedProducts = localStorage.getItem("lastVisitedProducts");
+  return storedProducts ? JSON.parse(storedProducts) : [];
+};
+
+const saveLastVisitedProducts = (products: CartItem[]) => {
+  localStorage.setItem("lastVisitedProducts", JSON.stringify(products));
+};
+
 const productSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
     addLastVisitedProduct(state, action: PayloadAction<CartItem>) {
-      state.lastVisitedProducts = state.lastVisitedProducts.filter(
+      // Load existing products from local storage
+      let lastVisitedProducts = loadLastVisitedProducts();
+
+      // Remove any existing product with the same ID
+      lastVisitedProducts = lastVisitedProducts.filter(
         (p) => p.productId !== action.payload.productId
       );
 
-      state.lastVisitedProducts.unshift(action.payload);
+      // Add the new product to the beginning of the array
+      lastVisitedProducts.unshift(action.payload);
 
-      if (state.lastVisitedProducts.length > 3) {
-        state.lastVisitedProducts = state.lastVisitedProducts.slice(0, 3);
+      // Ensure only the latest 3 products are stored
+      if (lastVisitedProducts.length > 3) {
+        lastVisitedProducts.pop();
       }
-      localStorage.setItem(
-        "lastVisitedProducts",
-        JSON.stringify(state.lastVisitedProducts)
-      );
+
+      // Update state
+      state.lastVisitedProducts = lastVisitedProducts;
+
+      // Save updated products to local storage
+      saveLastVisitedProducts(lastVisitedProducts);
     },
     setLastVisitedProducts(state, action: PayloadAction<CartItem[]>) {
       state.lastVisitedProducts = action.payload;

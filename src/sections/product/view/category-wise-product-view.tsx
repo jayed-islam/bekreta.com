@@ -28,6 +28,7 @@ const defaultFilters: IProductFilters = {
   maxPrice: Number.MAX_SAFE_INTEGER,
   minPrice: 1,
   status: [],
+  isLowestFirst: null,
 };
 
 const CategoryWiseProductFilterView: React.FC<
@@ -40,6 +41,7 @@ const CategoryWiseProductFilterView: React.FC<
     category: null,
     searchTerm: null,
   });
+
   const [count, setCount] = useState<number>(0);
   const [page, setPage] = useState<number>(0);
   const [size, setSize] = useState<number>(5);
@@ -129,17 +131,23 @@ const CategoryWiseProductFilterView: React.FC<
   ): void => {
     const selectedSortId: number = parseInt(event.target.value);
     setSortId(selectedSortId);
+    setFilters((prev) => ({
+      ...prev,
+      isLowestFirst:
+        selectedSortId === 1 ? true : selectedSortId === -1 ? false : null,
+    }));
   };
 
   const debouncedFilters = useDebounce(filters, 1000);
 
   const { data, isFetching } = useGetProductsQuery({
     category: filters.category ? filters.category : "",
-    limit: 25,
+    limit: size,
     minPrice: debouncedFilters.minPrice,
     maxPrice: debouncedFilters.maxPrice,
     status: filters.status.length > 0 ? filters.status : [],
     searchTerm: filters.searchTerm ? filters.searchTerm : "",
+    isLowestFirst: filters.isLowestFirst,
   });
 
   const breadcrumbItems = [
@@ -151,7 +159,7 @@ const CategoryWiseProductFilterView: React.FC<
     <div className="relative w-full bg-gray-100 z-10 pb-32 overflow-x-hidden">
       <PageHeader
         breadcrumbItems={breadcrumbItems}
-        pageName="Choice your favirote Brands"
+        pageName="Choice your favirote Products"
       />
       {/* <HeadFilterSectionView
         isLoading={isLoading}
@@ -161,11 +169,11 @@ const CategoryWiseProductFilterView: React.FC<
       <div className="max-w-6xl mx-auto px-3 xl:px-0">
         <div className="flex flex-col lg:flex-row gap-5 mt-5">
           <div
-            className={`z-40 lg:hidden flex w-full  justify-end h-full overflow-x-hidden bg-black bg-opacity-20 fixed right-0 top-0 transform transition duration-200 ease-in-out  ${
+            className={`z-20 lg:hidden flex w-full  justify-end h-full overflow-x-hidden bg-black bg-opacity-20 fixed right-0 top-0 transform transition duration-200 ease-in-out  ${
               !filterSidebar.value && "translate-x-full lg:hidden"
             }`}
           >
-            <div className=" mt-20 w-[281px] bg-white relative">
+            <div className="w-[281px] bg-white relative">
               <div>
                 <div
                   onClick={filterSidebar.setFalse}
@@ -217,13 +225,11 @@ const CategoryWiseProductFilterView: React.FC<
                     value={size}
                     onChange={handleSizeChange}
                   >
-                    <option value="20">11</option>
-                    <option value="20">15</option>
-                    <option value="20">20</option>
-                    <option value="20">30</option>
-                    <option value="20">40</option>
-                    <option value="20">40</option>
-                    <option value="20">55</option>
+                    <option value="1">1</option>
+                    <option value="5">5</option>
+                    <option value="11">11</option>
+                    <option value="15">15</option>
+                    <option value="25">25</option>
                   </select>
                 </div>
                 <div className="flex items-center gap-2 font-normal">
@@ -235,7 +241,7 @@ const CategoryWiseProductFilterView: React.FC<
                     value={sortId}
                     onChange={handleSortChange}
                   >
-                    <option value={1}>Default</option>
+                    <option value="">Default</option>
                     <option value={1}>Price (Low - High)</option>
                     <option value={-1}>Price (High - Low)</option>
                   </select>

@@ -13,7 +13,7 @@ const PageHeader = ({ breadcrumbItems, pageName }: IBreadcrumbProps) => {
   return (
     <div className="bg-white w-full py-3">
       <div className="flex items-start md:items-center justify-between h-full w-full max-w-6xl mx-auto px-5 xl:px-0">
-        <div className="text-xl font-semibold">{pageName}</div>
+        <div className="text-md md:text-xl font-semibold">{pageName}</div>
         <nav className="flex items-center px-5 py-1 bg-green-500">
           {breadcrumbItems.map((item, index) => (
             <div className="flex items-center">

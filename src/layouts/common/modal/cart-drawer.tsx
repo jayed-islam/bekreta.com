@@ -11,16 +11,8 @@ import { Icon } from "@iconify-icon/react/dist/iconify.mjs";
 import { Box, Divider, Drawer, IconButton } from "@mui/material";
 import Link from "next/link";
 import React from "react";
-import ActionButton from "../buttons/action-button";
-import {
-  useGetUserCartsQuery,
-  useRemoveFromCartMutation,
-  useUpdateCartItemQuantityMutation,
-} from "@/redux/reducers/cart/cartApi";
-import toast from "react-hot-toast";
-import { getProductStatus } from "@/sections/product/common/product-constants";
+import { useGetUserCartsQuery } from "@/redux/reducers/cart/cartApi";
 import { RootState } from "@/redux/store";
-import QuantityLoader from "@/components/loader/quantity-loder";
 import CartItemInDrawer from "./cart-item-in-drawer";
 
 const CartDrawer = () => {

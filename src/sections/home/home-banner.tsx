@@ -11,6 +11,8 @@ import {
   offerProductSettings,
 } from "@/utils/react-slick-utils";
 import { useGetOfferetProductsQuery } from "@/redux/reducers/product/productApi";
+import Image from "next/image";
+import banner from "../../../public/assets/bg-light-banner.jpg";
 
 const HomeBanner = () => {
   const sliderRef = useRef<Slider | null>(null);
@@ -41,7 +43,7 @@ const HomeBanner = () => {
     <div className="bg-gray-100 w-full">
       <div className="max-w-6xl mx-auto flex lg:gap-5 pt-2 flex-col lg:flex-row sm:px-3 md:px-5 xl:px-0">
         <div className="flex-1 w-full lg:w-[60%]">
-          <Slider {...bannerSettings} ref={bannerRef}>
+          {/* <Slider {...bannerSettings} ref={bannerRef}>
             {banners.map((banner, index) => (
               <div
                 key={index}
@@ -73,7 +75,14 @@ const HomeBanner = () => {
                 </div>
               </div>
             ))}
-          </Slider>
+          </Slider> */}
+          <div className="flex items-center justify-center w-full h-52 sm:h-72 md:h-[400px] lg:h-[491px] relative lg:rounded-2xl bg-gray-300">
+            <Image
+              alt="Bekreta"
+              src={banner}
+              className="w-full h-full object-cover lg:rounded-2xl "
+            />
+          </div>
         </div>
         <div className="w-full hidden lg:block sm:max-w-[18rem] h-full border-2 border-green-500 rounded-2xl py-5 bg-white">
           <div className="flex items-center justify-between px-5">

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Icon } from "@iconify-icon/react";
 
 import Image from "next/image";
-import logo from "../../../public/assets/shop_logo.png";
+import logo from "../../../public/assets/logo.jpg";
 import { paths } from "../paths";
 import HomeHeaderSearch from "../common/search/home-header-search";
 import ProfilePopover from "../common/modal/profile-popover";
@@ -30,7 +30,7 @@ export default function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY <= 101 || window.scrollY < lastScrollY) {
+      if (window.scrollY <= 201 || window.scrollY < lastScrollY) {
         setIsSticky(true);
       } else {
         setIsSticky(false);
@@ -66,19 +66,19 @@ export default function Header() {
                 className="inline-block text-slate-600 flex-shrink-0"
                 href="/"
               >
-                <div className="flex items-end gap-2">
+                <div className="flex items-end">
                   <Image
                     alt="Logo"
-                    className="block h-10 md:h-12 w-auto"
+                    className="h-10 md:h-12 w-auto rounded-sm"
                     src={logo}
                   />
-                  <h3 className="text-3xl md:text-4xl font-bold text-white">
+                  {/* <h3 className="text-3xl md:text-4xl font-bold text-white">
                     Bazaro
-                  </h3>
+                  </h3> */}
                 </div>
-                <p className="hidden md:block text-xs text-gray-400">
+                {/* <p className="hidden md:block text-xs text-gray-400">
                   Online superium shoping center
-                </p>
+                </p> */}
               </Link>
             </div>
             <div

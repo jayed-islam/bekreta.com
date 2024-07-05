@@ -19,7 +19,7 @@ interface Props {
 }
 
 const OrderSummery = ({ buttonTitle, isSubmit = false, onSubmit }: Props) => {
-  const { cartItems } = useAppSelector((state) => state.cart);
+  const { cartItems, district } = useAppSelector((state) => state.cart);
   const subtotal = useAppSelector((state: RootState) =>
     selectCartSubtotal(state)
   );
@@ -50,7 +50,10 @@ const OrderSummery = ({ buttonTitle, isSubmit = false, onSubmit }: Props) => {
             </span>
           </div>
           <div className="flex justify-between py-4">
-            <span>Delivery Charge (Inside Dhaka)</span>
+            <span>
+              Delivery Charge (
+              {district === "1" ? "Inside Dhaka" : "Outside Dhaka"})
+            </span>
             <span className="font-semibold text-slate-900 text-lg">
               ৳{deliveryCharge}
             </span>

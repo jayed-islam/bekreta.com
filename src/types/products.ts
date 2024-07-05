@@ -70,6 +70,7 @@ export interface IProductGetBody {
   page?: number;
   limit?: number;
   status?: ProductStatus[];
+  isLowestFirst?: boolean | null;
 }
 
 export interface IProductFilters {
@@ -78,6 +79,7 @@ export interface IProductFilters {
   category: string;
   status: ProductStatus[];
   searchTerm: string;
+  isLowestFirst?: boolean | null;
 }
 
 export interface IFeaturedProductGetBody {

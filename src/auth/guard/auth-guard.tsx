@@ -30,6 +30,7 @@ function Container({ children }: IAuthGuardProps) {
   let accessToken: string | null = null;
 
   if (typeof window === "object") {
+    console.log("object");
     accessToken = localStorage?.getItem("accessToken");
   }
 

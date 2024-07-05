@@ -1,4 +1,4 @@
-import { UserAccountView } from "@/sections/account/view";
+import { UserAccountView } from "@/sections/user-account/view";
 import React from "react";
 
 const UserAccountPage = () => {

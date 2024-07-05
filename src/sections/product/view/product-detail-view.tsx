@@ -23,13 +23,10 @@ interface IProductDetailsProps {
 
 const ProductsDetailsView = ({ id, product }: IProductDetailsProps) => {
   const [activeTab, setActiveTab] = useState("Description");
-  const [relatedProducts, setRelatedProducts] = useState<IProductItem[]>([]);
 
   const { data, isLoading } = useGetProductByIdQuery(id);
 
   const questions = 0;
-  const sidebar = useBoolean();
-  const dispatch = useAppDispatch();
 
   const handleClick = (label: string) => {
     setActiveTab(label);
