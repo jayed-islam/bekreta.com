@@ -1,6 +1,5 @@
 import { paths } from "@/layouts/paths";
 import { CartItem } from "@/types/cart";
-import { IProduct, IProductItem } from "@/types/products";
 import Link from "next/link";
 import React from "react";
 

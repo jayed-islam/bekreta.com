@@ -12,7 +12,7 @@ const HomeTopCategoryView = () => {
       <div className="max-w-6xl mx-auto  py-3 md:py-5">
         <div className="flex gap-3 items-center pl-3 xl:pl-0 overflow-x-auto scrollbar-hide pr-5">
           {isLoading
-            ? [1, 2, 3, 4, 5].map((item) => (
+            ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((item) => (
                 <div className="animate-pulse flex space-x-4">
                   <div className="rounded-lg bg-slate-200 h-10 w-32"></div>
                 </div>

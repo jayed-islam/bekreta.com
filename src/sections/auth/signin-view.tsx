@@ -28,14 +28,12 @@ const SignInView = () => {
     formState: { errors },
   } = methods;
 
-  const [loginUser, { isLoading }] = useLoginMutation();
-
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
   const redirectPath =
     new URLSearchParams(window.location.search).get("redirect") || "/";
 
-  console.log("path", redirectPath);
+  const [loginUser, { isLoading }] = useLoginMutation();
+
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const onSubmit = handleSubmit(async (data) => {
     try {
@@ -68,17 +66,14 @@ const SignInView = () => {
     }
   }, [errorMessage]);
 
-  // if (isAuthenticated) {
-  //   router.replace(paths.root);
-  // }
-  // if (typeof window === "object") {
-  //   if (localStorage?.getItem("accessToken")) {
-  //     router.push(returnTo || "/");
-  //     // router.replace(paths.root);
-  //     // eslint-disable-next-line react/jsx-no-useless-fragment
-  //     return <></>;
-  //   }
-  // }
+  if (typeof window === "object") {
+    if (localStorage?.getItem("accessToken")) {
+      toast.success("You have already logged in.");
+      router.push(redirectPath);
+      // eslint-disable-next-line react/jsx-no-useless-fragment
+      return <></>;
+    }
+  }
 
   return (
     <div className="bg-gray-100 py-16 md:py-20 lg:py-28 flex items-center justify-center w-full">

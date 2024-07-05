@@ -1,5 +1,5 @@
 import { RootState } from "@/redux/store";
-import { CartItem, IUserCartItem } from "@/types/cart";
+import { IUserCartItem } from "@/types/cart";
 import { PayloadAction, createSelector, createSlice } from "@reduxjs/toolkit";
 
 interface cartState {
@@ -80,10 +80,9 @@ const cartSlice = createSlice({
     //   state.cartItems = [];
     //   localStorage.removeItem("cartItems");
     // },
-    setDistrict(state, action: PayloadAction<string>) {
+    setDistrictId(state, action: PayloadAction<string>) {
       state.district = action.payload;
-      state.deliveryCharge =
-        action.payload.toLowerCase() === "dhaka" ? 70 : 121;
+      state.deliveryCharge = action.payload.toLowerCase() === "1" ? 70 : 121;
     },
   },
 });
@@ -97,6 +96,7 @@ export const {
   // updateCartItemQuantity,
   // clearCart,
   setCartItems,
+  setDistrictId,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

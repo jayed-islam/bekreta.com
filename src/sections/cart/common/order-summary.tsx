@@ -65,39 +65,41 @@ const OrderSummery = ({ buttonTitle, isSubmit = false, onSubmit }: Props) => {
           <Button
             type="submit"
             onClick={onSubmit}
-            className="relative h-auto inline-flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium py-3 px-4 sm:py-3.5 sm:px-6 text-white disabled:bg-opacity-90 bg-green-600  hover:bg-green-700 shadow-xl mt-8 w-full focus:outline-none focus:ring-2 focus:ring-offset-2 capitalize"
+            className="relative h-auto inline-flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium py-3 px-4 sm:py-3.5 sm:px-6 text-white disabled:bg-opacity-90 bg-green-600  hover:bg-green-700 shadow-xl mt-8 w-full capitalize"
           >
             {buttonTitle}
           </Button>
         ) : (
-          <Link
-            href={paths.checkout}
-            className="nc-Button relative h-auto inline-flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium py-3 px-4 sm:py-3.5 sm:px-6 text-white disabled:bg-opacity-90 bg-green-600  hover:bg-green-700 shadow-xl mt-8 w-full focus:outline-none focus:ring-2 focus:ring-offset-2 "
-          >
-            {buttonTitle}
+          <Link href={paths.checkout}>
+            <Button
+              type="button"
+              className="relative h-auto inline-flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium py-3 px-4 sm:py-3.5 sm:px-6 text-white disabled:bg-opacity-90 bg-green-600  hover:bg-green-700 shadow-xl mt-8 w-full capitalize"
+            >
+              {buttonTitle}
+            </Button>
           </Link>
         )}
         <div className="mt-5 text-sm text-slate-500  flex items-center justify-center">
           <p className="block relative pl-5">
             <Icon icon="ph:info-light" />
             Learn more{" "}
-            <a
+            <Link
               target="_blank"
               rel="noopener noreferrer"
               href="##"
               className="text-slate-900  underline font-medium"
             >
-              Taxes
-            </a>{" "}
+              Bikreta
+            </Link>{" "}
             and{" "}
-            <a
+            <Link
               target="_blank"
               rel="noopener noreferrer"
               href="##"
               className="text-slate-900  underline font-medium"
             >
               Shipping
-            </a>{" "}
+            </Link>{" "}
             information
           </p>
         </div>

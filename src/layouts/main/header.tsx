@@ -30,34 +30,32 @@ export default function Header() {
     dispatch(openCartDrawer());
   };
 
-  const [scrolled, setScrolled] = useState(false);
-  const router = useRouter();
-
-  const authModal = useBoolean();
-
-  const onSubmit = (data: any) => {
-    router.push(`${paths.product.category}?search=${data.search}`);
-  };
-
-  const handleScroll = () => {
-    setScrolled(window.scrollY > 100);
-  };
+  const [isSticky, setIsSticky] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => {
+      if (window.scrollY <= 101 || window.scrollY < lastScrollY) {
+        setIsSticky(true);
+      } else {
+        setIsSticky(false);
+      }
+      setLastScrollY(window.scrollY);
+    };
 
+    window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
-
-  const pathname = usePathname();
-
-  const isIncluded: boolean = pathname.includes("/checkout");
+  }, [lastScrollY]);
 
   return (
-    <header className="w-full bg-slate-900 sticky top-0 z-20">
-      <div className="relative shadow-sm border-slate-100 ">
+    <header
+      className={`w-full transition-all duration-700 bg-slate-900 z-10 ${
+        isSticky && "sticky top-0"
+      }`}
+    >
+      <div className="relative shadow-sm border-slate-100">
         <div className="max-w-6xl mx-auto px-5 xl:px-0">
           <div className="h-20 flex justify-between items-center w-full">
             <div className="flex items-center lg:hidden">
@@ -154,25 +152,31 @@ export default function Header() {
 
             {/* ooffers section */}
 
-            <div className="lg:flex items-center gap-3 mr-7 cursor-pointer hidden">
-              <Icon
-                icon="ph:gift-light"
-                className="text-orange-600 font-extrabold text-2xl"
-              />
-              <div>
-                <h3 className="font-semibold text-white">Offers</h3>
-                <p className="text-xs text-gray-400 ">Letest Offers</p>
+            <Link href={paths.product.category}>
+              <div className="md:flex items-center gap-3 mr-7 cursor-pointer hidden">
+                <div className="h-5 w-5">
+                  <Icon
+                    icon="ph:gift-light"
+                    className="text-orange-600 font-extrabold text-2xl"
+                  />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-white">Offers</h3>
+                  <p className="text-xs text-gray-400 ">Letest Offers</p>
+                </div>
               </div>
-            </div>
+            </Link>
 
             <Link
               href={paths.website.signin}
-              className="lg:flex items-center gap-3 mr-7 cursor-pointer hidden"
+              className="sm:flex items-center gap-3 mr-7 cursor-pointer hidden"
             >
-              <Icon
-                icon="iconoir:profile-circle"
-                className="text-orange-600 font-extrabold text-2xl"
-              />
+              <div className="h-5 w-5">
+                <Icon
+                  icon="iconoir:profile-circle"
+                  className="text-orange-600 font-extrabold text-2xl"
+                />
+              </div>
               <div>
                 <h3 className="font-semibold text-white">Create Account</h3>
                 <div className="flex items-center gap-1 text-xs text-gray-400 ">

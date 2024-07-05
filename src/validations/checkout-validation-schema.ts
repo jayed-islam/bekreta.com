@@ -1,17 +1,20 @@
 import { z } from "zod";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const bdPhoneRegex = /^01[3-9]\d{8}$/;
 
 export const checkoutSchema = z.object({
   name: z
-    .string({ required_error: "Name is required" })
+    .string({ required_error: "Full name is required" })
     .min(1, { message: "Name is required" }),
   email: z
     .string({ required_error: "Email is required" })
     .regex(emailRegex, { message: "Invalid email address" }),
   phone: z
     .string({ required_error: "Phone number is required" })
-    .min(11, { message: "Phone number must be at least 11 digits" }),
+    .regex(bdPhoneRegex, {
+      message: "Invalid phone number",
+    }),
   division: z
     .string({ required_error: "Division is required" })
     .min(1, { message: "Division is required" }),
@@ -42,3 +45,5 @@ export const completeCheckoutSchema = z.object({
   ...checkoutSchema.shape,
   orderSummary: orderSummarySchema,
 });
+
+export type TCheckoutFormData = z.infer<typeof checkoutSchema>;

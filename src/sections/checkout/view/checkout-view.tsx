@@ -14,15 +14,25 @@ import divisions from "@/data/division";
 import { IDivision } from "@/types/address";
 import { addressData } from "@/constants";
 import { Card } from "@mui/material";
-import { checkoutSchema } from "@/validations/checkout-validation-schema";
+import {
+  checkoutSchema,
+  TCheckoutFormData,
+} from "@/validations/checkout-validation-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
+import {
+  selectCartTotalPrice,
+  setDistrictId,
+} from "@/redux/reducers/cart/cartSlice";
+import { paths } from "@/layouts/paths";
 
 const CheckoutProudctView = () => {
   const { cartItems } = useAppSelector((state) => state.cart);
   const { user } = useAppSelector((state) => state.auth);
 
-  const methods = useForm({
+  const totalPrice = useAppSelector((state) => selectCartTotalPrice(state));
+
+  const methods = useForm<TCheckoutFormData>({
     resolver: zodResolver(checkoutSchema),
     defaultValues: {
       name: user?.name,
@@ -61,6 +71,7 @@ const CheckoutProudctView = () => {
 
   useEffect(() => {
     setSelectedDistrict(districtValue || "");
+    dispatch(setDistrictId(districtValue || ""));
   }, [dispatch, districtValue, setSelectedDistrict]);
 
   useEffect(() => {
@@ -72,24 +83,30 @@ const CheckoutProudctView = () => {
     { id: 2, name: "Checkout", url: "/checkout" },
   ];
 
-  const test = [1, 1];
-
-  const [selectedValue, setSelectedValue] = useState<string>(addressData[0].id);
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedValue(event.target.value);
-  };
-
   const onSubmit = handleSubmit(async (data) => {
     if (cartItems.length === 0) {
       toast.error("Please add minimum 1 product for checkout");
       return;
     }
+
+    const products = cartItems.map((item) => ({
+      product: item.product._id,
+      quantity: item.quantity,
+      price: item.product.price,
+    }));
+
     const payload = {
-      ...data,
-      division: selectedDivisionName,
-      district: selectedDistrictName,
-      subDistrict: selectedSubDistrictName,
+      userId: user?._id,
+      phone: data.phone,
+      userName: data.name,
+      products,
+      shippingAddress: {
+        detailAddress: data.detailAddress,
+        division: selectedDivisionName,
+        district: selectedDistrictName,
+        subDistrict: selectedSubDistrictName,
+      },
+      totalPrice: totalPrice,
     };
     try {
     } catch (error) {
@@ -101,15 +118,15 @@ const CheckoutProudctView = () => {
     <div className="">
       <div className="bg-gray-100">
         <PageHeader pageName="Checkout" breadcrumbItems={breadcrumbItems} />
-        {test.length === 0 ? (
+        {cartItems.length === 0 ? (
           <div className="w-full px-3 sm:px-0 ">
-            <div className="border border-blue-400 px-5 py-2 mb-7">
+            <div className="border border-green-500 px-5 py-2 mb-7">
               <h1> YOUR CART IS CURRENTLY EMPTY.</h1>
             </div>
 
             <Link
-              href="/products"
-              className=" bg-yellow-400 px-5 text-sm font-semibold py-2 rounded-full"
+              href={paths.product.category}
+              className=" bg-green-500 px-5 text-sm font-semibold py-2 rounded-full"
             >
               RETURN TO SHOP
             </Link>
@@ -127,7 +144,7 @@ const CheckoutProudctView = () => {
                       Billing details
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                      <RHFTextField name="name" label="Name" />
+                      <RHFTextField name="name" label="Full name" />
                       <RHFTextField name="email" label="Email" disabled />
                       <RHFTextField name="phone" label="Phone" />
 
@@ -137,7 +154,7 @@ const CheckoutProudctView = () => {
                         options={Object.values(divisions).map(
                           (division: IDivision) => ({
                             value: division.id,
-                            label: division.name,
+                            label: division.bn_name,
                           })
                         )}
                       />
@@ -147,7 +164,7 @@ const CheckoutProudctView = () => {
                         label="District"
                         options={filteredDistricts.map((district) => ({
                           value: district.id,
-                          label: district.name,
+                          label: district.bn_name,
                         }))}
                         disabled={!selectedDivision}
                       />
@@ -157,7 +174,7 @@ const CheckoutProudctView = () => {
                         label="SubDistrict"
                         options={filteredSubDistricts.map((subDistrict) => ({
                           value: subDistrict.id,
-                          label: subDistrict.name,
+                          label: subDistrict.bn_name,
                         }))}
                         disabled={!selectedDistrict}
                       />
