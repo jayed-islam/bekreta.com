@@ -2,6 +2,7 @@ export interface ICategory {
   _id: string;
   name: string;
   description: string;
+  title: string;
   isDeleted: boolean;
 }
 

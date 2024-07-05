@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import logo from "../../../public/assets/shop_logo.png";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import { linksData } from "./config-navigation";
+import logo from "../../../public/assets/logo.jpg";
 
 export const Footer = () => {
   const socialIcons = [
@@ -48,13 +48,13 @@ export const Footer = () => {
                     className="block h-10 md:h-12 w-auto"
                     src={logo}
                   />
-                  <h3 className="text-3xl md:text-4xl font-bold text-teal-500">
+                  {/* <h3 className="text-3xl md:text-4xl font-bold text-teal-500">
                     Bazaro
-                  </h3>
+                  </h3> */}
                 </div>
-                <p className="hidden md:block text-xs text-gray-400">
+                {/* <p className="hidden md:block text-xs text-gray-400">
                   Online superium shoping center
-                </p>
+                </p> */}
               </Link>
             </div>
 

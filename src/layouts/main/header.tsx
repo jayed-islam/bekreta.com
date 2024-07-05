@@ -46,8 +46,8 @@ export default function Header() {
 
   return (
     <header
-      className={`w-full transition-all duration-700 bg-slate-900 z-10 ${
-        isSticky && "sticky top-0"
+      className={`w-full transition-all duration-700 bg-slate-900 z-20 ${
+        isSticky && "sticky top-0 transition-all duration-700"
       }`}
     >
       <div className="relative shadow-sm border-slate-100">
