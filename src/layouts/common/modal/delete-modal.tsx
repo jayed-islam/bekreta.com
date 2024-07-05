@@ -1,3 +1,4 @@
+import SmallLoader from "@/components/loader/small-loader";
 import { useAppDispatch } from "@/redux/hooks";
 import { useRemoveFromCartMutation } from "@/redux/reducers/cart/cartApi";
 import { BooleanState } from "@/types/utils";
@@ -14,8 +15,7 @@ interface ICartDialogProps {
 const DeleteConformationModal = ({ dialog, productId }: ICartDialogProps) => {
   const dispatch = useAppDispatch();
 
-  const [removeFromCart, { isLoading: isRemoveItemLoading }] =
-    useRemoveFromCartMutation();
+  const [removeFromCart, { isLoading }] = useRemoveFromCartMutation();
 
   const handleRemoveProduct = async (productId: string) => {
     try {
@@ -93,10 +93,10 @@ const DeleteConformationModal = ({ dialog, productId }: ICartDialogProps) => {
                         <p>CANCEL</p>
                       </div>
                       <button
-                        className="px-5 text-sm rounded-3xl bg-cyan-300 hover:bg-cyan-400 transition-all duration-300 text-white flex items-center justify-center h-9 border border-transparent cursor-pointer"
+                        className="px-5 text-sm rounded-3xl bg-red-500 hover:bg-red-600 transition-all duration-300 text-white flex items-center justify-center h-9 border border-transparent cursor-pointer"
                         onClick={() => handleRemoveProduct(productId)}
                       >
-                        <p>REMOVE</p>
+                        {isLoading ? <SmallLoader /> : "REMOVE"}
                       </button>
                     </div>
                   </div>

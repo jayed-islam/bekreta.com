@@ -45,11 +45,11 @@ const HomeBanner = () => {
             {banners.map((banner, index) => (
               <div
                 key={index}
-                className="flex items-center justify-center w-full h-52 sm:h-72 md:h-[400px] lg:h-[491px] relative lg:rounded-2xl"
+                className="flex items-center justify-center w-full h-52 sm:h-72 md:h-[400px] lg:h-[491px] relative lg:rounded-2xl bg-gray-300"
               >
                 <img
                   src={banner}
-                  className="w-full h-full object-cover lg:rounded-2xl"
+                  className="w-full h-full object-cover lg:rounded-2xl "
                 />
                 <div className="absolute inset-0 left-5 right-5 flex items-center justify-between z-20">
                   <button

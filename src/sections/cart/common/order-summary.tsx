@@ -19,6 +19,7 @@ interface Props {
 }
 
 const OrderSummery = ({ buttonTitle, isSubmit = false, onSubmit }: Props) => {
+  const { cartItems } = useAppSelector((state) => state.cart);
   const subtotal = useAppSelector((state: RootState) =>
     selectCartSubtotal(state)
   );
@@ -65,15 +66,17 @@ const OrderSummery = ({ buttonTitle, isSubmit = false, onSubmit }: Props) => {
           <Button
             type="submit"
             onClick={onSubmit}
-            className="relative h-auto inline-flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium py-3 px-4 sm:py-3.5 sm:px-6 text-white disabled:bg-opacity-90 bg-green-600  hover:bg-green-700 shadow-xl mt-8 w-full capitalize"
+            disabled={cartItems.length === 0}
+            className="relative h-auto inline-flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium py-3 px-4 sm:py-3.5 sm:px-6 text-white disabled:bg-opacity-55 disabled:cursor-not-allowed bg-green-600  hover:bg-green-700 shadow-xl mt-8 w-full capitalize"
           >
             {buttonTitle}
           </Button>
         ) : (
           <Link href={paths.checkout}>
             <Button
+              disabled={cartItems.length === 0}
               type="button"
-              className="relative h-auto inline-flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium py-3 px-4 sm:py-3.5 sm:px-6 text-white disabled:bg-opacity-90 bg-green-600  hover:bg-green-700 shadow-xl mt-8 w-full capitalize"
+              className="relative h-auto inline-flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium py-3 px-4 sm:py-3.5 sm:px-6 text-white disabled:bg-opacity-55 disabled:cursor-not-allowed bg-green-600  hover:bg-green-700 shadow-xl mt-8 w-full capitalize"
             >
               {buttonTitle}
             </Button>

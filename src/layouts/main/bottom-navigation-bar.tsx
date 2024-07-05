@@ -8,7 +8,7 @@ import { Icon } from "@iconify-icon/react/dist/iconify.js";
 const BottomNav = () => {
   const searchDialog = useBoolean();
   return (
-    <div className="fixed bottom-0 border-t border-gray-500 w-full lg:hidden z-50 bg-blue-gray-900">
+    <div className="fixed bottom-0 border-t border-gray-500 w-full lg:hidden z-50 bg-slate-900">
       <div className="flex items-center justify-between py-2 px-5">
         {/* href={`/${user?.uid ? 'myaccount' : 'signin'}`}  */}
         <Link href="" className="flex flex-col items-center">

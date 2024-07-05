@@ -1,12 +1,10 @@
-import { paths } from "@/layouts/paths";
-import { IProductItem } from "@/types/products";
-import Link from "next/link";
-import React from "react";
-import tShart from "../../../../public/assets/images/category/t-shart.jpg";
+import React, { useEffect } from "react";
 import SideProductCard from "./common/side-product-card";
 import { useGetCategoryWiseProductQuery } from "@/redux/reducers/product/productApi";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import RecentViewedProductCard from "./common/recent-viewed-product-card";
+import { CartItem } from "@/types/cart";
+import { setLastVisitedProducts } from "@/redux/reducers/product/productSlice";
 
 interface Props {
   category: string;
@@ -14,7 +12,21 @@ interface Props {
 
 const RelatedProductsSection: React.FC<Props> = ({ category }) => {
   const { data, isLoading } = useGetCategoryWiseProductQuery({ category });
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const loadLastVisitedProducts = (): CartItem[] => {
+      const storedProducts = localStorage.getItem("lastVisitedProducts");
+      return storedProducts ? JSON.parse(storedProducts) : [];
+    };
+
+    const lastVisitedProducts = loadLastVisitedProducts();
+    dispatch(setLastVisitedProducts(lastVisitedProducts));
+  }, [dispatch]);
+
   const { lastVisitedProducts } = useAppSelector((state) => state.product);
+
   return (
     <div className="w-full lg:w-[301px] mt-5 lg:mt-0">
       <div className=" bg-white py-5 px-5">

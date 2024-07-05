@@ -4,19 +4,14 @@ import React, { useEffect, useState } from "react";
 import { mainMenuItems } from "./config-navigation";
 import Link from "next/link";
 import { Icon } from "@iconify-icon/react";
-import { Popover } from "@headlessui/react";
 
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
 import logo from "../../../public/assets/shop_logo.png";
-import CartHeaderPopover from "../common/modal/cart-header-popover";
 import { paths } from "../paths";
 import HomeHeaderSearch from "../common/search/home-header-search";
 import ProfilePopover from "../common/modal/profile-popover";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { openCartDrawer } from "@/redux/reducers/cart/cartSlice";
-import useBoolean from "@/hooks/use-boolean";
-import AuthModal from "../common/modal/auth-modal";
 
 export default function Header() {
   const [open, setOpen] = useState(false);

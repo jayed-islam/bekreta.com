@@ -2,9 +2,7 @@
 
 import React, { ReactNode, useEffect } from "react";
 import { CartItem } from "@/types/cart";
-import { setCartItems } from "./cartSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { useGetUserCartsQuery } from "./cartApi";
 import { setLastVisitedProducts } from "../product/productSlice";
 
 interface Props {
@@ -14,7 +12,7 @@ interface Props {
 const CartInitializer: React.FC<Props> = ({ children }) => {
   const { user } = useAppSelector((state) => state.auth);
 
-  const { data } = useGetUserCartsQuery(user?._id as string);
+  // const { data } = useGetUserCartsQuery(user?._id as string);
 
   const dispatch = useAppDispatch();
 
