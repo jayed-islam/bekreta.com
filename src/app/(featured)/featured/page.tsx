@@ -1,7 +1,8 @@
+import { FeaturedProductView } from "@/sections/featured/view";
 import React from "react";
 
 const FeaturedProductPage = () => {
-  return <div>FeaturedProductPage</div>;
+  return <FeaturedProductView />;
 };
 
 export default FeaturedProductPage;

@@ -21,7 +21,7 @@ export const orderApi = api.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: ["Orders"],
+      invalidatesTags: ["Orders", "user-carts"],
     }),
     getUserOrderById: builder.query<IGetUserOrderResponse, string>({
       query: (userId) => ({

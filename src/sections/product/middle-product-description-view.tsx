@@ -167,10 +167,10 @@ const MiddleProductDescription = ({ product }: TMiddleDescriptionProps) => {
         <button
           disabled={status === "OUT_OF_STOCK"}
           onClick={handleAddToCartMain}
-          className={`w-full relative flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium px-4 sm:px-6 bg-gray-800 text-white hover:bg-gray-900 shadow-xl flex-1 h-13 ${
+          className={`w-full relative flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium px-4 sm:px-6  shadow-md flex-1 h-13 ${
             status === "OUT_OF_STOCK"
               ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-              : ""
+              : "bg-gray-800 text-white hover:bg-gray-900"
           }`}
         >
           {isLoading ? (
@@ -178,7 +178,9 @@ const MiddleProductDescription = ({ product }: TMiddleDescriptionProps) => {
           ) : (
             <Icon icon="iconamoon:shopping-bag-light" className="text-xl" />
           )}
-          <span className="ml-3">Add to cart</span>
+          <span className="ml-3">
+            {status === "OUT_OF_STOCK" ? "Out of stock" : "Add to cart"}
+          </span>
         </button>
       </div>
 

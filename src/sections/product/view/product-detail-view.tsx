@@ -15,6 +15,7 @@ import MiddleProductDescription from "../middle-product-description-view";
 import { useGetProductByIdQuery } from "@/redux/reducers/product/productApi";
 import { useAppDispatch } from "@/redux/hooks";
 import { addLastVisitedProduct } from "@/redux/reducers/product/productSlice";
+import ProductDetailLoader from "@/components/loader/product-detail-loader";
 
 interface IProductDetailsProps {
   product?: IProductItem;
@@ -35,7 +36,7 @@ const ProductsDetailsView = ({ id, product }: IProductDetailsProps) => {
   return (
     <>
       {isLoading ? (
-        <h2>Loading...</h2>
+        <ProductDetailLoader />
       ) : (
         <div className="lg:flex relative max-w-6xl mx-auto xl:px-0 gap-7 pt-5 pb-11 md:pt-16 md:pb-16">
           <div className="flex-1">

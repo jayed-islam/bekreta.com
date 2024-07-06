@@ -22,4 +22,5 @@ export const paths = {
     orders: "/account/order",
     bilingAddress: "/account/biling-address",
   },
+  featured: "/featured",
 };

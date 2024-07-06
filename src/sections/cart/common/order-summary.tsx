@@ -65,6 +65,21 @@ const OrderSummery = ({ buttonTitle, isSubmit = false, onSubmit }: Props) => {
             </span>
           </div>
         </div>
+        {cartItems.length === 0 && (
+          <h2 className="mt-5 text-md font-semibold text-red-500">
+            Your cart is empty please add product in your cart to make order
+            easy.{" "}
+            <Link href={paths.product.category}>
+              <Button
+                className="hover:bg-green-600 bg-green-500 capitalize text-md"
+                variant="contained"
+                size="small"
+              >
+                See Product
+              </Button>
+            </Link>
+          </h2>
+        )}
         {isSubmit ? (
           <Button
             type="submit"

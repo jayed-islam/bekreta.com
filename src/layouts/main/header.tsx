@@ -147,7 +147,7 @@ export default function Header() {
 
             {/* ooffers section */}
 
-            <Link href={paths.product.category}>
+            <Link href={paths.featured}>
               <div className="md:flex items-center gap-3 mr-7 cursor-pointer hidden">
                 <div className="h-5 w-5">
                   <Icon

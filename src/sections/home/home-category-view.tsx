@@ -21,7 +21,7 @@ const HomeTopCategoryView = () => {
                 <Link
                   href={`${paths.product.category}?category=${category.title}`}
                   key={index}
-                  className="flex-shrink-0 border shadow-sm bg-white px-3 py-2 text-md font-semibold rounded-lg hover:shadow-lg transition-all duration-200"
+                  className="flex-shrink-0 border shadow-sm bg-white px-3 py-2 text-md font-semibold rounded-lg hover:shadow-lg transition-all duration-200 hover:border-green-500"
                 >
                   {category.name}
                 </Link>
