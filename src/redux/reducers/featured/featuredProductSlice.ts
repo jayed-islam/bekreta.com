@@ -45,7 +45,7 @@ export const featuredProductSlice = createSlice({
         state.products = state.products.filter(
           (p) => p.product._id !== action.payload
         );
-        toast.success("Product deleted successfully.");
+        toast.success("Product removed successfully.");
       } else {
         toast.error("You must have at least one product in your cart");
       }

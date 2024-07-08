@@ -1,6 +1,9 @@
 import useBoolean from "@/hooks/use-boolean";
 import { useAppDispatch } from "@/redux/hooks";
-import { updateProductQuantity } from "@/redux/reducers/featured/featuredProductSlice";
+import {
+  deleteProduct,
+  updateProductQuantity,
+} from "@/redux/reducers/featured/featuredProductSlice";
 import { IFeaturedProduct } from "@/types/featured-product";
 import { IProduct } from "@/types/products";
 import { Icon } from "@iconify-icon/react/dist/iconify.mjs";
@@ -9,9 +12,13 @@ import Image from "next/image";
 
 interface Props {
   featuredItem: IFeaturedProduct;
+  isCurrentFeatured: boolean;
 }
 
-const FeaturedProductCheckoutItem = ({ featuredItem }: Props) => {
+const FeaturedProductCheckoutItem = ({
+  featuredItem,
+  isCurrentFeatured,
+}: Props) => {
   const dialog = useBoolean();
 
   //   console.log("prod", product.quantity);
@@ -22,6 +29,12 @@ const FeaturedProductCheckoutItem = ({ featuredItem }: Props) => {
     dispatch(updateProductQuantity({ id, quantity }));
     console.log("aaa");
   };
+
+  const handleRemove = () => {
+    dispatch(deleteProduct(featuredItem.product._id));
+    dialog.setFalse();
+  };
+
   return (
     <>
       <div className=" flex py-3 px-3 rounded-xl my-3 bg-white first:mt-0 last:mb-0 relative">
@@ -34,16 +47,22 @@ const FeaturedProductCheckoutItem = ({ featuredItem }: Props) => {
             width={500}
           />
         </div>
-        <div
-          className="absolute right-2 top-2 cursor-pointer"
-          onClick={dialog.setTrue}
-        >
-          <Icon icon="uiw:delete" />
-        </div>
+        {!isCurrentFeatured && (
+          <div
+            className="absolute right-2 top-2 cursor-pointer"
+            onClick={handleRemove}
+          >
+            <Icon icon="uiw:delete" />
+          </div>
+        )}
         <div className="ml-3 flex flex-1 flex-col">
           <div className="flex justify-between ">
             <div className="flex-1">
-              <h2 className=" font-semibold line-clamp-1 overflow-ellipsis text-sm pr-3">
+              <h2
+                className={` font-semibold line-clamp-1 overflow-ellipsis text-sm ${
+                  !isCurrentFeatured && "pr-3"
+                }`}
+              >
                 {featuredItem.product.name}
               </h2>
 
