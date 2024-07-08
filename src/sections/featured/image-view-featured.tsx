@@ -1,11 +1,13 @@
 import { Icon } from "@mui/material";
+import Image from "next/image";
 import React, { RefObject, useRef, useState } from "react";
 
 interface Props {
   images: string[];
+  name: string;
 }
 
-const ImageViewFeatured = ({ images }: Props) => {
+const ImageViewFeatured = ({ images, name }: Props) => {
   const productImageRef: RefObject<HTMLImageElement> = useRef(null);
   const [currentImage, setCurrentImage] = useState(images[0]);
 
@@ -42,10 +44,10 @@ const ImageViewFeatured = ({ images }: Props) => {
   };
 
   return (
-    <div className="w-full md:w-[41%] lg:w-[51%] lg:px-5 xl:px-0">
+    <div className="w-full md:w-[41%] lg:w-[71%] lg:px-5 xl:px-0">
       <div className="relative">
         <div
-          className="h-[300px] md:h-[300px] xl:h-[371px] relative sm:border border-gray-300 sm:p-2 overflow-hidden cursor-pointer"
+          className="h-[300px] md:h-[300px] xl:h-[371px] relative sm:border border-gray-300 sm:p-2 overflow-hidden cursor-pointer rounded-xl"
           onMouseMove={handleImageZoom}
           onMouseLeave={handleImageZoomReset}
         >
@@ -64,11 +66,13 @@ const ImageViewFeatured = ({ images }: Props) => {
                 currentImage === image && "border-green-500"
               }`}
             >
-              <img
+              <Image
                 src={image}
-                alt=""
-                className={`h-11 w-11 sm:h-16 sm:w-16 object-cover`}
+                alt={name}
+                className={`h-11 w-11 object-cover hover:border-green-500 hover:cursor-pointer`}
                 onClick={() => setCurrentImage(images[index])}
+                height={500}
+                width={500}
               />
             </div>
           ))}

@@ -4,7 +4,7 @@ import Marquee from "react-fast-marquee";
 const FeaturedTopHeader = () => {
   return (
     <div className="w-full bg-slate-800">
-      <div className="flex items-center justify-center sm:justify-between px-5 sm:px-20 md:px-11 lg:px-5 xl:px-0 max-w-5xl mx-auto gap-20">
+      <div className="flex items-center justify-center sm:justify-between px-5 sm:px-20 md:px-11 lg:px-5 xl:px-0 max-w-6xl mx-auto gap-20">
         <div className="sm:flex items-center gap-9 text-white bg-green-500 h-full py-2 px-5 hidden">
           <div className="flex items-center gap-2 cursor-pointer text-sm md:text-[16px]">
             <Icon icon="line-md:email-opened-twotone-alt" />

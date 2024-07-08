@@ -15,9 +15,9 @@ interface Props {
 
 export default function Header(props: Props) {
   return (
-    <div className="bg-gray-100 pb-5">
+    <div className="bg-gray-100 pb-3">
       <div className="border-b shadow-sm bg-white">
-        <div className="max-w-5xl mx-auto py-2 md:py-4 px-5 xl:px-0 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto py-2 md:py-2.5 px-5 xl:px-0 flex items-center justify-between">
           <Link href={paths.root}>
             <Image src={logo} alt="" className="w-24 rounded-lg" />
           </Link>

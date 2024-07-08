@@ -53,7 +53,7 @@ export const featuredProductSlice = createSlice({
     setDistrictName: (state, action: PayloadAction<string>) => {
       state.selectedDistrict = action.payload;
     },
-    setProduct: (state, action: PayloadAction<IProduct>) => {
+    setFeaturedProduct: (state, action: PayloadAction<IProduct>) => {
       state.products = [
         {
           product: action.payload,
@@ -69,7 +69,7 @@ export const {
   updateProductQuantity,
   deleteProduct,
   setDistrictName,
-  setProduct,
+  setFeaturedProduct,
 } = featuredProductSlice.actions;
 
 export default featuredProductSlice.reducer;
@@ -80,10 +80,13 @@ export const selectSelectedDistrict = (state: RootState) =>
   state.featuredProduct.selectedDistrict;
 
 export const selectSubtotal = createSelector(selectProducts, (products) =>
-  products.reduce(
-    (subtotal, product) => subtotal + product.product.price * product.quantity,
-    0
-  )
+  products
+    .reduce(
+      (subtotal, product) =>
+        subtotal + product.product.price * product.quantity,
+      0
+    )
+    .toFixed(2)
 );
 
 export const selectShippingFee = createSelector(
@@ -97,7 +100,7 @@ export const selectShippingFee = createSelector(
 export const selectTotal = createSelector(
   selectSubtotal,
   selectShippingFee,
-  (subtotal, shippingFee) => subtotal + shippingFee
+  (subtotal, shippingFee) => (parseFloat(subtotal) + shippingFee).toFixed(2)
 );
 
 export const selectTotalItems = createSelector(

@@ -1,5 +1,6 @@
 import useBoolean from "@/hooks/use-boolean";
 import { useAppDispatch } from "@/redux/hooks";
+import { updateProductQuantity } from "@/redux/reducers/featured/featuredProductSlice";
 import { IFeaturedProduct } from "@/types/featured-product";
 import { IProduct } from "@/types/products";
 import { Icon } from "@iconify-icon/react/dist/iconify.mjs";
@@ -17,10 +18,10 @@ const FeaturedProductCheckoutItem = ({ featuredItem }: Props) => {
 
   const dispatch = useAppDispatch();
 
-  //   const handleUpdateQuantity = (id: string, quantity: number) => {
-  //     dispatch(updateProductQuantity({ id, quantity }));
-  //     console.log("aaa");
-  //   };
+  const handleUpdateQuantity = (id: string, quantity: number) => {
+    dispatch(updateProductQuantity({ id, quantity }));
+    console.log("aaa");
+  };
   return (
     <>
       <div className=" flex py-3 px-3 rounded-xl my-3 bg-white first:mt-0 last:mb-0 relative">
@@ -41,14 +42,14 @@ const FeaturedProductCheckoutItem = ({ featuredItem }: Props) => {
         </div>
         <div className="ml-3 flex flex-1 flex-col">
           <div className="flex justify-between ">
-            <div className="flex-[1.5] ">
-              <h2 className=" font-semibold line-clamp-1 overflow-ellipsis text-sm">
+            <div className="flex-1">
+              <h2 className=" font-semibold line-clamp-1 overflow-ellipsis text-sm pr-3">
                 {featuredItem.product.name}
               </h2>
 
               <div className="mt-4 flex justify-between w-full relative items-center">
-                <div className="flex items-center border border-orange-500 rounded-md py-1 px-2  md:px-2.5 text-xs font-medium h-full">
-                  <span className="text-orange-500 !leading-none font-semibold">
+                <div className="flex items-center border border-green-500 rounded-md py-1 px-2  md:px-2.5 text-xs font-medium h-full">
+                  <span className="text-green-500 !leading-none font-semibold">
                     ৳ {featuredItem.product.price}
                   </span>
                 </div>
@@ -59,10 +60,13 @@ const FeaturedProductCheckoutItem = ({ featuredItem }: Props) => {
                       p: 0.2,
                     }}
                     size="small"
-                    // onClick={() =>
-                    //   handleUpdateQuantity(product.id, product.quantity - 1)
-                    // }
-                    // disabled={product.quantity <= 1}
+                    onClick={() =>
+                      handleUpdateQuantity(
+                        featuredItem.product._id,
+                        featuredItem.quantity - 1
+                      )
+                    }
+                    disabled={featuredItem.quantity <= 1}
                   >
                     <Icon icon="jam:minus" />
                   </IconButton>
@@ -75,9 +79,12 @@ const FeaturedProductCheckoutItem = ({ featuredItem }: Props) => {
                       p: 0.2,
                     }}
                     size="small"
-                    // onClick={() =>
-                    //   handleUpdateQuantity(product.id, product.quantity + 1)
-                    // }
+                    onClick={() =>
+                      handleUpdateQuantity(
+                        featuredItem.product._id,
+                        featuredItem.quantity + 1
+                      )
+                    }
                   >
                     <Icon icon="jam:plus" />
                   </IconButton>
