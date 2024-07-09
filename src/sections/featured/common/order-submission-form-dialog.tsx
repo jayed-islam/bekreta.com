@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -13,21 +13,43 @@ import { RHFSelect, RHFTextField } from "@/components/react-hook-form";
 import { IDivision } from "@/types/address";
 import divisions from "@/data/division";
 import useLocationSelect from "@/hooks/use-location";
-import { setDistrictName } from "@/redux/reducers/featured/featuredProductSlice";
+import {
+  selectTotal,
+  setDistrictName,
+} from "@/redux/reducers/featured/featuredProductSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { orderSubmissionSchema } from "./order-validation";
+import toast from "react-hot-toast";
+import { useCreateOfferedOrderMutation } from "@/redux/reducers/featured/featuredProductApi";
+import OrderSuccessModal from "./success-order-dialog";
+import useBoolean from "@/hooks/use-boolean";
+import { LoadingButton } from "@mui/lab";
 
 interface Props {
   dialog: BooleanState;
-  onSubmit: any;
+  successModal: BooleanState;
+  setOrderID: any;
 }
 
-export default function OrderSubmissionFormDialog({ dialog, onSubmit }: Props) {
+export default function OrderSubmissionFormDialog({
+  dialog,
+  successModal,
+  setOrderID,
+}: Props) {
+  const dispatch = useAppDispatch();
   const methods = useForm({
-    // resolver: zodResolver(checkoutSchema),
+    resolver: zodResolver(orderSubmissionSchema),
   });
+
+  const { products: featuredProducts } = useAppSelector(
+    (state) => state.featuredProduct
+  );
+  const totalPrice = useAppSelector(selectTotal);
 
   const {
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = methods;
 
@@ -60,20 +82,69 @@ export default function OrderSubmissionFormDialog({ dialog, onSubmit }: Props) {
   useEffect(() => {
     setSelectedSubDistrict(subDistrictValue || "");
   }, [setSelectedSubDistrict, subDistrictValue]);
+
+  const [createOfferedOrder, { isLoading }] = useCreateOfferedOrderMutation();
+
+  const onSubmit = handleSubmit(async (data) => {
+    console.log(data);
+    if (featuredProducts.length === 0) {
+      toast.error("Please add minimum 1 product for checkout");
+      return;
+    }
+
+    const products = featuredProducts.map((item) => ({
+      product: item.product._id,
+      quantity: item.quantity,
+      price: item.product.price,
+    }));
+
+    const payload = {
+      phone: data.phone,
+      fullName: data.fullName,
+      products,
+      shippingAddress: {
+        detailAddress: data.detailAddress,
+        division: selectedDivisionName,
+        district: selectedDistrictName,
+        subDistrict: selectedSubDistrictName,
+      },
+      totalPrice: Number(totalPrice),
+    };
+
+    try {
+      const response = await createOfferedOrder(payload).unwrap();
+
+      console.log("res", response);
+      if (response.success) {
+        toast.success(response.message);
+        setOrderID(response.data._id);
+        dialog.setFalse();
+        reset();
+        successModal.setTrue();
+      } else {
+        toast.error(response.message);
+      }
+    } catch (error: any) {
+      console.error("Error submitting form:", error);
+      toast.error(error.data.message);
+    }
+  });
+
   return (
     <React.Fragment>
       <Dialog
         open={dialog.value}
         onClose={dialog.setFalse}
-        aria-labelledby="responsive-dialog-title"
+        maxWidth="sm"
+        fullWidth
       >
-        <DialogTitle id="responsive-dialog-title">
-          {"Use Google's location service?"}
-        </DialogTitle>
-        <DialogContent>
-          <FormProvider methods={methods} onSubmit={onSubmit}>
-            <div className="">
-              <RHFTextField name="name" label="Name" />
+        <FormProvider methods={methods} onSubmit={onSubmit}>
+          <DialogTitle>
+            Provide your location details and make the order easy!!!
+          </DialogTitle>
+          <DialogContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 py-5">
+              <RHFTextField name="fullName" label="Full Name" />
               <RHFTextField name="phone" label="Phone" />
 
               <RHFSelect
@@ -82,7 +153,7 @@ export default function OrderSubmissionFormDialog({ dialog, onSubmit }: Props) {
                 options={Object.values(divisions).map(
                   (division: IDivision) => ({
                     value: division.id,
-                    label: division.name,
+                    label: division.bn_name,
                   })
                 )}
               />
@@ -92,7 +163,7 @@ export default function OrderSubmissionFormDialog({ dialog, onSubmit }: Props) {
                 label="District"
                 options={filteredDistricts.map((district) => ({
                   value: district.id,
-                  label: district.name,
+                  label: district.bn_name,
                 }))}
                 disabled={!selectedDivision}
               />
@@ -102,7 +173,7 @@ export default function OrderSubmissionFormDialog({ dialog, onSubmit }: Props) {
                 label="SubDistrict"
                 options={filteredSubDistricts.map((subDistrict) => ({
                   value: subDistrict.id,
-                  label: subDistrict.name,
+                  label: subDistrict.bn_name,
                 }))}
                 disabled={!selectedDistrict}
               />
@@ -112,87 +183,28 @@ export default function OrderSubmissionFormDialog({ dialog, onSubmit }: Props) {
                 label="Detail Address"
                 className="lg:col-span-2"
               />
-              <Grid
-                container
-                sx={{
-                  mt: 3,
-                }}
-                spacing={3}
-              >
-                <Grid md={4} xs={12} item>
-                  <Stack spacing={2}>
-                    <div className="rounded-xl border">
-                      <div className="p-3 bg-gray-100 border-b rounded-t-xl">
-                        <h2 className="text-md font-semibold">Order Summary</h2>
-                      </div>
-                      <div className="p-3 flex flex-col gap-3">
-                        <div className="flex items-center justify-between">
-                          <Typography variant="body1">
-                            Subtotal ({totalItem} Items)
-                          </Typography>
-                          <Typography
-                            variant="subtitle1"
-                            className="font-semibold"
-                          >
-                            ৳ {subtotal}
-                          </Typography>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <Typography variant="body1">Shipping Fee</Typography>
-                          <Typography
-                            variant="subtitle1"
-                            className="font-semibold"
-                          >
-                            ৳ {shippingFee}
-                          </Typography>
-                        </div>
-                        <Divider />
-                        <div className="flex items-center justify-between">
-                          <Typography variant="body1" className="font-semibold">
-                            Total
-                          </Typography>
-                          <Typography
-                            variant="subtitle1"
-                            className="font-semibold"
-                          >
-                            ৳ {total}
-                          </Typography>
-                        </div>
-
-                        <LoadingButton
-                          type="submit"
-                          size="large"
-                          loading={isLoading}
-                          className="bg-[rgb(235,106,42)] text-white capitalize w-full py-2 mt-5 rounded-xl hover:bg-[rgb(235,106,42)]"
-                        >
-                          Place Order
-                        </LoadingButton>
-                      </div>
-                    </div>
-                    <div className="bg-gray-100 rounded-xl">
-                      <div className="p-3 bg-white border rounded-t-xl">
-                        <h2 className="text-md font-semibold">Your Basket</h2>
-                      </div>
-                      <div className="p-3">
-                        {products.map((product, index) => (
-                          <CheckoutItem product={product} key={index} />
-                        ))}
-                      </div>
-                    </div>
-                  </Stack>
-                </Grid>
-              </Grid>
             </div>
-          </FormProvider>
-        </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={dialog.setFalse}>
-            Disagree
-          </Button>
-          <Button onClick={dialog.setTrue} autoFocus>
-            Agree
-          </Button>
-        </DialogActions>
+          </DialogContent>
+          <div className="flex items-center justify-end pr-5 pb-5 gap-5">
+            <Button
+              onClick={dialog.setFalse}
+              variant="contained"
+              className="bg-red-500 hover:bg-red-600 capitalize"
+            >
+              Cancel
+            </Button>
+            <LoadingButton
+              onClick={dialog.setTrue}
+              autoFocus
+              loading={isLoading}
+              type="submit"
+              variant="contained"
+              className="bg-green-500 hover:bg-green-600 capitalize"
+            >
+              Confirm Order
+            </LoadingButton>
+          </div>
+        </FormProvider>
       </Dialog>
     </React.Fragment>
   );

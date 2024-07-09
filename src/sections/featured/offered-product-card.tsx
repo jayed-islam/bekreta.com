@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { addProduct } from "@/redux/reducers/featured/featuredProductSlice";
+import { scrollToTop } from "@/hooks/use-clicktoTop";
 
 interface IProductCardProps {
   product: IProduct;
@@ -46,21 +47,21 @@ const OfferedProductCard = ({
     >
       <div className="absolute -right-11 top-1/3 z-10 flex-col md:flex gap-2 group-hover:right-3 transition-all duration-500 hidden">
         {actionButtonsInfo.map((action, index) => (
-          <Link href={`${paths.product.root}/${_id}`}>
-            <Tooltip
-              title={action.title}
-              placement="bottom"
-              className="bg-opacity-65 text-xs px-1.5 py-[2px]"
+          // <Link href={`${paths.product.root}/${_id}`}>
+          <Tooltip
+            title={action.title}
+            placement="bottom"
+            className="bg-opacity-65 text-xs px-1.5 py-[2px]"
+          >
+            <div
+              key={index}
+              onClick={() => action.action()}
+              className="bg-gray-300 h-9 w-9 hover:bg-green-500 transition-all duration-200 rounded-full flex items-center justify-center hover:text-white"
             >
-              <div
-                key={index}
-                onClick={() => action.action()}
-                className="bg-gray-300 h-9 w-9 hover:bg-green-500 transition-all duration-200 rounded-full flex items-center justify-center hover:text-white"
-              >
-                <Icon icon={action.icon} className="text-xl" />
-              </div>
-            </Tooltip>
-          </Link>
+              <Icon icon={action.icon} className="text-xl" />
+            </div>
+          </Tooltip>
+          // </Link>
         ))}
       </div>
       <div
@@ -68,15 +69,15 @@ const OfferedProductCard = ({
           size === "sm" ? "h-36 md:h-44" : "h-44 md:h-64"
         }`}
       >
-        <Link href={`${paths.product.root}/${_id}`}>
-          <Image
-            alt={product.name}
-            className="group-hover:scale-110 rounded-t-2xl transition-all duration-200  object-cover h-full w-full"
-            src={images[0]}
-            height={500}
-            width={500}
-          />
-        </Link>
+        {/* <Link href={`${paths.product.root}/${_id}`}> */}
+        <Image
+          alt={product.name}
+          className="group-hover:scale-110 rounded-t-2xl transition-all duration-200  object-cover h-full w-full"
+          src={images[0]}
+          height={500}
+          width={500}
+        />
+        {/* </Link> */}
 
         {status === "OUT_OF_STOCK" && (
           <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-t-2xl">
@@ -104,17 +105,17 @@ const OfferedProductCard = ({
 
       <div className={`px-3`}>
         <div className={`pt-2 pb-2 `}>
-          <Link href={`${paths.product.root}/${_id}`}>
-            <h2
-              className={`font-bold hover:text-green-500 transition-all duration-300 ease-in leading-5 line-clamp-2 overflow-ellipsis  ${
-                size === "sm"
-                  ? "text-sm h-9"
-                  : "text-sm md:text-lg h-9 md:h-[4rem]"
-              }`}
-            >
-              {name}
-            </h2>
-          </Link>
+          {/* <Link href={`${paths.product.root}/${_id}`}> */}
+          <h2
+            className={`font-bold hover:text-green-500 transition-all duration-300 ease-in leading-5 line-clamp-2 overflow-ellipsis  ${
+              size === "sm"
+                ? "text-sm h-9"
+                : "text-sm md:text-lg h-9 md:h-[4rem]"
+            }`}
+          >
+            {name}
+          </h2>
+          {/* </Link> */}
           <div className="sm:flex items-center hidden mt-2">
             {[1, 2, 3].map((i) => (
               <Icon icon="noto:star" className="text-md" />
@@ -137,7 +138,10 @@ const OfferedProductCard = ({
                     ? "bg-gray-300 text-gray-500"
                     : "bg-gray-200 hover:bg-green-600 hover:text-white"
                 }`}
-                onClick={handleAddToCart}
+                onClick={() => {
+                  scrollToTop();
+                  handleAddToCart();
+                }}
               >
                 <Icon icon="solar:bag-4-linear" className="text-xl" />
               </button>

@@ -59,3 +59,21 @@ export interface IOrder {
   isCanceled?: boolean;
   createdAt?: Date;
 }
+
+export interface ICreateOfferedOrder {
+  _id?: string;
+  products: IOrderCreateItem[];
+  phone: string;
+  fullName: string;
+  status?: OrderStatus;
+  shippingAddress: {
+    detailAddress: string;
+    district: string;
+    division: string;
+    subDistrict: string;
+  };
+  totalPrice: number;
+  isCanceled?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}

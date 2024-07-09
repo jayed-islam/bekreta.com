@@ -44,10 +44,10 @@ const ImageViewFeatured = ({ images, name }: Props) => {
   };
 
   return (
-    <div className="w-full md:w-[41%] lg:w-[71%] lg:px-5 xl:px-0">
+    <div className="w-full md:w-[41%] lg:w-[71%] lg:px-5 xl:px-0 ">
       <div className="relative">
         <div
-          className="h-[300px] md:h-[300px] xl:h-[371px] relative sm:border border-gray-300 sm:p-2 overflow-hidden cursor-pointer rounded-xl"
+          className="h-[300px] md:h-[351px] xl:h-[371px] relative border border-gray-300 sm:p-2 overflow-hidden cursor-pointer rounded-xl"
           onMouseMove={handleImageZoom}
           onMouseLeave={handleImageZoomReset}
         >
