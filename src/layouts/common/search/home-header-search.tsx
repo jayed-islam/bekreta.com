@@ -18,6 +18,10 @@ export default function HomeHeaderSearch() {
     router.push(`${paths.product.category}?search=${searchTerm}`);
   };
 
+  const onSubmitCategory = (searchTerm: string) => {
+    router.push(`${paths.product.category}?search=${searchTerm}`);
+  };
+
   const handleInputFocus = () => {
     setIsPopoverOpen(true);
   };
@@ -83,7 +87,7 @@ export default function HomeHeaderSearch() {
                       {categories.map((caterory, index) => (
                         <div
                           onClick={async () => {
-                            onSubmit(caterory.name);
+                            onSubmitCategory(caterory.title);
                             close();
                           }}
                           key={index}

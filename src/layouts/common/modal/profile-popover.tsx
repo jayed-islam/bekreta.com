@@ -4,7 +4,7 @@ import React from "react";
 import { Fragment } from "react";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import { profileInfo } from "@/constants";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { logout } from "@/redux/reducers/auth/authSlice";
 
 const ProfilePopover = () => {
@@ -12,6 +12,8 @@ const ProfilePopover = () => {
   const handleLogout = () => {
     dispatch(logout());
   };
+
+  const { user } = useAppSelector((state) => state.auth);
   return (
     <div className="">
       <Popover className="relative">
@@ -43,7 +45,7 @@ const ProfilePopover = () => {
                     <div className="overflow-hidden rounded-3xl shadow-lg">
                       <div className="relative grid grid-cols-1 gap-6 bg-white py-7 px-6">
                         <div className="flex items-center space-x-3">
-                          <div className="wil-avatar relative flex-shrink-0 inline-flex items-center justify-center text-neutral-100 uppercase font-semibold shadow-inner rounded-full w-12 h-12">
+                          <div className="wil-avatar relative flex-shrink-0 inline-flex items-center justify-center text-neutral-100 uppercase font-semibold shadow-inner rounded-full h-7 w-7 md:w-12 md:h-12">
                             <img
                               src="https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg"
                               className="absolute inset-0 w-full h-full object-cover rounded-full"
@@ -51,8 +53,12 @@ const ProfilePopover = () => {
                             <span className="wil-avatar__name">J</span>
                           </div>
                           <div className="flex-grow">
-                            <h4 className="font-semibold">Myname here</h4>
-                            <p className="text-xs mt-0.5">emailagmai.com</p>
+                            <h4 className="font-semibold text-sm md:text-md">
+                              Edit name
+                            </h4>
+                            <p className="text-xs mt-0.5">
+                              {user && user?.email}
+                            </p>
                           </div>
                         </div>
                         <div className="w-full border-b border-neutral-200"></div>

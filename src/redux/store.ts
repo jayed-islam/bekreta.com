@@ -5,6 +5,7 @@ import productSlice from "./reducers/product/productSlice";
 import categorySlice from "./reducers/category/categorySlice";
 import authSlice from "./reducers/auth/authSlice";
 import featuredProductSlice from "./reducers/featured/featuredProductSlice";
+import menuSlice from "./reducers/menu/menuSlice";
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     product: productSlice,
     auth: authSlice,
     featuredProduct: featuredProductSlice,
+    menu: menuSlice,
     [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) =>

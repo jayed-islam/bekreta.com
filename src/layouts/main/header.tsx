@@ -12,17 +12,27 @@ import HomeHeaderSearch from "../common/search/home-header-search";
 import ProfilePopover from "../common/modal/profile-popover";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { openCartDrawer } from "@/redux/reducers/cart/cartSlice";
+import { openMenu, toggleMenu } from "@/redux/reducers/menu/menuSlice";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
 
   const { cartItems } = useAppSelector((state) => state.cart);
   const { user } = useAppSelector((state) => state.auth);
+  const { isMenuOpen } = useAppSelector((state) => state.menu);
 
   const dispatch = useAppDispatch();
 
   const handleOpenDrawer = () => {
     dispatch(openCartDrawer());
+  };
+
+  const handleMenuToggle = () => {
+    dispatch(toggleMenu());
+  };
+
+  const handleMenuOepn = () => {
+    dispatch(openMenu());
   };
 
   const [isSticky, setIsSticky] = useState(false);
@@ -50,12 +60,12 @@ export default function Header() {
         isSticky && "sticky top-0 transition-all duration-700"
       }`}
     >
-      <div className="relative shadow-sm border-slate-100">
+      <div className="shadow-sm border-slate-100">
         <div className="max-w-6xl mx-auto px-5 xl:px-0">
           <div className="h-20 flex justify-between items-center w-full">
             <div className="flex items-center lg:hidden">
               <button
-                onClick={() => setOpen(!open)}
+                onClick={handleMenuOepn}
                 className="rounded-lg text-neutral-700 focus:outline-none flex items-center justify-center"
               >
                 <Icon icon="ion:menu-outline" className="text-3xl text-white" />
@@ -72,18 +82,14 @@ export default function Header() {
                     className="h-10 md:h-12 w-auto rounded-sm"
                     src={logo}
                   />
-                  {/* <h3 className="text-3xl md:text-4xl font-bold text-white">
-                    Bazaro
-                  </h3> */}
                 </div>
-                {/* <p className="hidden md:block text-xs text-gray-400">
-                  Online superium shoping center
-                </p> */}
               </Link>
             </div>
             <div
-              className={`bg-white h-screen absolute outline-none transition-all ease-in duration-300 ${
-                open ? "w-full top-0 left-0" : "w-0 -left-[200px] top-0"
+              className={`bg-white fixed max:h-screen outline-none transition-all ease-in duration-300 z-30 ${
+                isMenuOpen
+                  ? "w-full top-0 left-0 bottom-0"
+                  : "w-0 -left-[200px] top-0"
               }`}
             >
               <div className="z-20 relative  translate-x-0">
@@ -102,7 +108,7 @@ export default function Header() {
                     <span className="absolute right-2 top-2 p-1">
                       <button
                         className="w-8 h-8 flex items-center justify-center rounded-full text-neutral-700  hover:bg-neutral-100   focus:outline-none"
-                        onClick={() => setOpen(!open)}
+                        onClick={handleMenuToggle}
                       >
                         <span className="sr-only">Close</span>
                         <svg
@@ -125,7 +131,7 @@ export default function Header() {
                     {mainMenuItems.map((item, index) => (
                       <li className="text-slate-900" key={index}>
                         <Link
-                          onClick={() => setOpen(!open)}
+                          onClick={handleMenuToggle}
                           className="flex w-full items-center py-2.5 px-4 font-medium tracking-wide text-sm hover:bg-slate-100 rounded-lg capitalize"
                           href="/"
                         >

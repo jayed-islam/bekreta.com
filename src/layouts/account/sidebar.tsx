@@ -1,11 +1,15 @@
+"use client";
+
 import React from "react";
 import { accountConfings } from "./config-navigation";
 import { Icon } from "@iconify-icon/react/dist/iconify.mjs";
 import Link from "next/link";
+import { useAppSelector } from "@/redux/hooks";
 
 const AccountSidebar = () => {
+  const { user } = useAppSelector((state) => state.auth);
   return (
-    <div className="w-[16rem] bg-white px-3 rounded-2xl pt-5 pb-7">
+    <div className="w-full md:w-[16rem] bg-white px-3 rounded-2xl pt-5 pb-7">
       <div className="relative overflow-hidden flex flex-col items-center justify-center">
         <img
           alt="avatar"
@@ -18,8 +22,8 @@ const AccountSidebar = () => {
           src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-614810.jpg&fm=jpg"
         />
         <div className="flex flex-col items-center justify-center">
-          <h2 className="text-lg font-bold leading-5 mt-3">Abdullah Khan</h2>
-          <h3>user@gmail.com</h3>
+          <h2 className="text-lg font-bold leading-5 mt-3">Edit name</h2>
+          <h3>{user && user?.email}</h3>
         </div>
       </div>
       <div className="mt-7 flex flex-col gap-3">

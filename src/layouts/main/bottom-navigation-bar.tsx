@@ -5,22 +5,29 @@ import MiniSearchModal from "../common/modal/mini-search-modal";
 import useBoolean from "@/hooks/use-boolean";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import { paths } from "../paths";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { openMenu } from "@/redux/reducers/menu/menuSlice";
 
 const BottomNav = () => {
   const searchDialog = useBoolean();
   const { user } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+
+  const handleOpenMenu = () => {
+    dispatch(openMenu());
+  };
   return (
-    <div className="fixed bottom-0 border-t border-gray-500 w-full lg:hidden z-50 bg-slate-900">
+    <div className="fixed bottom-0 border-t border-gray-500 w-full lg:hidden z-20 bg-slate-900">
       <div className="flex items-center justify-between py-2 px-5">
-        {/* href={`/${user?.uid ? 'myaccount' : 'signin'}`}  */}
         <Link
-          href={`/${user && user?._id ? "account" : "signin"}`}
+          href={`/${
+            user && user?._id ? paths.account.root : paths.website.signin
+          }`}
           className="flex flex-col items-center"
         >
           <Icon icon="codicon:account" className="text-2xl text-white" />
           <h3 className="text-xs whitespace-nowrap text-gray-400">
-            {user && user?._id ? "Account" : "Login"}
+            {user && user?._id ? "Account" : "Signin"}
           </h3>
         </Link>
         <div
@@ -39,7 +46,7 @@ const BottomNav = () => {
             <h3 className="text-xs whitespace-nowrap text-gray-400">Offers</h3>
           </div>
         </Link>
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center" onClick={handleOpenMenu}>
           <Icon icon="ion:menu-outline" className="text-2xl text-white" />
           <h3 className="text-xs whitespace-nowrap text-gray-400">Menu</h3>
         </div>

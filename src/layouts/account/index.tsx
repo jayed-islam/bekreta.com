@@ -8,7 +8,7 @@ type AccountLayoutProps = {
 const AccountLayout = ({ children }: AccountLayoutProps) => {
   return (
     <div className="bg-gray-100">
-      <div className="max-w-6xl mx-auto px-5 xl:px-0 flex items-start gap-5 py-7 md:py-16">
+      <div className="max-w-6xl mx-auto px-5 xl:px-0 flex items-start flex-col md:flex-row gap-5 py-7 md:py-16">
         <AccountSidebar />
         <div className="flex-1">{children}</div>
       </div>
