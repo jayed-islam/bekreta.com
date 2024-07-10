@@ -76,13 +76,7 @@ const HomeFlashSaleView = () => {
           ) : (
             <>
               {products?.slice(10, 15).map((product, index) => (
-                <ProductCard
-                  key={index}
-                  product={product}
-                  index={index}
-                  timerBoolean={true}
-                  rootPath={paths.product.root}
-                />
+                <ProductCard key={index} product={product} size="lg" />
               ))}
             </>
           )}

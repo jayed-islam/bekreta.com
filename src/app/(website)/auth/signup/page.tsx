@@ -1,8 +1,12 @@
 import SignUpView from "@/sections/auth/siginup-view";
-import React from "react";
+import React, { Suspense } from "react";
 
 const UserSignUpPage = () => {
-  return <SignUpView />;
+  return (
+    <Suspense>
+      <SignUpView />
+    </Suspense>
+  );
 };
 
 export default UserSignUpPage;

@@ -1,8 +1,12 @@
 import SignInView from "@/sections/auth/signin-view";
-import React from "react";
+import React, { Suspense } from "react";
 
 const UserSignInPage = () => {
-  return <SignInView />;
+  return (
+    <Suspense>
+      <SignInView />
+    </Suspense>
+  );
 };
 
 export default UserSignInPage;

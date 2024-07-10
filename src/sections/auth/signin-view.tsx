@@ -28,8 +28,8 @@ const SignInView = () => {
     formState: { errors },
   } = methods;
 
-  const redirectPath =
-    new URLSearchParams(window.location.search).get("redirect") || "/";
+  // const redirectPath =
+  //   new URLSearchParams(window.location.search).get("redirect") || "/";
 
   const [loginUser, { isLoading }] = useLoginMutation();
 
@@ -41,10 +41,12 @@ const SignInView = () => {
       if (response.success) {
         toast.success(response.message);
         dispatch(setToken(response?.data?.accessToken));
-        const redirectPath =
-          new URLSearchParams(window.location.search).get("redirect") || "/";
-        console.log("path", redirectPath);
-        router.push(redirectPath);
+        let redirectPath;
+        if (typeof window !== "undefined") {
+          const redirectPath =
+            new URLSearchParams(window?.location.search).get("redirect") || "/";
+          router.push(redirectPath);
+        }
       } else {
         toast.error(response.message);
         setErrorMessage(response.message);
@@ -66,14 +68,20 @@ const SignInView = () => {
     }
   }, [errorMessage]);
 
-  if (typeof window === "object") {
-    if (localStorage?.getItem("accessToken")) {
-      toast.success("You have already logged in.");
-      router.push(redirectPath);
-      // eslint-disable-next-line react/jsx-no-useless-fragment
-      return <></>;
-    }
-  }
+  // if (typeof window === "object") {
+  //   if (localStorage?.getItem("accessToken")) {
+  //     toast.success("You have already logged in.");
+  //     router.push(redirectPath);
+  //     // eslint-disable-next-line react/jsx-no-useless-fragment
+  //     return <></>;
+  //   }
+  // }
+  // useEffect(() => {
+  //   if (typeof window !== "undefined" && localStorage.getItem("accessToken")) {
+  //     toast.success("You have already logged in.");
+  //     router.push(redirectPath);
+  //   }
+  // }, []);
 
   return (
     <div className="bg-gray-100 py-16 md:py-20 lg:py-28 flex items-center justify-center w-full">

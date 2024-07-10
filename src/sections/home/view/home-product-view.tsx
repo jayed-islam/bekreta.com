@@ -10,7 +10,6 @@ const HomeProductsView = () => {
   const cardsArray = Array.from({ length: 11 }, (_, index) => index);
   const { data, isFetching } = useGetFeaturedProductsQuery({});
 
-  console.log("data", data);
   return (
     <div className="w-full bg-gray-100">
       <div className="flex flex-col items-center justify-center pt-7 md:pt-16 pb-7">
@@ -32,7 +31,7 @@ const HomeProductsView = () => {
           ) : (
             <>
               {data?.data?.products?.map((product, index) => (
-                <ProductCard key={index} product={product} index={index} />
+                <ProductCard key={index} product={product} size="lg" />
               ))}
             </>
           )}

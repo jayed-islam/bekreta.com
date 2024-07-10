@@ -1,8 +1,12 @@
 import CategoryWiseProductFilterView from "@/sections/product/view/category-wise-product-view";
-import React from "react";
+import React, { Suspense } from "react";
 
 const CategoryBasedProductViewPage = () => {
-  return <CategoryWiseProductFilterView />;
+  return (
+    <Suspense>
+      <CategoryWiseProductFilterView />
+    </Suspense>
+  );
 };
 
 export default CategoryBasedProductViewPage;

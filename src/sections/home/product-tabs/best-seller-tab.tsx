@@ -52,12 +52,7 @@ const BestSellerProductTab = () => {
           ) : (
             <>
               {products?.slice(19, 30).map((product, index) => (
-                <ProductCard
-                  key={index}
-                  product={product}
-                  index={index}
-                  rootPath={paths.product.root}
-                />
+                <ProductCard key={index} product={product} size="lg" />
               ))}
             </>
           )}
