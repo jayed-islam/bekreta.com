@@ -1,33 +1,24 @@
+"use client";
+import { paths } from "@/layouts/paths";
+import { BooleanState } from "@/types/utils";
 import { Dialog, Transition } from "@headlessui/react";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import { useRouter } from "next/navigation";
 import { Fragment, useState } from "react";
-import { useForm } from "react-hook-form";
 
 interface ISearchModal {
-  dialog: {
-    value: boolean;
-    setTrue: () => void;
-    setFalse: () => void;
-    toggle: () => void;
-    setValue: React.Dispatch<React.SetStateAction<boolean>>;
-  };
+  dialog: BooleanState;
 }
 
 const MiniSearchModal = ({ dialog }: ISearchModal) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const [query, setQuery] = useState("");
 
   const router = useRouter();
 
-  //   const onSubmit = (data) => {
-  //     console.log(data);
-  //     navigate(`/category?search=${data.search}`);
-  //     closeModal();
-  //   };
+  const onSubmit = () => {
+    router.push(`${paths.product.category}?search=${query}`);
+    dialog.setFalse();
+  };
 
   return (
     <>
@@ -58,25 +49,24 @@ const MiniSearchModal = ({ dialog }: ISearchModal) => {
               >
                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-3 text-left align-middle shadow-xl transition-all">
                   <div className="">
-                    <form
-                      //   onSubmit={handleSubmit(onSubmit)}
-                      className="bg-gray-100 flex items-center rounded-md  relative"
-                    >
+                    <div className="bg-gray-100 flex items-center rounded-md  relative">
                       <input
                         type="text"
                         placeholder="Search for products..."
-                        className={`flex-grow border border-gray-100 bg-transparent border-none focus:outline-none h-[55px] px-5 w-full rounded-md ${
-                          errors.search && "border-red-500 bg-black"
-                        }`}
-                        {...register("search", { required: true })}
+                        onChange={(e) => setQuery(e.target.value)}
+                        className={`flex-grow border border-gray-100 bg-transparent border-none focus:outline-none h-[55px] px-5 w-full rounded-md`}
                       />
-                      <button type="submit" className="absolute right-5">
+                      <button
+                        type="button"
+                        onClick={onSubmit}
+                        className="absolute right-5"
+                      >
                         <Icon
                           icon="iconamoon:search-light"
                           className="text-gray-600 text-xl"
                         />
                       </button>
-                    </form>
+                    </div>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

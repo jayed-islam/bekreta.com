@@ -57,7 +57,7 @@ const ProductViewFeatured = ({}: Props) => {
           <div className="flex-1 flex gap-5 items-start md:flex-row flex-col">
             {isLoading ? (
               <div className="animate-pulse">
-                <div className=" bg-slate-200 h-[300px] md:h-[300px] xl:h-[371px] md:w-[351px] lg:w-[400px] border rounded-xl"></div>
+                <div className=" bg-slate-200 h-[300px] md:h-[300px] xl:h-[371px] md:w-[351px] lg:w-[400px] w-full border rounded-xl"></div>
               </div>
             ) : (
               <ImageViewFeatured
@@ -66,33 +66,50 @@ const ProductViewFeatured = ({}: Props) => {
               />
             )}
 
-            <div>
-              <Typography variant="h5" className="pb-1.5 font-semibold">
-                {data?.data.name}
-              </Typography>
-              <div className="py-5">
-                <Typography className="text-md font-semibold mb-2">
-                  Specification
-                </Typography>
-                {data?.data.specifications.map((item, index) => (
-                  <h2 className="text-sm md:text-md">{item}</h2>
-                ))}
-              </div>
+            <div className="w-full md:w-[65%] pr-5">
+              {isLoading ? (
+                <div className="animate-pulse w-full">
+                  <div className="bg-gray-200 h-3 w-full rounded-md"></div>
+                  <div className="bg-gray-200 h-3 w-full mt-2 rounded-md"></div>
+                  <div className="flex flex-col space-y-2  my-5">
+                    <div className="bg-gray-200 h-4 w-36 rounded-md"></div>
+                    <div className="bg-gray-200 h-4 w-48 rounded-md"></div>
+                    <div className="bg-gray-200 h-4 w-40 rounded-md"></div>
+                    <div className="bg-gray-200 h-4 w-40 rounded-md"></div>
+                  </div>
+                  <div className="animate-pulse bg-gray-200 h-6 w-20 rounded-md"></div>
+                  <div className="bg-gray-200 h-3 mt-7 w-44 rounded-md"></div>
+                </div>
+              ) : (
+                <div>
+                  <Typography variant="h5" className="pb-1.5 font-semibold">
+                    {data?.data.name}
+                  </Typography>
+                  <div className="py-5">
+                    <Typography className="text-md font-semibold mb-2">
+                      Specification
+                    </Typography>
+                    {data?.data.specifications.map((item, index) => (
+                      <h2 className="text-sm md:text-md">{item}</h2>
+                    ))}
+                  </div>
 
-              <div className="flex items-center gap-3">
-                <h2 className="text-xl">Price:</h2>
-                <h2 className="text-xl md:text-2xl font-bold text-green-500">
-                  ৳{data?.data.price}
-                </h2>
-              </div>
+                  <div className="flex items-center gap-3">
+                    <h2 className="text-xl">Price:</h2>
+                    <h2 className="text-xl md:text-2xl font-bold text-green-500">
+                      ৳{data?.data.price}
+                    </h2>
+                  </div>
 
-              <div className="flex items-center gap-3 mt-2">
-                <h2 className="text-lg">Stock:</h2>
-                <h2 className="text-lg md:text-xl font-bold">
-                  {data?.data.stock}{" "}
-                  <span className="font-normal">items only</span>
-                </h2>
-              </div>
+                  <div className="flex items-center gap-3 mt-2">
+                    <h2 className="text-lg">Stock:</h2>
+                    <h2 className="text-lg md:text-xl font-bold">
+                      {data?.data.stock}{" "}
+                      <span className="font-normal">items only</span>
+                    </h2>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
           {/* offered product view */}

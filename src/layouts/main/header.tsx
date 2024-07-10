@@ -99,9 +99,6 @@ export default function Header() {
                         src={logo}
                       />
                     </Link>
-                    <h3 className="text-3xl font-bold text-violet-800">
-                      Bazaro
-                    </h3>
                     <span className="absolute right-2 top-2 p-1">
                       <button
                         className="w-8 h-8 flex items-center justify-center rounded-full text-neutral-700  hover:bg-neutral-100   focus:outline-none"
@@ -128,7 +125,8 @@ export default function Header() {
                     {mainMenuItems.map((item, index) => (
                       <li className="text-slate-900" key={index}>
                         <Link
-                          className="flex w-full items-center py-2.5 px-4 font-medium uppercase tracking-wide text-sm hover:bg-slate-100 rounded-lg"
+                          onClick={() => setOpen(!open)}
+                          className="flex w-full items-center py-2.5 px-4 font-medium tracking-wide text-sm hover:bg-slate-100 rounded-lg capitalize"
                           href="/"
                         >
                           <span className="block w-full">{item.text}</span>

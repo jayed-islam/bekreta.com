@@ -9,8 +9,8 @@ const HomeTopCategoryView = () => {
   const { data, isLoading } = useGetCategoriesQuery();
   return (
     <div className="bg-gray-100">
-      <div className="max-w-6xl mx-auto  py-3 md:py-5">
-        <div className="flex gap-3 items-center pl-3 xl:pl-0 overflow-x-auto scrollbar-hide pr-5">
+      <div className="max-w-6xl mx-auto py-3 md:py-5">
+        <div className="flex gap-3 items-center pl-3 xl:pl-0 md:overflow-x-auto scrollbar-hide md:pr-5 flex-wrap">
           {isLoading
             ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((item) => (
                 <div className="animate-pulse flex space-x-4">
@@ -21,7 +21,7 @@ const HomeTopCategoryView = () => {
                 <Link
                   href={`${paths.product.category}?category=${category.title}`}
                   key={index}
-                  className="flex-shrink-0 border shadow-sm bg-white px-3 py-2 text-md font-semibold rounded-lg hover:shadow-lg transition-all duration-200 hover:border-green-500"
+                  className="flex-shrink-0 border shadow-sm bg-white px-3 py-1 text-sm md:text-[17px] md:py-2 text-md font-semibold rounded-lg hover:shadow-lg transition-all duration-200 hover:border-green-500"
                 >
                   {category.name}
                 </Link>

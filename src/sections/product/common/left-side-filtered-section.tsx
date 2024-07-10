@@ -216,20 +216,20 @@ const LeftSideFilter: React.FC<LeftSideFilterProps> = ({
         <div className="flex flex-col px-5 py-6 space-y-5">
           {categories.map((category) => (
             <div
-              key={category.name}
+              key={category.title}
               className="flex text-sm sm:text-base items-center cursor-pointer"
             >
               <input
-                id={category.name}
+                id={category.title}
                 name="category"
-                value={category.name}
+                value={category.title}
                 className="focus:ring-action-primary text-primary-500 rounded border-slate-400 hover:border-slate-700 bg-transparent focus:ring-primary-500 w-4 h-4 cursor-pointer"
                 type="radio"
                 onChange={handleCategoryChange}
-                checked={filters.category === category.name}
+                checked={filters.category === category.title}
               />
               <label
-                htmlFor={category.name}
+                htmlFor={category.title}
                 className="pl-2.5 sm:pl-3.5 flex flex-col flex-1 justify-center select-none"
               >
                 <span className="text-slate-900 font-medium">

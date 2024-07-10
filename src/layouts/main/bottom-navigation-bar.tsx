@@ -4,18 +4,23 @@ import Link from "next/link";
 import MiniSearchModal from "../common/modal/mini-search-modal";
 import useBoolean from "@/hooks/use-boolean";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
+import { paths } from "../paths";
+import { useAppSelector } from "@/redux/hooks";
 
 const BottomNav = () => {
   const searchDialog = useBoolean();
+  const { user } = useAppSelector((state) => state.auth);
   return (
     <div className="fixed bottom-0 border-t border-gray-500 w-full lg:hidden z-50 bg-slate-900">
       <div className="flex items-center justify-between py-2 px-5">
         {/* href={`/${user?.uid ? 'myaccount' : 'signin'}`}  */}
-        <Link href="" className="flex flex-col items-center">
+        <Link
+          href={`/${user && user?._id ? "account" : "signin"}`}
+          className="flex flex-col items-center"
+        >
           <Icon icon="codicon:account" className="text-2xl text-white" />
           <h3 className="text-xs whitespace-nowrap text-gray-400">
-            {/* {user?.uid ? "Account" : "Login"} */}
-            Login
+            {user && user?._id ? "Account" : "Login"}
           </h3>
         </Link>
         <div
@@ -28,10 +33,12 @@ const BottomNav = () => {
           />
           <h3 className="text-xs whitespace-nowrap text-gray-400">Search</h3>
         </div>
-        <div className="flex flex-col items-center">
-          <Icon icon="ph:gift-light" className="text-2xl text-white" />
-          <h3 className="text-xs whitespace-nowrap text-gray-400">Offers</h3>
-        </div>
+        <Link href={paths.featured}>
+          <div className="flex flex-col items-center">
+            <Icon icon="ph:gift-light" className="text-2xl text-white" />
+            <h3 className="text-xs whitespace-nowrap text-gray-400">Offers</h3>
+          </div>
+        </Link>
         <div className="flex flex-col items-center">
           <Icon icon="ion:menu-outline" className="text-2xl text-white" />
           <h3 className="text-xs whitespace-nowrap text-gray-400">Menu</h3>

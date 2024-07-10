@@ -90,16 +90,14 @@ const ProductCard = ({
       </div>
       <div
         className={`relative w-full h-36 border-b overflow-hidden ${
-          size === "sm" ? "h-36 md:h-44" : "h-44 md:h-64"
+          size === "sm" ? "h-36 md:h-44" : "h-36 md:h-64"
         }`}
       >
         <Link href={`${paths.product.root}/${_id}`}>
-          <Image
+          <img
             alt={product.name}
             className="group-hover:scale-110 rounded-t-2xl transition-all duration-200  object-cover h-full w-full"
             src={images[0]}
-            height={500}
-            width={500}
           />
         </Link>
 
