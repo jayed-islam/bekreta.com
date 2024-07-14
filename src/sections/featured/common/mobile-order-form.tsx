@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { orderSubmissionSchema } from "./order-validation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,7 +11,7 @@ import {
   setDistrictName,
 } from "@/redux/reducers/featured/featuredProductSlice";
 import useLocationSelect from "@/hooks/use-location";
-import { useCreateOfferedOrderMutation } from "@/redux/reducers/featured/featuredProductApi";
+import { useCreateFeaturedOrderMutation } from "@/redux/reducers/featured/featuredProductApi";
 import toast from "react-hot-toast";
 import FormProvider from "@/components/react-hook-form/hook-form-controller";
 import { RHFSelect, RHFTextField } from "@/components/react-hook-form";
@@ -78,7 +78,15 @@ const MobileOrderForm = () => {
     setSelectedSubDistrict(subDistrictValue || "");
   }, [setSelectedSubDistrict, subDistrictValue]);
 
-  const [createOfferedOrder, { isLoading }] = useCreateOfferedOrderMutation();
+  const [createFeaturedOrder, { isLoading }] = useCreateFeaturedOrderMutation();
+
+  const orderFromRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (Object.keys(errors).length > 0 && orderFromRef.current) {
+      orderFromRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [errors]);
 
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
@@ -107,7 +115,7 @@ const MobileOrderForm = () => {
     };
 
     try {
-      const response = await createOfferedOrder(payload).unwrap();
+      const response = await createFeaturedOrder(payload).unwrap();
 
       console.log("res", response);
       if (response.success) {
@@ -125,7 +133,7 @@ const MobileOrderForm = () => {
   });
 
   return (
-    <div>
+    <div ref={orderFromRef}>
       <h2 className="text-xl font-semibold">Add your Biling details</h2>
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 py-5">

@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { BooleanState } from "@/types/utils";
 import { useForm } from "react-hook-form";
@@ -20,10 +18,8 @@ import {
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { orderSubmissionSchema } from "./order-validation";
 import toast from "react-hot-toast";
-import { useCreateOfferedOrderMutation } from "@/redux/reducers/featured/featuredProductApi";
-import OrderSuccessModal from "./success-order-dialog";
-import useBoolean from "@/hooks/use-boolean";
 import { LoadingButton } from "@mui/lab";
+import { useCreateFeaturedOrderMutation } from "@/redux/reducers/featured/featuredProductApi";
 
 interface Props {
   dialog: BooleanState;
@@ -83,7 +79,7 @@ export default function OrderSubmissionFormDialog({
     setSelectedSubDistrict(subDistrictValue || "");
   }, [setSelectedSubDistrict, subDistrictValue]);
 
-  const [createOfferedOrder, { isLoading }] = useCreateOfferedOrderMutation();
+  const [createFeaturedOrder, { isLoading }] = useCreateFeaturedOrderMutation();
 
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
@@ -112,7 +108,7 @@ export default function OrderSubmissionFormDialog({
     };
 
     try {
-      const response = await createOfferedOrder(payload).unwrap();
+      const response = await createFeaturedOrder(payload).unwrap();
 
       console.log("res", response);
       if (response.success) {

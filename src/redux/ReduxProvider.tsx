@@ -7,22 +7,28 @@ import { useAppDispatch, useAppSelector } from "./hooks";
 import { useGetMeQuery } from "./reducers/auth/authApi";
 import { isValidToken } from "@/auth/utils";
 import { logout, setToken } from "./reducers/auth/authSlice";
+import { usePathname } from "next/navigation";
 
 interface IReudxProviderProps {
   children: ReactNode;
 }
 
-export const ReduxProvider: FC<IReudxProviderProps> = ({ children }) => (
-  <Provider store={store}>
-    <GLobalApiCallProvider> {children}</GLobalApiCallProvider>
-  </Provider>
-);
+export const ReduxProvider: FC<IReudxProviderProps> = ({ children }) => {
+  return (
+    <Provider store={store}>
+      <GLobalApiCallProvider>{children}</GLobalApiCallProvider>
+    </Provider>
+  );
+};
 
 const GLobalApiCallProvider: FC<IReudxProviderProps> = ({ children }) => {
   const { accessToken } = useAppSelector((state) => state.auth);
+  const pathname = usePathname();
+
+  const shouldSkip = pathname.includes("/featured");
 
   useGetMeQuery(undefined, {
-    skip: !(accessToken && isValidToken(accessToken)),
+    skip: shouldSkip || !(accessToken && isValidToken(accessToken)),
   });
 
   const dispatch = useAppDispatch();

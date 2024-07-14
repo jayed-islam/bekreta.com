@@ -21,11 +21,11 @@ export const featuredProductApi = api.injectEndpoints({
       void
     >({
       query: () => ({
-        url: "/product/status/featured",
+        url: "/product/type/featured",
         method: "GET",
       }),
     }),
-    createOfferedOrder: builder.mutation<
+    createFeaturedOrder: builder.mutation<
       IGetCreateOfferedOrderResponse,
       ICreateOfferedOrder
     >({
@@ -41,5 +41,5 @@ export const featuredProductApi = api.injectEndpoints({
 
 export const {
   useGetStatusWiseFeaturedProductsQuery,
-  useCreateOfferedOrderMutation,
+  useCreateFeaturedOrderMutation,
 } = featuredProductApi;

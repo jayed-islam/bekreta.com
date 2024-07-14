@@ -89,14 +89,16 @@ const ProductCard = ({
         ))}
       </div>
       <div
-        className={`relative w-full h-36 border-b overflow-hidden ${
+        className={`relative w-full h-36 border-b overflow-hidden rounded-t-2xl flex items-center justify-center ${
           size === "sm" ? "h-36 md:h-44" : "h-36 md:h-64"
         }`}
       >
         <Link href={`${paths.product.root}/${_id}`}>
           <img
             alt={product.name}
-            className="group-hover:scale-110 rounded-t-2xl transition-all duration-200  object-cover h-full w-full"
+            className={`group-hover:scale-105 transition-all duration-500  ${
+              size === "sm" ? "h-28 md:h-38" : "h-28 md:h-56"
+            }`}
             src={images[0]}
           />
         </Link>
@@ -136,7 +138,7 @@ const ProductCard = ({
               className={`font-bold hover:text-green-500 transition-all duration-300 ease-in leading-5 line-clamp-2 overflow-ellipsis  ${
                 size === "sm"
                   ? "text-sm h-9"
-                  : "text-sm md:text-lg h-9 md:h-[4rem]"
+                  : "text-sm md:text-lg h-9 md:h-[3.5rem]"
               }`}
             >
               {name}

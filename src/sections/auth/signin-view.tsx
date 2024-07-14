@@ -14,6 +14,7 @@ import { Alert } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAppDispatch } from "@/redux/hooks";
 import { setToken } from "@/redux/reducers/auth/authSlice";
+import { LoadingButton } from "@mui/lab";
 
 const SignInView = () => {
   const methods = useForm<AuthFormValues>({
@@ -53,7 +54,6 @@ const SignInView = () => {
       }
     } catch (error: any) {
       console.error("Error submitting form:", error);
-      toast.success(error.message);
       toast.error(error.data.message);
       setErrorMessage(error.data.message);
     }
@@ -110,9 +110,13 @@ const SignInView = () => {
           </div>
 
           <div className="mt-6">
-            <button className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-500 rounded-lg hover:bg-green-600">
+            <LoadingButton
+              type="submit"
+              loading={isLoading}
+              className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-500 rounded-lg hover:bg-green-600"
+            >
               Sign in
-            </button>
+            </LoadingButton>
 
             <div className="mt-6 text-center ">
               <Link

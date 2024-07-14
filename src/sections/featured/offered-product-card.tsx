@@ -69,7 +69,6 @@ const OfferedProductCard = ({
           size === "sm" ? "h-36 md:h-44" : "h-44 md:h-64"
         }`}
       >
-        {/* <Link href={`${paths.product.root}/${_id}`}> */}
         <Image
           alt={product.name}
           className="group-hover:scale-110 rounded-t-2xl transition-all duration-200  object-cover h-full w-full"
@@ -77,11 +76,11 @@ const OfferedProductCard = ({
           height={500}
           width={500}
         />
-        {/* </Link> */}
-
         {status === "OUT_OF_STOCK" && (
           <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-t-2xl">
-            <span className="text-white font-bold text-lg">OUT OF STOCK</span>
+            <span className="text-white font-bold text-sm md:text-lg">
+              OUT OF STOCK
+            </span>
           </div>
         )}
       </div>
@@ -97,11 +96,11 @@ const OfferedProductCard = ({
         </div>
       )}
 
-      <button
+      {/* <button
         className={`w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 text-neutral-700 absolute right-3 top-2 md:hidden hover:bg-green-500 hover:text-white`}
       >
         <Icon icon="ph:heart-light" className="text-xl" />
-      </button>
+      </button> */}
 
       <div className={`px-3`}>
         <div className={`pt-2 pb-2 `}>
@@ -115,18 +114,23 @@ const OfferedProductCard = ({
           >
             {name}
           </h2>
-          {/* </Link> */}
-          <div className="sm:flex items-center hidden mt-2">
-            {[1, 2, 3].map((i) => (
-              <Icon icon="noto:star" className="text-md" />
-            ))}
-            <Icon
-              icon="clarity:half-star-solid"
-              className="text-gray-400 text-md"
-            />
-            <p className="text-xs text-gray-500 pl-1">(5)</p>
+          <div className="flex items-center mt-2 justify-between">
+            <div className="items-center hidden md:flex">
+              {[1, 2, 3].map((i) => (
+                <Icon icon="noto:star" className="text-md" />
+              ))}
+              <Icon
+                icon="clarity:half-star-solid"
+                className="text-gray-400 text-md"
+              />
+              <p className="text-xs text-gray-500 pl-1">(5)</p>
+            </div>
+
+            <h3 className="text-green-500 text-lg sm:text-[19px] font-bold">
+              ৳{price}
+            </h3>
           </div>
-          <div className="flex items-center justify-between w-full">
+          {/* <div className="flex items-center justify-between w-full">
             <h3 className="text-green-500 text-lg sm:text-[19px] font-bold">
               ৳ {price}
             </h3>
@@ -146,20 +150,25 @@ const OfferedProductCard = ({
                 <Icon icon="solar:bag-4-linear" className="text-xl" />
               </button>
             </Tooltip>
-          </div>
-          {/* <button
-            disabled={status === "OUT_OF_STOCK"}
-            onClick={handleOpen}
-            className={`${
-              status === "OUT_OF_STOCK"
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-green-500 hover:bg-green-600"
-            } transition-all duration-200 text-center w-full rounded-lg font-semibold text-white mt-2 ${
-              size === "sm" ? "text-sm py-1" : "text-md py-1 sm:py-2"
-            }`}
-          >
-            Quick Add
-          </button> */}
+          </div> */}
+          <a href="#mybasket">
+            <button
+              disabled={status === "OUT_OF_STOCK"}
+              onClick={() => {
+                // scrollToTop();
+                handleAddToCart();
+              }}
+              className={`${
+                status === "OUT_OF_STOCK"
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-green-500 hover:bg-green-600"
+              } transition-all duration-200 text-center w-full rounded-lg font-semibold text-white mt-2 ${
+                size === "sm" ? "text-sm py-1" : "text-md py-1 sm:py-2"
+              }`}
+            >
+              Quick Add
+            </button>
+          </a>
         </div>
       </div>
     </div>

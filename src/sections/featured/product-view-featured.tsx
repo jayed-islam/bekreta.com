@@ -56,7 +56,7 @@ const ProductViewFeatured = ({}: Props) => {
         <div className="flex-1">
           <div className="flex-1 flex gap-5 items-start md:flex-row flex-col">
             {isLoading ? (
-              <div className="animate-pulse">
+              <div className="animate-pulse w-full">
                 <div className=" bg-slate-200 h-[300px] md:h-[300px] xl:h-[371px] md:w-[351px] lg:w-[400px] w-full border rounded-xl"></div>
               </div>
             ) : (
@@ -117,7 +117,7 @@ const ProductViewFeatured = ({}: Props) => {
             <OfferedProductViewFeatued />
           </div>
         </div>
-        <Stack spacing={2} className="w-full md:w-[331px] mt-7 md:mt-0">
+        <div className="w-full md:w-[331px] mt-7 md:mt-0" id="mybasket">
           <div className="bg-gray-100 rounded-xl">
             <div className="p-3 bg-white border rounded-t-xl">
               <h2 className="text-md font-semibold">Your Basket</h2>
@@ -153,11 +153,11 @@ const ProductViewFeatured = ({}: Props) => {
             </div>
           </div>
 
-          <div className="md:hidden">
+          <div className="md:hidden mt-5" id="orderform">
             <MobileOrderForm />
           </div>
 
-          <div className="rounded-xl border hidden md:block">
+          <div className="rounded-xl border hidden md:block mt-5">
             <div className="p-3 bg-gray-100 border-b rounded-t-xl">
               <h2 className="text-md font-semibold">Order Summary</h2>
             </div>
@@ -197,7 +197,7 @@ const ProductViewFeatured = ({}: Props) => {
               </LoadingButton>
             </div>
           </div>
-        </Stack>
+        </div>
       </div>
       <div className="flex md:hidden">
         <OfferedProductViewFeatued />

@@ -19,7 +19,7 @@ export default function HomeHeaderSearch() {
   };
 
   const onSubmitCategory = (searchTerm: string) => {
-    router.push(`${paths.product.category}?search=${searchTerm}`);
+    router.push(`${paths.product.category}?category=${searchTerm}`);
   };
 
   const handleInputFocus = () => {
