@@ -84,8 +84,8 @@ const SignInView = () => {
   // }, []);
 
   return (
-    <div className="bg-gray-100 py-16 md:py-20 lg:py-28 flex items-center justify-center w-full">
-      <div className="w-full max-w-[25rem] rounded-xl bg-white shadow-xl p-7">
+    <div className="bg-gray-100 py-16 md:py-20 lg:py-28 flex items-center justify-center w-full px-3">
+      <div className="w-full max-w-[25rem] bg-white shadow-xl px-5 md:px-7 py-7">
         <FormProvider methods={methods} onSubmit={onSubmit}>
           <h1 className="mt-3 text-2xl font-semibold capitalize sm:text-3xl">
             sign In
@@ -113,7 +113,7 @@ const SignInView = () => {
             <LoadingButton
               type="submit"
               loading={isLoading}
-              className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-500 rounded-lg hover:bg-green-600"
+              className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-500 rounded-none hover:bg-green-600"
             >
               Sign in
             </LoadingButton>

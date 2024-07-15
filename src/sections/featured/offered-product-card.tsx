@@ -41,7 +41,7 @@ const OfferedProductCard = ({
   return (
     <div
       className={twMerge(
-        "relative flex z-10 flex-col w-full group shadow bg-white border-2 rounded-2xl p-1 group cursor-pointer hover:border-green-500 overflow-hidden",
+        "relative flex z-10 flex-col w-full group shadow bg-white border p-1 group cursor-pointer overflow-hidden",
         className
       )}
     >
@@ -71,7 +71,7 @@ const OfferedProductCard = ({
       >
         <Image
           alt={product.name}
-          className="group-hover:scale-110 rounded-t-2xl transition-all duration-200  object-cover h-full w-full"
+          className="group-hover:scale-110 transition-all duration-200  object-cover h-full w-full"
           src={images[0]}
           height={500}
           width={500}

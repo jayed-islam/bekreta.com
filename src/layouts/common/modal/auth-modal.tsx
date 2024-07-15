@@ -10,6 +10,7 @@ import {
 import { BooleanState } from "@/types/utils";
 import { Dialog, Transition } from "@headlessui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Alert, LoadingButton } from "@mui/lab";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
@@ -55,7 +56,6 @@ const AuthModal = ({ dialog }: IAuthModalProps) => {
       }
     } catch (error: any) {
       console.error("Error submitting form:", error);
-      toast.success(error.message);
       toast.error(error.data.message);
       setErrorMessage(error.data.message);
     }
@@ -65,7 +65,7 @@ const AuthModal = ({ dialog }: IAuthModalProps) => {
     if (errorMessage) {
       const timer = setTimeout(() => {
         setErrorMessage(null);
-      }, 11000);
+      }, 5000);
       return () => clearTimeout(timer);
     }
   }, [errorMessage]);
@@ -91,7 +91,10 @@ const AuthModal = ({ dialog }: IAuthModalProps) => {
   return (
     <>
       <Transition appear show={dialog.value} as={Fragment}>
-        <Dialog as="div" className="relative z-50" onClose={dialog.setFalse}>
+        <Dialog
+          className="relative z-50 rounded-none"
+          onClose={dialog.setFalse}
+        >
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -105,7 +108,7 @@ const AuthModal = ({ dialog }: IAuthModalProps) => {
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex items-center justify-center text-center min-h-full">
+            <div className="flex items-center justify-center text-center min-h-full mx-3">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -115,7 +118,7 @@ const AuthModal = ({ dialog }: IAuthModalProps) => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-[25rem] transform overflow-hidden rounded-xl bg-white text-left align-middle shadow-xl transition-all p-7 mx-auto">
+                <Dialog.Panel className="w-full max-w-[25rem] transform overflow-hidden bg-white text-left align-middle shadow-xl transition-all p-7 mx-auto rounded-none">
                   <FormProvider methods={methods} onSubmit={onSubmit}>
                     <h1 className="mt-3 text-2xl font-semibold capitalize sm:text-3xl">
                       sign In
@@ -124,6 +127,12 @@ const AuthModal = ({ dialog }: IAuthModalProps) => {
                     <h3 className="text-sm pt-1">
                       Enter your email and password to Sign In.
                     </h3>
+
+                    {errorMessage && (
+                      <Alert severity="error" sx={{ mt: 3 }}>
+                        {errorMessage}
+                      </Alert>
+                    )}
 
                     <div className="w-full mt-8">
                       <RHFTextField label="Email" name="email" />
@@ -138,9 +147,14 @@ const AuthModal = ({ dialog }: IAuthModalProps) => {
                     </div>
 
                     <div className="mt-6">
-                      <button className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-500 rounded-lg hover:bg-green-600 ">
+                      <LoadingButton
+                        type="submit"
+                        loading={isLoading}
+                        disabled={isLoading}
+                        className={`w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-500 rounded-none hover:bg-green-600 disabled:bg-gray-300 `}
+                      >
                         Sign in
-                      </button>
+                      </LoadingButton>
 
                       <div className="mt-6 text-center ">
                         <div

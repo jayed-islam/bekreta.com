@@ -32,8 +32,6 @@ export default function TablePaginationCustom({
         }}
       />
 
-      {/* <Pagination color="primary" variant="outlined" count={10} /> */}
-
       {onChangeDense && (
         <FormControlLabel
           label="Dense"

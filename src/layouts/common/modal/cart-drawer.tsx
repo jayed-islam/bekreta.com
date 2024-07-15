@@ -38,14 +38,14 @@ const CartDrawer = () => {
     <Drawer anchor="right" open={isCartDrawerOpen} onClose={handleClose}>
       <Box
         sx={{
-          width: isSmUp ? "25rem" : "21rem",
+          width: isSmUp ? "25rem" : "19rem",
           height: "100vh",
         }}
       >
         <div className="">
-          <div className="flex items-center justify-between px-5 pt-5">
-            <h3 className="text-xl md:text-2xl font-semibold text-black ">
-              Your Basket
+          <div className="flex items-center justify-between px-5 py-5">
+            <h3 className="text-xl md:text-2xl font-semibold text-black">
+              Shopping Cart
             </h3>
             <IconButton
               onClick={handleClose}

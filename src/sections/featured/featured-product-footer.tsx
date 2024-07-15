@@ -8,6 +8,7 @@ import Image from "next/image";
 import { scrollToTop } from "@/hooks/use-clicktoTop";
 
 const FeaturedProductFooter = () => {
+  const currentYear = new Date().getFullYear();
   return (
     <footer className="bg-gray-100">
       <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:pt-24">
@@ -57,7 +58,7 @@ const FeaturedProductFooter = () => {
         </div>
 
         <p className="mt-12 text-center text-sm text-gray-500 lg:text-right">
-          Copyright &copy; 2022. All rights reserved.
+          Copyright &copy; {currentYear}. All rights reserved.
         </p>
       </div>
     </footer>

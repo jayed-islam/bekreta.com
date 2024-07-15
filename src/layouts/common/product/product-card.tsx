@@ -65,7 +65,7 @@ const ProductCard = ({
   return (
     <div
       className={twMerge(
-        "relative flex z-10 flex-col w-full group shadow bg-white border-2 rounded-2xl p-1 group cursor-pointer hover:border-green-500 overflow-hidden",
+        "relative flex z-10 flex-col w-full group shadow bg-white border p-1 group cursor-pointer overflow-hidden",
         className
       )}
     >
@@ -104,7 +104,7 @@ const ProductCard = ({
         </Link>
 
         {status === "OUT_OF_STOCK" && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-t-2xl">
+          <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <span className="text-white font-bold text-lg">OUT OF STOCK</span>
           </div>
         )}

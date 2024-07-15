@@ -67,9 +67,9 @@ const BannerProductCard = ({
         ))}
       </div>
       <div className="relative flex-shrink-0 overflow-hidden w-full">
-        <div className="hidden sm:flex object-cover bg-white h-48 items-center justify-center">
+        <div className="hidden sm:flex object-cover bg-white h-48 items-center justify-center group">
           <img
-            className="h-full rounded-t-2xl transition-all duration-200"
+            className="h-full transition-all duration-500 group-hover:scale-110"
             src={images[0]}
           />
         </div>

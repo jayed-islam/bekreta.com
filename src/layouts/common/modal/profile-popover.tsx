@@ -15,7 +15,7 @@ const ProfilePopover = () => {
 
   const { user } = useAppSelector((state) => state.auth);
   return (
-    <div className="">
+    <div className="z-20">
       <Popover className="relative">
         {({ open }) => (
           <>

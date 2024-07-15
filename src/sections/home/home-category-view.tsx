@@ -15,12 +15,12 @@ const HomeTopCategoryView = () => {
             <>
               <div className="animate-pulse md:hidden flex flex-wrap gap-3">
                 {[1, 2, 3, 4, 5].map((item) => (
-                  <div className="rounded-lg bg-slate-200 h-7 w-20"></div>
+                  <div className=" bg-slate-200 h-7 w-20"></div>
                 ))}
               </div>
               <div className="animate-pulse hidden md:flex gap-3">
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
-                  <div className="rounded-lg bg-slate-200 h-10 w-32"></div>
+                  <div className=" bg-slate-200 h-10 w-32"></div>
                 ))}
               </div>
             </>
@@ -29,7 +29,7 @@ const HomeTopCategoryView = () => {
               <Link
                 href={`${paths.product.category}?category=${category.title}`}
                 key={index}
-                className="flex-shrink-0 border shadow-sm bg-white px-3 py-1 text-sm md:text-[17px] md:py-2 text-md font-semibold rounded-lg hover:shadow-lg transition-all duration-200 hover:border-green-500"
+                className="flex-shrink-0 border shadow-sm bg-white px-3 py-1 text-sm md:text-[17px] md:py-2 text-md font-semibold hover:shadow-lg transition-all duration-200 hover:border-green-500"
               >
                 {category.name}
               </Link>

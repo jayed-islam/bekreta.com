@@ -5,7 +5,7 @@ const ProductDetailLoader = () => {
     <div
       aria-label="Loading..."
       role="status"
-      className="flex items-center space-x-2 justify-center"
+      className="flex items-center space-x-2 justify-center h-screen w-full"
     >
       <svg
         className="h-20 w-20 animate-spin stroke-gray-500"

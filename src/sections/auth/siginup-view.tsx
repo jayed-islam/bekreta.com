@@ -13,6 +13,7 @@ import { AuthFormValues, authValidationSchema } from "./auth-validation";
 import { Alert, AlertTitle } from "@mui/material";
 import { useAppSelector } from "@/redux/hooks";
 import { useRouter, useSearchParams } from "next/navigation";
+import { LoadingButton } from "@mui/lab";
 
 const SignUpView = () => {
   const methods = useForm<AuthFormValues>({
@@ -70,8 +71,8 @@ const SignUpView = () => {
   const redirect = searchParams.get("redirect");
 
   return (
-    <div className="bg-gray-100 flex items-center justify-center w-full py-16 md:py-20 lg:py-28">
-      <div className="w-full max-w-[25rem] rounded-xl bg-white shadow-xl p-7">
+    <div className="bg-gray-100 flex items-center justify-center w-full py-16 md:py-20 lg:py-28 px-3">
+      <div className="w-full max-w-[25rem] bg-white shadow-xl px-5 py-7 md:px-7">
         <FormProvider methods={methods} onSubmit={onSubmit}>
           <h1 className="mt-3 text-2xl font-semibold capitalize sm:text-3xl">
             sign Up
@@ -98,9 +99,17 @@ const SignUpView = () => {
           </div>
 
           <div className="mt-6">
-            <button className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-500 rounded-lg hover:bg-green-600">
+            {/* <button className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-500 rounded-lg hover:bg-green-600">
               Sign up
-            </button>
+            </button> */}
+            <LoadingButton
+              type="submit"
+              loading={isLoading}
+              disabled={isLoading}
+              className={`w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-500 rounded-none hover:bg-green-600 disabled:bg-gray-300 `}
+            >
+              Sign up
+            </LoadingButton>
 
             {/* <p className="mt-4 text-center text-gray-600 dark:text-gray-400">
               or sign up with

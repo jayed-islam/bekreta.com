@@ -1,15 +1,9 @@
 "use client";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import Slider from "react-slick";
-import { paths } from "@/layouts/paths";
 import BannerProductCard from "./common/banner-product-card";
-import {
-  SampleNextArrow,
-  SamplePrevArrow,
-  bannerSettings,
-  offerProductSettings,
-} from "@/utils/react-slick-utils";
+import { offerProductSettings } from "@/utils/react-slick-utils";
 import { useGetOfferetProductsQuery } from "@/redux/reducers/product/productApi";
 import Image from "next/image";
 import banner from "../../../public/assets/bg-light-banner.jpg";
@@ -76,15 +70,15 @@ const HomeBanner = () => {
               </div>
             ))}
           </Slider> */}
-          <div className="flex items-center justify-center w-full h-52 sm:h-72 md:h-[400px] lg:h-[491px] relative lg:rounded-2xl bg-gray-300">
+          <div className="flex items-center justify-center w-full h-52 sm:h-72 md:h-[400px] lg:h-[491px] relative  bg-gray-300">
             <Image
               alt="Bekreta"
               src={banner}
-              className="w-full h-full object-cover lg:rounded-2xl "
+              className="w-full h-full object-cover"
             />
           </div>
         </div>
-        <div className="w-full hidden lg:block sm:max-w-[18rem] h-full border-2 border-green-500 rounded-2xl py-5 bg-white">
+        <div className="w-full hidden lg:block sm:max-w-[18rem] h-full border py-5 bg-white">
           <div className="flex items-center justify-between px-5">
             <h2 className="text-xl font-bold text-green-500">Special Deal</h2>
             <div className="flex items-center gap-3">
@@ -106,7 +100,7 @@ const HomeBanner = () => {
             {isLoading
               ? fakeArr.map((i) => (
                   <div className="animate-pulse flex px-5 mt-5" key={i}>
-                    <div className="rounded-lg bg-slate-200 h-48 w-full"></div>
+                    <div className="bg-slate-200 h-48 w-full"></div>
                     <div className="flex-1 py-1 mt-3">
                       <div className="h-3 bg-slate-200 rounded"></div>
                       <div className="h-3 bg-slate-200 rounded mt-2"></div>
