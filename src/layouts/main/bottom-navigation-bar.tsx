@@ -20,7 +20,7 @@ const BottomNav = () => {
     <div className="fixed bottom-0 border-t border-gray-500 w-full lg:hidden z-20 bg-slate-900">
       <div className="flex items-center justify-between py-2 px-5">
         <Link
-          href={`/${
+          href={`${
             user && user?._id ? paths.account.root : paths.website.signin
           }`}
           className="flex flex-col items-center"

@@ -190,7 +190,7 @@ const LeftSideFilter: React.FC<LeftSideFilterProps> = ({
             <div key={index} className="">
               <div className="flex text-sm sm:text-base items-center cursor-pointer">
                 <input
-                  id={item.value}
+                  id={item.label}
                   value={item.value}
                   className="focus:ring-action-primary text-primary-500 rounded border-slate-400 hover:border-slate-700 bg-transparent focus:ring-primary-500 w-4 h-4"
                   type="checkbox"

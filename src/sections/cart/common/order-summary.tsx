@@ -8,6 +8,7 @@ import {
 } from "@/redux/reducers/cart/cartSlice";
 import { RootState } from "@/redux/store";
 import { Icon } from "@iconify-icon/react/dist/iconify.mjs";
+import { LoadingButton } from "@mui/lab";
 import { Button } from "@mui/material";
 import Link from "next/link";
 import React from "react";
@@ -16,9 +17,15 @@ interface Props {
   buttonTitle: string;
   isSubmit?: boolean;
   onSubmit?: VoidFunction;
+  isLoading?: boolean;
 }
 
-const OrderSummery = ({ buttonTitle, isSubmit = false, onSubmit }: Props) => {
+const OrderSummery = ({
+  buttonTitle,
+  isSubmit = false,
+  onSubmit,
+  isLoading,
+}: Props) => {
   const { cartItems, district } = useAppSelector((state) => state.cart);
   const subtotal = useAppSelector((state: RootState) =>
     selectCartSubtotal(state)
@@ -81,14 +88,15 @@ const OrderSummery = ({ buttonTitle, isSubmit = false, onSubmit }: Props) => {
           </h2>
         )}
         {isSubmit ? (
-          <Button
+          <LoadingButton
             type="submit"
             onClick={onSubmit}
-            disabled={cartItems.length === 0}
-            className="relative h-auto inline-flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium py-3 px-4 sm:py-3.5 sm:px-6 text-white disabled:bg-opacity-55 disabled:cursor-not-allowed bg-green-600  hover:bg-green-700 shadow-xl mt-8 w-full capitalize"
+            disabled={cartItems.length === 0 || isLoading}
+            loading={isLoading}
+            className={`relative h-auto inline-flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium py-3 px-4 sm:py-3.5 sm:px-6 text-white disabled:bg-opacity-55 disabled:cursor-not-allowed bg-green-600  hover:bg-green-700 shadow-xl mt-8 w-full capitalize disabled:bg-gray-200`}
           >
             {buttonTitle}
-          </Button>
+          </LoadingButton>
         ) : (
           <Link href={paths.checkout}>
             <Button

@@ -11,7 +11,7 @@ import { paths } from "@/layouts/paths";
 import { useAddToCartMutation } from "@/redux/reducers/cart/cartApi";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+import { IoEyeOutline } from "react-icons/io5";
 
 interface IProductCardProps {
   product: IProduct;
@@ -89,7 +89,7 @@ const ProductCard = ({
         ))}
       </div>
       <div
-        className={`relative w-full h-36 border-b overflow-hidden rounded-t-2xl flex items-center justify-center ${
+        className={`relative w-full h-36 border-b overflow-hidden flex items-center justify-center ${
           size === "sm" ? "h-36 md:h-44" : "h-36 md:h-64"
         }`}
       >

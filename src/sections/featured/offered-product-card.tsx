@@ -13,7 +13,9 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { addProduct } from "@/redux/reducers/featured/featuredProductSlice";
-import { scrollToTop } from "@/hooks/use-clicktoTop";
+import { IoEyeOutline } from "react-icons/io5";
+import FeaturedProductDetailViewDialog from "./common/feature-product-detail-view-dialog";
+import useBoolean from "@/hooks/use-boolean";
 
 interface IProductCardProps {
   product: IProduct;
@@ -38,6 +40,8 @@ const OfferedProductCard = ({
     dispatch(addProduct({ product: product, quantity: 1 }));
   };
 
+  const detailDialog = useBoolean();
+
   return (
     <div
       className={twMerge(
@@ -47,7 +51,6 @@ const OfferedProductCard = ({
     >
       <div className="absolute -right-11 top-1/3 z-10 flex-col md:flex gap-2 group-hover:right-3 transition-all duration-500 hidden">
         {actionButtonsInfo.map((action, index) => (
-          // <Link href={`${paths.product.root}/${_id}`}>
           <Tooltip
             title={action.title}
             placement="bottom"
@@ -55,13 +58,12 @@ const OfferedProductCard = ({
           >
             <div
               key={index}
-              onClick={() => action.action()}
+              onClick={detailDialog.setTrue}
               className="bg-gray-300 h-9 w-9 hover:bg-green-500 transition-all duration-200 rounded-full flex items-center justify-center hover:text-white"
             >
               <Icon icon={action.icon} className="text-xl" />
             </div>
           </Tooltip>
-          // </Link>
         ))}
       </div>
       <div
@@ -108,8 +110,8 @@ const OfferedProductCard = ({
           <h2
             className={`font-bold hover:text-green-500 transition-all duration-300 ease-in leading-5 line-clamp-2 overflow-ellipsis  ${
               size === "sm"
-                ? "text-sm h-9"
-                : "text-sm md:text-lg h-9 md:h-[4rem]"
+                ? "text-xs h-9"
+                : "text-xs md:text-lg h-9 md:h-[4rem]"
             }`}
           >
             {name}
@@ -129,6 +131,13 @@ const OfferedProductCard = ({
             <h3 className="text-green-500 text-lg sm:text-[19px] font-bold">
               ৳{price}
             </h3>
+
+            <div
+              onClick={detailDialog.setTrue}
+              className="bg-gray-300 h-7 w-7 hover:bg-green-500 transition-all duration-200 rounded-full flex items-center justify-center hover:text-white md:hidden cursor-pointer"
+            >
+              <IoEyeOutline className="text-xl" />
+            </div>
           </div>
           {/* <div className="flex items-center justify-between w-full">
             <h3 className="text-green-500 text-lg sm:text-[19px] font-bold">
@@ -162,7 +171,7 @@ const OfferedProductCard = ({
                 status === "OUT_OF_STOCK"
                   ? "bg-gray-400 cursor-not-allowed"
                   : "bg-green-500 hover:bg-green-600"
-              } transition-all duration-200 text-center w-full rounded-lg font-semibold text-white mt-2 ${
+              } transition-all duration-200 text-center w-full font-semibold text-white mt-2 ${
                 size === "sm" ? "text-sm py-1" : "text-md py-1 sm:py-2"
               }`}
             >
@@ -171,6 +180,10 @@ const OfferedProductCard = ({
           </a>
         </div>
       </div>
+      <FeaturedProductDetailViewDialog
+        dialog={detailDialog}
+        product={product}
+      />
     </div>
   );
 };

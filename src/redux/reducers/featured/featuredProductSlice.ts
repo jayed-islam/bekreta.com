@@ -24,8 +24,7 @@ export const featuredProductSlice = createSlice({
         (p) => p.product._id === product.product._id
       );
       if (existingProduct) {
-        // Check if the product already exists
-        toast.error("This product is already in your cart");
+        existingProduct.quantity += 1;
       } else {
         state.products.push(product);
       }

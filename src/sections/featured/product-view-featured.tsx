@@ -15,10 +15,7 @@ import {
   setFeaturedProduct,
 } from "@/redux/reducers/featured/featuredProductSlice";
 import { useGetStatusWiseFeaturedProductsQuery } from "@/redux/reducers/featured/featuredProductApi";
-import {
-  getProductStatus,
-  getStatusStyles,
-} from "../product/common/product-constants";
+
 import OfferedProductViewFeatued from "./offered-product-view-featured";
 import useResponsive from "@/hooks/use-responsive";
 import useBoolean from "@/hooks/use-boolean";
@@ -29,7 +26,9 @@ import MobileOrderForm from "./common/mobile-order-form";
 interface Props {}
 
 const ProductViewFeatured = ({}: Props) => {
-  const { products } = useAppSelector((state) => state.featuredProduct);
+  const { products, selectedDistrict: districtNumber } = useAppSelector(
+    (state) => state.featuredProduct
+  );
   const dispatch = useAppDispatch();
   const { data, isLoading } = useGetStatusWiseFeaturedProductsQuery();
   const [orderId, setOrderID] = useState("");
@@ -63,6 +62,7 @@ const ProductViewFeatured = ({}: Props) => {
               <ImageViewFeatured
                 images={data?.data.images || []}
                 name={data?.data.name || ""}
+                isDetailsViewDialog={false}
               />
             )}
 
@@ -171,7 +171,10 @@ const ProductViewFeatured = ({}: Props) => {
                 </Typography>
               </div>
               <div className="flex items-center justify-between">
-                <Typography variant="body1">Shipping Fee</Typography>
+                <Typography variant="body1">
+                  Shipping Fee (
+                  {districtNumber === "1" ? "Inside Dhaka" : "Outside Dhaka"})
+                </Typography>
                 <Typography variant="subtitle1" className="font-semibold">
                   ৳ {shippingFee}
                 </Typography>
@@ -191,7 +194,7 @@ const ProductViewFeatured = ({}: Props) => {
                 size="large"
                 loading={false}
                 onClick={isMdUp ? dialog.setTrue : () => {}}
-                className="bg-green-500 text-white capitalize w-full py-2 mt-5 rounded-xl hover:bg-green-600"
+                className="bg-green-500 text-white capitalize w-full py-2 mt-5 hover:bg-green-600"
               >
                 Place Order
               </LoadingButton>

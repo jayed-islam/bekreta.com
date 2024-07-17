@@ -28,9 +28,8 @@ const MobileOrderForm = () => {
     resolver: zodResolver(orderSubmissionSchema),
   });
 
-  const { products: featuredProducts } = useAppSelector(
-    (state) => state.featuredProduct
-  );
+  const { products: featuredProducts, selectedDistrict: districtNumber } =
+    useAppSelector((state) => state.featuredProduct);
 
   const successModal = useBoolean();
   const totalPrice = useAppSelector(selectTotal);
@@ -209,7 +208,10 @@ const MobileOrderForm = () => {
               </Typography>
             </div>
             <div className="flex items-center justify-between">
-              <Typography variant="body1">Shipping Fee</Typography>
+              <Typography variant="body1">
+                Shipping Fee (
+                {districtNumber === "1" ? "Inside Dhaka" : "Outside Dhaka"})
+              </Typography>
               <Typography variant="subtitle1" className="font-semibold">
                 ৳ {shippingFee}
               </Typography>
@@ -228,7 +230,8 @@ const MobileOrderForm = () => {
               type="submit"
               size="large"
               loading={isLoading}
-              className="bg-green-500 text-white capitalize w-full py-2 mt-5 rounded-xl hover:bg-green-600"
+              disabled={isLoading}
+              className={`bg-green-500 text-white capitalize w-full py-2 mt-5  hover:bg-green-600 disabled:bg-gray-300`}
             >
               Place Order
             </LoadingButton>

@@ -4,7 +4,7 @@ import PageHeader from "@/components/common/page-header";
 import { RHFSelect, RHFTextField } from "@/components/react-hook-form";
 import FormProvider from "@/components/react-hook-form/hook-form-controller";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import CheckoutProductRow from "../checkout-item-row";
 import OrderSummery from "../../cart/common/order-summary";
@@ -25,10 +25,14 @@ import {
   setDistrictId,
 } from "@/redux/reducers/cart/cartSlice";
 import { useCreateOrderMutation } from "@/redux/reducers/order/orderApi";
+import { useRouter } from "next/navigation";
+import { paths } from "@/layouts/paths";
 
 const CheckoutProudctView = () => {
   const { cartItems } = useAppSelector((state) => state.cart);
   const { user } = useAppSelector((state) => state.auth);
+
+  const router = useRouter();
 
   const totalPrice = useAppSelector((state) => selectCartTotalPrice(state));
 
@@ -60,8 +64,6 @@ const CheckoutProudctView = () => {
     watch,
     formState: { errors },
   } = methods;
-
-  console.log("er", errors);
 
   const divisionValue = watch("division");
   const districtValue = watch("district");
@@ -115,10 +117,9 @@ const CheckoutProudctView = () => {
 
     const response = await createOrder(payload).unwrap();
 
-    console.log("res", response);
-
     if (response.state) {
       toast.success(response.message);
+      router.push(paths.success);
     } else {
       toast.success(response.message);
     }
@@ -128,19 +129,27 @@ const CheckoutProudctView = () => {
     }
   });
 
+  const orderFromRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (Object.keys(errors).length > 0 && orderFromRef.current) {
+      orderFromRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [errors]);
+
   return (
     <div className="">
       <div className="bg-gray-100">
         <PageHeader pageName="Checkout" breadcrumbItems={breadcrumbItems} />
         <div className="max-w-6xl mx-auto">
-          <div className="w-full">
+          <div className="w-full" ref={orderFromRef}>
             <FormProvider methods={methods} onSubmit={onSubmit}>
               {/* <div className="pt-9">
                 <CheckoutInstantSignin />
               </div> */}
               <div className="flex flex-col lg:flex-row md:px-5 xl:px-0 py-9">
-                <div className="flex-1">
-                  <Card className="flex-1 md:rounded-2xl p-5 h-min">
+                <div className="flex-1 px-3 lg:px-0">
+                  <Card className="flex-1 md:rounded-2xl  p-3 md:p-5 h-min">
                     <h3 className="text-2xl font-semibold mb-7">
                       Billing details
                     </h3>
@@ -196,11 +205,15 @@ const CheckoutProudctView = () => {
                 <div className="flex-shrink-0 border-t lg:border-t-0 lg:border-l border-slate-200 my-5 lg:my-0 md:mx-5 lg:mx-11"></div>
                 <div className="w-full lg:w-[35%] md:rounded-2xl">
                   {/* summary */}
-                  <OrderSummery
-                    buttonTitle="Place Order"
-                    isSubmit
-                    onSubmit={() => {}}
-                  />
+
+                  <div className="px-3 lg:px-0">
+                    <OrderSummery
+                      buttonTitle="Place Order"
+                      isSubmit
+                      onSubmit={() => {}}
+                      isLoading={isLoading}
+                    />
+                  </div>
 
                   <div className="bg-white md:rounded-2xl p-5 md:p-5 mt-5">
                     <h3 className="text-xl font-semibold pb-3">Your Basket</h3>

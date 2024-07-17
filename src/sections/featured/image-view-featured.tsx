@@ -5,9 +5,10 @@ import React, { RefObject, useRef, useState } from "react";
 interface Props {
   images: string[];
   name: string;
+  isDetailsViewDialog: boolean;
 }
 
-const ImageViewFeatured = ({ images, name }: Props) => {
+const ImageViewFeatured = ({ images, name, isDetailsViewDialog }: Props) => {
   const productImageRef: RefObject<HTMLImageElement> = useRef(null);
   const [currentImage, setCurrentImage] = useState(images[0]);
 
@@ -47,7 +48,7 @@ const ImageViewFeatured = ({ images, name }: Props) => {
     <div className="w-full md:w-[41%] lg:w-[71%] lg:px-5 xl:px-0 ">
       <div className="relative">
         <div
-          className="h-[300px] md:h-[351px] xl:h-[371px] relative border border-gray-300 sm:p-2 overflow-hidden cursor-pointer rounded-xl flex items-center justify-center"
+          className="h-[300px] md:h-[351px] xl:h-[371px] relative border border-gray-300 sm:p-2 overflow-hidden cursor-pointer flex items-center justify-center"
           onMouseMove={handleImageZoom}
           onMouseLeave={handleImageZoomReset}
         >
@@ -58,7 +59,11 @@ const ImageViewFeatured = ({ images, name }: Props) => {
             ref={productImageRef}
           />
         </div>
-        <div className="flex items-center gap-2 justify-start mt-5 shadow-md border p-2 xl:-ml-11 sm:w-[300px] mx-3">
+        <div
+          className={`flex items-center gap-2 justify-start mt-5 shadow-md border p-2  sm:w-[300px] mx-3 ${
+            isDetailsViewDialog ? "" : "xl:-ml-11"
+          }`}
+        >
           {images?.map((image, index) => (
             <div
               key={index}

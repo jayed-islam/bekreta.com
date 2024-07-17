@@ -14,6 +14,7 @@ import useBoolean from "@/hooks/use-boolean";
 import { useGetProductsQuery } from "@/redux/reducers/product/productApi";
 import useDebounce from "@/hooks/use-debounce";
 import { useRouter } from "next/navigation";
+import { Drawer } from "@mui/material";
 
 interface CategoryWiseProductProps {}
 
@@ -42,10 +43,11 @@ const CategoryWiseProductFilterView: React.FC<
     searchTerm: null,
   });
 
-  const [count, setCount] = useState<number>(0);
   const [page, setPage] = useState<number>(0);
   const [size, setSize] = useState<number>(5);
   const [sortId, setSortId] = useState<number>(1);
+
+  const filterDrawer = useBoolean();
 
   // const searchParams: any = useSearchParams();
   // const categoryId: string | null = searchParams.get("category");
@@ -168,7 +170,7 @@ const CategoryWiseProductFilterView: React.FC<
 
       <div className="max-w-6xl mx-auto px-3 xl:px-0">
         <div className="flex flex-col lg:flex-row gap-5 mt-5">
-          <div
+          {/* <div
             className={`z-20 lg:hidden flex w-full  justify-end h-full overflow-x-hidden bg-black bg-opacity-20 fixed right-0 top-0 transform transition duration-200 ease-in-out  ${
               !filterSidebar.value && "translate-x-full lg:hidden"
             }`}
@@ -190,7 +192,7 @@ const CategoryWiseProductFilterView: React.FC<
                 onFilters={handleFilters}
               />
             </div>
-          </div>
+          </div> */}
 
           {/*left side filtered secttion for large screen  */}
           <div className="hidden lg:block">
@@ -208,7 +210,7 @@ const CategoryWiseProductFilterView: React.FC<
               <h3 className="text-md font-semibold hidden lg:block">Router</h3>
               <div className="lg:hidden">
                 <button
-                  onClick={filterSidebar.setTrue}
+                  onClick={filterDrawer.setTrue}
                   className="flex items-center text-sm gap-2 px-3 py-1 rounded-sm bg-gray-100"
                 >
                   <Icon icon="ion:filter" className="text-xl" />
@@ -274,6 +276,26 @@ const CategoryWiseProductFilterView: React.FC<
           </div>
         </div>
       </div>
+      <Drawer
+        open={filterDrawer.value}
+        onClose={filterDrawer.setFalse}
+        anchor="right"
+      >
+        <div className="w-[281px] bg-white relative pt-5 pb-5">
+          <div
+            onClick={filterDrawer.setFalse}
+            className="px-2 py-1 bg-gray-100 right-3 top-3 absolute border border-gray-400 flex items-center justify-center h-9 cursor-pointer"
+          >
+            <Icon icon="mingcute:close-line" className="text-xl" />
+          </div>
+          <LeftSideFilter
+            filters={filters}
+            values={values}
+            setValues={setValues}
+            onFilters={handleFilters}
+          />
+        </div>
+      </Drawer>
     </div>
   );
 };

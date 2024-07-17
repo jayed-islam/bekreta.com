@@ -1,14 +1,7 @@
 "use client";
 
 import React, { useState, ReactNode } from "react";
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  CssBaseline,
-  Box,
-} from "@mui/material";
+import { AppBar, Toolbar, IconButton, Typography, Box } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AdminSidebar from "./sidebar";
 

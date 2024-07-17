@@ -12,6 +12,7 @@ export const paths = {
   cart: {
     root: "/cart",
   },
+  success: "/success",
   page404: "/error/404",
   checkout: "/checkout",
   order: "/orders",
@@ -23,4 +24,11 @@ export const paths = {
     bilingAddress: "/account/biling-address",
   },
   featured: "/featured",
+  admin: {
+    root: "/admin",
+    product: {
+      root: "/admin/product",
+      new: "/admin/product/new",
+    },
+  },
 };
