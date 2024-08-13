@@ -3,34 +3,42 @@
 import { paths } from "@/layouts/paths";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useRouter } from "next/navigation";
-import { FC, useCallback, useEffect, useState } from "react";
+import { FC, ReactNode, useCallback, useEffect, useState } from "react";
 import { isValidToken } from "../utils";
 import { SplashScreen } from "@/components/loader/splash-screen";
 import { logout } from "@/redux/reducers/auth/authSlice";
 
 const loginPaths: Record<string, string> = {
   login: paths.website.signin,
+  adminLogin: paths.signin,
 };
 
 interface IAuthGuardProps {
-  children: React.ReactNode;
+  children: ReactNode;
+  isAdminLogin?: boolean;
 }
 
-export const AuthGuard: FC<IAuthGuardProps> = ({ children }) => {
+export const AuthGuard: FC<IAuthGuardProps> = ({ children, isAdminLogin }) => {
   const { authLoading } = useAppSelector((state) => state.auth);
   return (
-    <>{authLoading ? <SplashScreen /> : <Container>{children}</Container>}</>
+    <>
+      {authLoading ? (
+        <SplashScreen />
+      ) : (
+        <Container isAdminLogin={isAdminLogin}>{children}</Container>
+      )}
+    </>
   );
 };
 
-function Container({ children }: IAuthGuardProps) {
+function Container({ children, isAdminLogin }: IAuthGuardProps) {
   const { isAuthenticated } = useAppSelector((state) => state.auth);
   const router = useRouter();
   const [checked, setChecked] = useState(false);
   let accessToken: string | null = null;
 
   if (typeof window === "object") {
-    console.log("object");
+    // console.log("object");
     accessToken = localStorage?.getItem("accessToken");
   }
 
@@ -47,7 +55,9 @@ function Container({ children }: IAuthGuardProps) {
         returnTo: window.location.pathname,
       }).toString();
 
-      const loginPath = loginPaths.login;
+      const loginPath = !isAdminLogin
+        ? loginPaths.login
+        : loginPaths.adminLogin;
 
       const href = `${loginPath}?${searchParams}`;
       router.replace(href);

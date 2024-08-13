@@ -31,4 +31,5 @@ export const paths = {
       new: "/admin/product/new",
     },
   },
+  signin: "/signin",
 };

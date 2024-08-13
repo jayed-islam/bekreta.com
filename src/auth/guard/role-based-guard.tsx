@@ -1,11 +1,12 @@
 "use client";
 
 import { useAppSelector } from "@/redux/hooks";
+import { UserRoles } from "@/types/user";
 import { FC } from "react";
 
 type RoleBasedGuardProp = {
   hasContent?: boolean;
-  roles?: string[];
+  roles?: UserRoles[];
   children: React.ReactNode;
 };
 
@@ -16,7 +17,7 @@ export const RoleBasedGuard: FC<RoleBasedGuardProp> = ({
 }) => {
   const { user } = useAppSelector((state) => state.auth);
 
-  const isAdmin = roles?.includes(user?.role!);
+  const isAdmin = roles?.includes(user?.role! as UserRoles);
 
   if (typeof user?.role !== "undefined" && !isAdmin) {
     return hasContent ? (

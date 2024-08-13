@@ -3,20 +3,19 @@
 import { RHFTextField } from "@/components/react-hook-form";
 import FormProvider from "@/components/react-hook-form/hook-form-controller";
 import { paths } from "@/layouts/paths";
-import { useLoginMutation } from "@/redux/reducers/auth/authApi";
+import { useAdminLoginMutation } from "@/redux/reducers/auth/authApi";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AuthFormValues, authValidationSchema } from "./auth-validation";
 import toast from "react-hot-toast";
 import { Alert } from "@mui/material";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/redux/hooks";
 import { setToken } from "@/redux/reducers/auth/authSlice";
 import { LoadingButton } from "@mui/lab";
 
-const SignInView = () => {
+const AdminSignInView = () => {
   const methods = useForm<AuthFormValues>({
     resolver: zodResolver(authValidationSchema),
   });
@@ -29,25 +28,17 @@ const SignInView = () => {
     formState: { errors },
   } = methods;
 
-  // const redirectPath =
-  //   new URLSearchParams(window.location.search).get("redirect") || "/";
-
-  const [loginUser, { isLoading }] = useLoginMutation();
+  const [loginAdmin, { isLoading }] = useAdminLoginMutation();
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      const response = await loginUser(data).unwrap();
+      const response = await loginAdmin(data).unwrap();
       if (response.success) {
         toast.success(response.message);
         dispatch(setToken(response?.data?.accessToken));
-        let redirectPath;
-        if (typeof window !== "undefined") {
-          const redirectPath =
-            new URLSearchParams(window?.location.search).get("redirect") || "/";
-          router.push(redirectPath);
-        }
+        router.push(paths.admin.root);
       } else {
         toast.error(response.message);
         setErrorMessage(response.message);
@@ -68,23 +59,8 @@ const SignInView = () => {
     }
   }, [errorMessage]);
 
-  // if (typeof window === "object") {
-  //   if (localStorage?.getItem("accessToken")) {
-  //     toast.success("You have already logged in.");
-  //     router.push(redirectPath);
-  //     // eslint-disable-next-line react/jsx-no-useless-fragment
-  //     return <></>;
-  //   }
-  // }
-  // useEffect(() => {
-  //   if (typeof window !== "undefined" && localStorage.getItem("accessToken")) {
-  //     toast.success("You have already logged in.");
-  //     router.push(redirectPath);
-  //   }
-  // }, []);
-
   return (
-    <div className="bg-gray-100 py-16 md:py-20 lg:py-28 flex items-center justify-center w-full px-3">
+    <div className="bg-gray-100  flex items-center justify-center w-full px-3 h-screen">
       <div className="w-full max-w-[25rem] bg-white shadow-xl px-5 md:px-7 py-7">
         <FormProvider methods={methods} onSubmit={onSubmit}>
           <h1 className="mt-3 text-2xl font-semibold capitalize sm:text-3xl">
@@ -119,15 +95,6 @@ const SignInView = () => {
             >
               Sign in
             </LoadingButton>
-
-            <div className="mt-6 text-center ">
-              <Link
-                href={paths.website.signup}
-                className="text-sm text-green-500 hover:underline "
-              >
-                Don’t have an account yet? Sign up
-              </Link>
-            </div>
           </div>
         </FormProvider>
       </div>
@@ -135,4 +102,4 @@ const SignInView = () => {
   );
 };
 
-export default SignInView;
+export default AdminSignInView;

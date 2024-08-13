@@ -2,7 +2,7 @@ import { IProduct } from "@/types/products";
 import { api } from "../../api";
 import { ICreateOfferedOrder, ICreateOrder } from "@/types/order";
 
-interface IGetStatusWiseFeaturedProduct {
+interface IGetFeaturedProduct {
   message: string;
   state: boolean;
   data: IProduct;
@@ -16,12 +16,9 @@ interface IGetCreateOfferedOrderResponse {
 
 export const featuredProductApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getStatusWiseFeaturedProducts: builder.query<
-      IGetStatusWiseFeaturedProduct,
-      void
-    >({
+    getFeaturedOrder: builder.query<IGetFeaturedProduct, void>({
       query: () => ({
-        url: "/product/type/featured",
+        url: "/product/get-featured",
         method: "GET",
       }),
     }),
@@ -30,7 +27,7 @@ export const featuredProductApi = api.injectEndpoints({
       ICreateOfferedOrder
     >({
       query: (body: ICreateOfferedOrder) => ({
-        url: "/offered",
+        url: "/featured-order",
         method: "POST",
         body,
       }),
@@ -39,7 +36,5 @@ export const featuredProductApi = api.injectEndpoints({
   overrideExisting: true,
 });
 
-export const {
-  useGetStatusWiseFeaturedProductsQuery,
-  useCreateFeaturedOrderMutation,
-} = featuredProductApi;
+export const { useGetFeaturedOrderQuery, useCreateFeaturedOrderMutation } =
+  featuredProductApi;

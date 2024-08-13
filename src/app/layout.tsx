@@ -3,10 +3,11 @@ import { Toaster } from "react-hot-toast";
 import { Roboto_Condensed } from "next/font/google";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { CssBaseline } from "@mui/material";
 import { ReduxProvider } from "@/redux/ReduxProvider";
 import { Metadata } from "next";
 import Favicon from "../../public/favicon.jpeg";
+import LocalizationProvider from "@/locals/localization-provider";
+import ThemeProvider from "@/theme";
 
 const roboto_condensed = Roboto_Condensed({
   weight: ["400"],
@@ -29,11 +30,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={roboto_condensed.className}>
       <body>
-        <CssBaseline />
-        <ReduxProvider>
-          {children}
-          <Toaster />
-        </ReduxProvider>
+        <LocalizationProvider>
+          <ReduxProvider>
+            <ThemeProvider>
+              {children}
+              <Toaster />
+            </ThemeProvider>
+          </ReduxProvider>
+        </LocalizationProvider>
       </body>
     </html>
   );

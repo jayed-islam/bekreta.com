@@ -52,9 +52,9 @@ const MainAdminLayout: React.FC<MainAdminLayoutProps> = ({ children }) => {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
+          // p: 3,
           //   width: { sm: `calc(100% - ${drawerWidth}px)` },
-          bgcolor: "#000",
+          // bgcolor: "#000",
           //   ml: { sm: `${drawerWidth}px` },
           m: {
             xs: 3,
