@@ -1,18 +1,16 @@
 import React, { useEffect } from "react";
 import SideProductCard from "./common/side-product-card";
-import { useGetCategoryWiseProductQuery } from "@/redux/reducers/product/productApi";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import RecentViewedProductCard from "./common/recent-viewed-product-card";
 import { CartItem } from "@/types/cart";
 import { setLastVisitedProducts } from "@/redux/reducers/product/productSlice";
+import { IProduct } from "@/types/products";
 
 interface Props {
-  category: string;
+  relatedProducts: IProduct[];
 }
 
-const RelatedProductsSection: React.FC<Props> = ({ category }) => {
-  const { data, isLoading } = useGetCategoryWiseProductQuery({ category });
-
+const RelatedProductsSection: React.FC<Props> = ({ relatedProducts }) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -34,7 +32,7 @@ const RelatedProductsSection: React.FC<Props> = ({ category }) => {
           Related Products
         </h3>
 
-        {isLoading
+        {/* {isLoading
           ? [1, 2, 3].map((i) => (
               <div className="animate-pulse flex space-x-4">
                 <div className=" bg-slate-200 h-20 w-20 rounded-lg border"></div>
@@ -48,7 +46,10 @@ const RelatedProductsSection: React.FC<Props> = ({ category }) => {
                 </div>
               </div>
             ))
-          : data?.data.map((product) => <SideProductCard product={product} />)}
+          : data?.data.map((product) => <SideProductCard product={product} />)} */}
+        {relatedProducts?.map((product) => (
+          <SideProductCard product={product} />
+        ))}
       </div>
 
       <div className=" bg-white py-5 px-5 mt-5">

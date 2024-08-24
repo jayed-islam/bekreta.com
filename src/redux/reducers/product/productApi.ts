@@ -1,7 +1,9 @@
 import {
   IFeaturedProductGetBody,
   IGetCategoryWiseProductListResponse,
+  IGetHomeItemProductListResponse,
   IGetProductListResponse,
+  IGetSingleAndRelatedProductListResponse,
   IOfferedProductGetBody,
   IProduct,
   IProductGetBody,
@@ -33,33 +35,30 @@ export const productApi = api.injectEndpoints({
         method: "GET",
       }),
     }),
-    getFeaturedProducts: builder.query<
-      IGetProductListResponse,
-      IFeaturedProductGetBody
-    >({
+    getHomeItems: builder.query<IGetHomeItemProductListResponse, void>({
       query: (body) => ({
-        url: "product/featured",
-        method: "POST",
-        body,
-      }),
-    }),
-    getOfferetProducts: builder.query<
-      IGetProductListResponse,
-      IOfferedProductGetBody
-    >({
-      query: (body) => ({
-        url: "product/offered",
-        method: "POST",
-        body,
-      }),
-    }),
-    getCategoryWiseProduct: builder.query<
-      IGetCategoryWiseProductListResponse,
-      CategoryProps
-    >({
-      query: ({ category }) => ({
-        url: `/product/category/${category}`,
+        url: "product/get-home-items",
         method: "GET",
+        body,
+      }),
+    }),
+    getSingleWithRelatedProduct: builder.query<
+      IGetSingleAndRelatedProductListResponse,
+      string
+    >({
+      query: (id) => ({
+        url: `/product/get-single-detail/${id}`,
+        method: "GET",
+      }),
+    }),
+    getFeaturedCurrentSingleProduct: builder.query<
+      IGetSingleProductRecponse,
+      void
+    >({
+      query: (body) => ({
+        url: "/product/get-featured-single",
+        method: "GET",
+        body,
       }),
     }),
   }),
@@ -69,7 +68,7 @@ export const productApi = api.injectEndpoints({
 export const {
   useGetProductsQuery,
   useGetProductByIdQuery,
-  useGetFeaturedProductsQuery,
-  useGetOfferetProductsQuery,
-  useGetCategoryWiseProductQuery,
+  useGetHomeItemsQuery,
+  useGetSingleWithRelatedProductQuery,
+  useGetFeaturedCurrentSingleProductQuery,
 } = productApi;

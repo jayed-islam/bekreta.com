@@ -14,14 +14,13 @@ import {
   selectTotalItems,
   setFeaturedProduct,
 } from "@/redux/reducers/featured/featuredProductSlice";
-import { useGetStatusWiseFeaturedProductsQuery } from "@/redux/reducers/featured/featuredProductApi";
-
 import OfferedProductViewFeatued from "./offered-product-view-featured";
 import useResponsive from "@/hooks/use-responsive";
 import useBoolean from "@/hooks/use-boolean";
 import OrderSubmissionFormDialog from "./common/order-submission-form-dialog";
 import OrderSuccessModal from "./common/success-order-dialog";
 import MobileOrderForm from "./common/mobile-order-form";
+import { useGetFeaturedCurrentSingleProductQuery } from "@/redux/reducers/product/productApi";
 
 interface Props {}
 
@@ -30,7 +29,7 @@ const ProductViewFeatured = ({}: Props) => {
     (state) => state.featuredProduct
   );
   const dispatch = useAppDispatch();
-  const { data, isLoading } = useGetStatusWiseFeaturedProductsQuery();
+  const { data, isLoading } = useGetFeaturedCurrentSingleProductQuery();
   const [orderId, setOrderID] = useState("");
 
   const isMdUp = useResponsive({ breakpoint: "md", direction: "up" });

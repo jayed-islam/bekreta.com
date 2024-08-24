@@ -12,7 +12,10 @@ import QuestionSection from "../product-details-sections/qurstion-section";
 import ReviewSection from "../product-details-sections/review-section";
 import LeftSideImageView from "../left-side-image-view";
 import MiddleProductDescription from "../middle-product-description-view";
-import { useGetProductByIdQuery } from "@/redux/reducers/product/productApi";
+import {
+  useGetProductByIdQuery,
+  useGetSingleWithRelatedProductQuery,
+} from "@/redux/reducers/product/productApi";
 import { useAppDispatch } from "@/redux/hooks";
 import { addLastVisitedProduct } from "@/redux/reducers/product/productSlice";
 import ProductDetailLoader from "@/components/loader/product-detail-loader";
@@ -25,7 +28,7 @@ interface IProductDetailsProps {
 const ProductsDetailsView = ({ id, product }: IProductDetailsProps) => {
   const [activeTab, setActiveTab] = useState("Description");
 
-  const { data, isLoading } = useGetProductByIdQuery(id);
+  const { data, isLoading } = useGetSingleWithRelatedProductQuery(id);
 
   const questions = 0;
 
@@ -41,8 +44,10 @@ const ProductsDetailsView = ({ id, product }: IProductDetailsProps) => {
         <div className="lg:flex relative max-w-6xl mx-auto xl:px-0 gap-7 pt-5 pb-11 md:pt-16 md:pb-16">
           <div className="flex-1">
             <div className="md:flex itmes-start sm:px-5 lg:px-0 ">
-              <LeftSideImageView product={data?.data as IProduct} />
-              <MiddleProductDescription product={data?.data as IProduct} />
+              <LeftSideImageView product={data?.data.product as IProduct} />
+              <MiddleProductDescription
+                product={data?.data.product as IProduct}
+              />
             </div>
 
             <div className="flex-1 px-3 py-7 md:mt-9 bg-gray-100 mt-11">
@@ -62,7 +67,7 @@ const ProductsDetailsView = ({ id, product }: IProductDetailsProps) => {
               {/* <SpecificationSection activeTab={activeTab} /> */}
               <DescriptionSection
                 activeTab={activeTab}
-                descriptions={data?.data.descriptions as string[]}
+                descriptions={data?.data.product.descriptions as string[]}
               />
               {/* <QuestionSection
                 activeTab={activeTab}
@@ -72,12 +77,14 @@ const ProductsDetailsView = ({ id, product }: IProductDetailsProps) => {
               <ReviewSection
                 activeTab={activeTab}
                 questions={questions}
-                product={data?.data as IProduct}
+                product={data?.data.product as IProduct}
               />
             </div>
           </div>
 
-          <RelatedProductsSection category={data?.data.category as string} />
+          <RelatedProductsSection
+            relatedProducts={data?.data.relatedProducts as IProduct[]}
+          />
         </div>
       )}
       {/* {isLightboxOpen && (

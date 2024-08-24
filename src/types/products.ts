@@ -48,11 +48,31 @@ export interface IGetProductListResponse {
   };
 }
 
+export interface IGetHomeItemProductListResponse {
+  statusCode: number;
+  message: string;
+  state: boolean;
+  data: {
+    offerItems: IProduct[];
+    newItems: IProduct[];
+  };
+}
+
 export interface IGetCategoryWiseProductListResponse {
   statusCode: number;
   message: string;
   state: boolean;
   data: IProduct[];
+}
+
+export interface IGetSingleAndRelatedProductListResponse {
+  statusCode: number;
+  message: string;
+  state: boolean;
+  data: {
+    product: IProduct;
+    relatedProducts: IProduct[];
+  };
 }
 
 export type ProductStatus =

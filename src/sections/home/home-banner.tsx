@@ -4,11 +4,16 @@ import React, { useRef } from "react";
 import Slider from "react-slick";
 import BannerProductCard from "./common/banner-product-card";
 import { offerProductSettings } from "@/utils/react-slick-utils";
-import { useGetOfferetProductsQuery } from "@/redux/reducers/product/productApi";
 import Image from "next/image";
 import banner from "../../../public/assets/bg-light-banner.jpg";
+import { IProduct } from "@/types/products";
 
-const HomeBanner = () => {
+interface Props {
+  offerItems: IProduct[];
+  isLoading: boolean;
+}
+
+const HomeBanner = ({ isLoading, offerItems }: Props) => {
   const sliderRef = useRef<Slider | null>(null);
   const bannerRef = useRef<Slider | null>(null);
 
@@ -30,8 +35,6 @@ const HomeBanner = () => {
   const banners = ["assets/banner.avif", "assets/banner2.avif"];
 
   const fakeArr = Array.from({ length: 3 }, (_, index) => index);
-
-  const { data, isLoading } = useGetOfferetProductsQuery({});
 
   return (
     <div className="bg-gray-100 w-full">
@@ -116,7 +119,7 @@ const HomeBanner = () => {
                     </div>
                   </div>
                 ))
-              : data?.data.products?.map((product, index) => (
+              : offerItems?.map((product, index) => (
                   <div className="w-full">
                     <BannerProductCard
                       key={index}
