@@ -111,3 +111,12 @@ export interface IOfferedProductGetBody {
   page?: number;
   limit?: number;
 }
+
+export interface IGetFeaturedProductResponse {
+  data: {
+    featuredProduct: IProduct;
+    offerProducts: IProduct[];
+  };
+  message: string;
+  state: boolean;
+}

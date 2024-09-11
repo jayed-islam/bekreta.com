@@ -1,6 +1,7 @@
 import {
   IFeaturedProductGetBody,
   IGetCategoryWiseProductListResponse,
+  IGetFeaturedProductResponse,
   IGetHomeItemProductListResponse,
   IGetProductListResponse,
   IGetSingleAndRelatedProductListResponse,
@@ -10,7 +11,7 @@ import {
 } from "@/types/products";
 import { api } from "../../api";
 
-interface IGetSingleProductRecponse {
+interface IGetSingleProductResponse {
   data: IProduct;
   message: string;
   state: boolean;
@@ -29,7 +30,7 @@ export const productApi = api.injectEndpoints({
         body,
       }),
     }),
-    getProductById: builder.query<IGetSingleProductRecponse, string>({
+    getProductById: builder.query<IGetSingleProductResponse, string>({
       query: (id) => ({
         url: `/product/get-single/${id}`,
         method: "GET",
@@ -52,7 +53,7 @@ export const productApi = api.injectEndpoints({
       }),
     }),
     getFeaturedCurrentSingleProduct: builder.query<
-      IGetSingleProductRecponse,
+      IGetFeaturedProductResponse,
       void
     >({
       query: (body) => ({

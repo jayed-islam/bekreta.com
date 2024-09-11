@@ -8,7 +8,7 @@ type TProps = {
 
 const LeftSideImageView = ({ product }: TProps) => {
   const productImageRef: RefObject<HTMLImageElement> = useRef(null);
-  const [currentImage, setCurrentImage] = useState(product.images[0]);
+  const [currentImage, setCurrentImage] = useState(product?.images[0]);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [isLove, setIsLove] = useState(false);
@@ -65,7 +65,7 @@ const LeftSideImageView = ({ product }: TProps) => {
           />
         </div>
         <div className="flex items-center gap-2 justify-start mt-5 shadow-md border p-2 xl:-ml-11 sm:w-[300px] mx-3">
-          {product.images?.map((img, i) => (
+          {product?.images?.map((img, i) => (
             <div
               className={`border p-2 border-gray-300 ${
                 currentImage === img && "border-green-500"

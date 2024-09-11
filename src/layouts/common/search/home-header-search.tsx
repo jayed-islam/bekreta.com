@@ -61,14 +61,16 @@ export default function HomeHeaderSearch() {
                   }
                 }}
               />
-              <Icon
-                icon="teenyicons:search-outline"
-                onClick={() => {
-                  onSubmit(query);
-                  setIsPopoverOpen(false);
-                }}
-                className="text-xl mt-1 text-gray-600 absolute right-5"
-              />
+              <div className="flex items-center justify-center h-7 w-7 absolute right-4">
+                <Icon
+                  icon="teenyicons:search-outline"
+                  onClick={() => {
+                    onSubmit(query);
+                    setIsPopoverOpen(false);
+                  }}
+                  className="text-xl mt-1 text-gray-600"
+                />
+              </div>
             </div>
             <Transition
               show={isPopoverOpen}
@@ -84,7 +86,7 @@ export default function HomeHeaderSearch() {
                 {({ close }) => (
                   <div className="overflow-hidden rounded-lg shadow-lg bg-white p-5 h-[300px] overflow-y-auto">
                     <div className="lg:flex flex-col items-center gap-2 w-full">
-                      {categories.map((caterory, index) => (
+                      {categories?.map((caterory, index) => (
                         <div
                           onClick={async () => {
                             onSubmitCategory(caterory.title);

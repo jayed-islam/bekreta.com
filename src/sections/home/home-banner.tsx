@@ -38,7 +38,7 @@ const HomeBanner = ({ isLoading, offerItems }: Props) => {
 
   return (
     <div className="bg-gray-100 w-full">
-      <div className="max-w-6xl mx-auto flex lg:gap-5 pt-2 flex-col lg:flex-row sm:px-3 md:px-5 xl:px-0">
+      <div className="max-w-6xl mx-auto flex lg:gap-5 flex-col lg:flex-row sm:px-3 md:px-5 xl:px-0">
         <div className="flex-1 w-full lg:w-[60%]">
           {/* <Slider {...bannerSettings} ref={bannerRef}>
             {banners.map((banner, index) => (

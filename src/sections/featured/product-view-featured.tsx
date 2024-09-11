@@ -2,9 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import ImageViewFeatured from "./image-view-featured";
-import { IProduct } from "@/types/products";
-import { Divider, Stack, Typography } from "@mui/material";
-import { LoadingButton } from "@mui/lab";
+import { IGetFeaturedProductResponse, IProduct } from "@/types/products";
+import { Divider, Typography } from "@mui/material";
 import FeaturedProductCheckoutItem from "./cart-product-item-featured";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
@@ -22,21 +21,23 @@ import OrderSuccessModal from "./common/success-order-dialog";
 import MobileOrderForm from "./common/mobile-order-form";
 import { useGetFeaturedCurrentSingleProductQuery } from "@/redux/reducers/product/productApi";
 
-interface Props {}
+interface Props {
+  data: IGetFeaturedProductResponse;
+}
 
-const ProductViewFeatured = ({}: Props) => {
+const ProductViewFeatured = ({ data }: Props) => {
   const { products, selectedDistrict: districtNumber } = useAppSelector(
     (state) => state.featuredProduct
   );
   const dispatch = useAppDispatch();
-  const { data, isLoading } = useGetFeaturedCurrentSingleProductQuery();
+  // const { data, isLoading } = useGetFeaturedCurrentSingleProductQuery();
   const [orderId, setOrderID] = useState("");
 
   const isMdUp = useResponsive({ breakpoint: "md", direction: "up" });
 
   useEffect(() => {
     if (data && data.data && Object.keys(data).length > 0) {
-      dispatch(setFeaturedProduct(data.data as IProduct));
+      dispatch(setFeaturedProduct(data.data.featuredProduct as IProduct));
     }
   }, [data, dispatch]);
 
@@ -53,20 +54,25 @@ const ProductViewFeatured = ({}: Props) => {
       <div className="lg:flex mt-3 gap-7 md:gap-0">
         <div className="flex-1">
           <div className="flex-1 flex gap-5 items-start md:flex-row flex-col">
-            {isLoading ? (
+            {/* {isLoading ? (
               <div className="animate-pulse w-full">
                 <div className=" bg-slate-200 h-[300px] md:h-[300px] xl:h-[371px] md:w-[351px] lg:w-[400px] w-full border rounded-xl"></div>
               </div>
             ) : (
               <ImageViewFeatured
-                images={data?.data.images || []}
-                name={data?.data.name || ""}
+                images={data?.data.featuredProduct.images || []}
+                name={data?.data.featuredProduct.name || ""}
                 isDetailsViewDialog={false}
               />
-            )}
+            )} */}
+            <ImageViewFeatured
+              images={data?.data.featuredProduct.images || []}
+              name={data?.data.featuredProduct.name || ""}
+              isDetailsViewDialog={false}
+            />
 
             <div className="w-full md:w-[65%] pr-5">
-              {isLoading ? (
+              {/* {isLoading ? (
                 <div className="animate-pulse w-full">
                   <div className="bg-gray-200 h-3 w-full rounded-md"></div>
                   <div className="bg-gray-200 h-3 w-full mt-2 rounded-md"></div>
@@ -82,38 +88,73 @@ const ProductViewFeatured = ({}: Props) => {
               ) : (
                 <div>
                   <Typography variant="h5" className="pb-1.5 font-semibold">
-                    {data?.data.name}
+                    {data?.data.featuredProduct.name}
                   </Typography>
                   <div className="py-5">
                     <Typography className="text-md font-semibold mb-2">
                       Specification
                     </Typography>
-                    {data?.data.specifications.map((item, index) => (
-                      <h2 className="text-sm md:text-md">{item}</h2>
-                    ))}
+                    {data?.data.featuredProduct.specifications.map(
+                      (item, index) => (
+                        <h2 className="text-sm md:text-md">{item}</h2>
+                      )
+                    )}
                   </div>
 
                   <div className="flex items-center gap-3">
                     <h2 className="text-xl">Price:</h2>
                     <h2 className="text-xl md:text-2xl font-bold text-green-500">
-                      ৳{data?.data.price}
+                      ৳{data?.data.featuredProduct.price}
                     </h2>
                   </div>
 
                   <div className="flex items-center gap-3 mt-2">
                     <h2 className="text-lg">Stock:</h2>
                     <h2 className="text-lg md:text-xl font-bold">
-                      {data?.data.stock}{" "}
+                      {data?.data.featuredProduct.stock}{" "}
                       <span className="font-normal">items only</span>
                     </h2>
                   </div>
                 </div>
-              )}
+              )} */}
+
+              <div>
+                <Typography variant="h5" className="pb-1.5 font-semibold">
+                  {data?.data.featuredProduct.name}
+                </Typography>
+                <div className="py-5">
+                  <Typography className="text-md font-semibold mb-2">
+                    Specification
+                  </Typography>
+                  {data?.data.featuredProduct.specifications.map(
+                    (item, index) => (
+                      <h2 className="text-sm md:text-md">{item}</h2>
+                    )
+                  )}
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <h2 className="text-xl">Price:</h2>
+                  <h2 className="text-xl md:text-2xl font-bold text-green-500">
+                    ৳{data?.data.featuredProduct.price}
+                  </h2>
+                </div>
+
+                <div className="flex items-center gap-3 mt-2">
+                  <h2 className="text-lg">Stock:</h2>
+                  <h2 className="text-lg md:text-xl font-bold">
+                    {data?.data.featuredProduct.stock}{" "}
+                    <span className="font-normal">items only</span>
+                  </h2>
+                </div>
+              </div>
             </div>
           </div>
           {/* offered product view */}
           <div className="md:flex hidden">
-            <OfferedProductViewFeatued />
+            <OfferedProductViewFeatued
+              products={data?.data.offerProducts as IProduct[]}
+            />
           </div>
         </div>
         <div className="w-full md:w-[331px] mt-7 md:mt-0" id="mybasket">
@@ -122,7 +163,7 @@ const ProductViewFeatured = ({}: Props) => {
               <h2 className="text-md font-semibold">Your Basket</h2>
             </div>
             <div className="p-3">
-              {isLoading ? (
+              {/* {isLoading ? (
                 <div className="animate-pulse flex space-x-4 bg-white p-2 rounded-xl">
                   <div className=" bg-slate-200 h-16 w-16 border rounded-xl"></div>
                   <div className="flex-1 space-y-4 py-1">
@@ -139,7 +180,7 @@ const ProductViewFeatured = ({}: Props) => {
               ) : (
                 products.map((product, index) => {
                   const isCurrentFeatured =
-                    product.product.name === data?.data.name;
+                    product.product.name === data?.data.featuredProduct.name;
                   return (
                     <FeaturedProductCheckoutItem
                       featuredItem={product}
@@ -148,7 +189,18 @@ const ProductViewFeatured = ({}: Props) => {
                     />
                   );
                 })
-              )}
+              )} */}
+              {products.map((product, index) => {
+                const isCurrentFeatured =
+                  product.product.name === data?.data.featuredProduct.name;
+                return (
+                  <FeaturedProductCheckoutItem
+                    featuredItem={product}
+                    isCurrentFeatured={isCurrentFeatured}
+                    key={index}
+                  />
+                );
+              })}
             </div>
           </div>
 
@@ -188,21 +240,21 @@ const ProductViewFeatured = ({}: Props) => {
                 </Typography>
               </div>
 
-              <LoadingButton
+              <button
                 type="submit"
-                size="large"
-                loading={false}
                 onClick={isMdUp ? dialog.setTrue : () => {}}
-                className="bg-green-500 text-white capitalize w-full py-2 mt-5 hover:bg-green-600"
+                className="bg-green-500 text-white capitalize w-full py-2 mt-2 hover:bg-green-600 rounded-lg"
               >
                 Place Order
-              </LoadingButton>
+              </button>
             </div>
           </div>
         </div>
       </div>
       <div className="flex md:hidden">
-        <OfferedProductViewFeatued />
+        <OfferedProductViewFeatued
+          products={data?.data.offerProducts as IProduct[]}
+        />
       </div>
       <OrderSubmissionFormDialog
         dialog={dialog}

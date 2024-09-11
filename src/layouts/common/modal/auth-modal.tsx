@@ -149,6 +149,7 @@ const AuthModal = ({ dialog }: IAuthModalProps) => {
                     <div className="mt-6">
                       <LoadingButton
                         type="submit"
+                        variant="contained"
                         loading={isLoading}
                         disabled={isLoading}
                         className={`w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-500 rounded-none hover:bg-green-600 disabled:bg-gray-300 `}

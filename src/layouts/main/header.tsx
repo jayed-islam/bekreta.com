@@ -137,7 +137,7 @@ export default function Header() {
             </div> */}
 
             {/*search section*/}
-            <div className="lg:flex items-center gap-5 hidden">
+            <div className="lg:flex items-center hidden">
               <HomeHeaderSearch />
             </div>
 
@@ -145,13 +145,13 @@ export default function Header() {
 
             <Link href={paths.featured}>
               <div className="md:flex items-center gap-3 mr-7 cursor-pointer hidden">
-                <div className="h-5 w-5">
+                <div className="h-6 w-6">
                   <Icon
                     icon="ph:gift-light"
                     className="text-orange-600 font-extrabold text-2xl"
                   />
                 </div>
-                <div>
+                <div className="flex items-start flex-col">
                   <h3 className="font-semibold text-white">Offers</h3>
                   <p className="text-xs text-gray-400 ">Letest Offers</p>
                 </div>
@@ -162,28 +162,32 @@ export default function Header() {
               href={paths.website.signin}
               className="sm:flex items-center gap-3 mr-7 cursor-pointer hidden"
             >
-              <div className="h-5 w-5">
+              <div className="h-6 w-6">
                 <Icon
                   icon="iconoir:profile-circle"
                   className="text-orange-600 font-extrabold text-2xl"
                 />
               </div>
-              <div>
+              <div className="flex items-start flex-col">
                 <h3 className="font-semibold text-white">Create Account</h3>
                 <div className="flex items-center gap-1 text-xs text-gray-400 ">
-                  <Link
-                    href={paths.website.signup}
-                    className="hover:text-orange-600 transition-all duration-150 ease-in"
-                  >
-                    Signup
-                  </Link>
-                  <p>or</p>
-                  <Link
-                    href={paths.website.signin}
-                    className="hover:text-orange-600 transition-all duration-150 ease-in"
-                  >
-                    Login
-                  </Link>
+                  <span>
+                    <Link
+                      href={paths.website.signup}
+                      className="hover:text-orange-600 transition-all duration-150 ease-in"
+                    >
+                      Signup
+                    </Link>
+                  </span>
+                  <span>or</span>
+                  <span>
+                    <Link
+                      href={paths.website.signin}
+                      className="hover:text-orange-600 transition-all duration-150 ease-in"
+                    >
+                      Login
+                    </Link>
+                  </span>
                 </div>
               </div>
             </Link>
