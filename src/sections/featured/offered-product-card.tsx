@@ -14,8 +14,8 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { addProduct } from "@/redux/reducers/featured/featuredProductSlice";
 import { IoEyeOutline } from "react-icons/io5";
-import FeaturedProductDetailViewDialog from "./common/feature-product-detail-view-dialog";
 import useBoolean from "@/hooks/use-boolean";
+import FeaturedProductDetailViewDialog from "./common/feature-product-detail-view-dialog";
 
 interface IProductCardProps {
   product: IProduct;

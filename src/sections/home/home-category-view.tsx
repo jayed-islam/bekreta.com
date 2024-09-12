@@ -1,12 +1,9 @@
-// "use client";
-
 import { paths } from "@/layouts/paths";
 import { ICategoriesResponse } from "@/types/category";
 import Link from "next/link";
 import React from "react";
 
 const HomeTopCategoryView = async () => {
-  // const { data, isLoading } = useGetCategoriesQuery();
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_API}/api/v1/category`
   );

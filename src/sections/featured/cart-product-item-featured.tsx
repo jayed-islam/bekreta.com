@@ -5,10 +5,10 @@ import {
   updateProductQuantity,
 } from "@/redux/reducers/featured/featuredProductSlice";
 import { IFeaturedProduct } from "@/types/featured-product";
-import { IProduct } from "@/types/products";
-import { Icon } from "@iconify-icon/react/dist/iconify.mjs";
-import { IconButton } from "@mui/material";
+import { Icon, IconButton } from "@mui/material";
 import Image from "next/image";
+import { RiDeleteBinLine } from "react-icons/ri";
+import { FiMinus, FiPlus } from "react-icons/fi";
 
 interface Props {
   featuredItem: IFeaturedProduct;
@@ -52,7 +52,7 @@ const FeaturedProductCheckoutItem = ({
             className="absolute right-2 top-2 cursor-pointer"
             onClick={handleRemove}
           >
-            <Icon icon="uiw:delete" />
+            <RiDeleteBinLine />
           </div>
         )}
         <div className="ml-3 flex flex-1 flex-col">
@@ -87,7 +87,7 @@ const FeaturedProductCheckoutItem = ({
                     }
                     disabled={featuredItem.quantity <= 1}
                   >
-                    <Icon icon="jam:minus" />
+                    <FiMinus />
                   </IconButton>
                   <span className="select-none block flex-1 text-center leading-none">
                     {featuredItem.quantity}
@@ -105,7 +105,7 @@ const FeaturedProductCheckoutItem = ({
                       )
                     }
                   >
-                    <Icon icon="jam:plus" />
+                    <FiPlus />
                   </IconButton>
                 </div>
               </div>

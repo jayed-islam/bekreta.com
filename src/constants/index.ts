@@ -205,10 +205,11 @@ const actionButtonsInfo = [
   // },
   {
     icon: "carbon:view",
-    action: () => {
+    action: (onClick: void) => {
       console.log("action, view");
+      onClick;
     },
-    title: "View Detail",
+    title: "Quick View",
   },
   // {
   //   icon: "solar:bag-4-linear",

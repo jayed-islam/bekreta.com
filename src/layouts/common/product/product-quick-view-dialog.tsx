@@ -1,25 +1,24 @@
 import { BooleanState } from "@/types/utils";
 import { Dialog, Typography } from "@mui/material";
 import React from "react";
-import ImageViewFeatured from "../image-view-featured";
 import { IProduct } from "@/types/products";
 import { IoMdClose } from "react-icons/io";
-import { useAppDispatch } from "@/redux/hooks";
-import { addProduct } from "@/redux/reducers/featured/featuredProductSlice";
+import ImageViewFeatured from "@/sections/featured/image-view-featured";
 
 interface Props {
   dialog: BooleanState;
   product: IProduct;
+  onClick: () => void;
 }
 
-const FeaturedProductDetailViewDialog = ({ dialog, product }: Props) => {
-  const dispatch = useAppDispatch();
-
-  const handleAddToCart = () => {
-    dispatch(addProduct({ product: product, quantity: 1 }));
-  };
+const ProductQuickViewDialog = ({ dialog, product, onClick }: Props) => {
   return (
-    <Dialog open={dialog.value} onClose={dialog.setFalse} maxWidth="md">
+    <Dialog
+      open={dialog.value}
+      onClose={dialog.setFalse}
+      maxWidth="md"
+      className="z-10"
+    >
       <div className="flex-1 flex gap-5 items-start md:flex-row flex-col p-3 md:p-5 relative">
         <ImageViewFeatured
           images={product.images || []}
@@ -59,26 +58,21 @@ const FeaturedProductDetailViewDialog = ({ dialog, product }: Props) => {
             </h2>
           </div>
 
-          <a href="#mybasket" className="w-full">
-            <button
-              disabled={product.status === "OUT_OF_STOCK"}
-              onClick={() => {
-                handleAddToCart();
-                dialog.setFalse();
-              }}
-              className={`${
-                product.status === "OUT_OF_STOCK"
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-green-500 hover:bg-green-600"
-              } transition-all duration-200 text-center w-full font-semibold text-white mt-2 sm:py-1 py-2`}
-            >
-              Quick Add
-            </button>
-          </a>
+          <button
+            disabled={product.status === "OUT_OF_STOCK"}
+            onClick={onClick}
+            className={`${
+              product.status === "OUT_OF_STOCK"
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-green-500 hover:bg-green-600"
+            } transition-all duration-200 text-center w-full font-semibold text-white mt-2 sm:py-1 py-2`}
+          >
+            Quick Add
+          </button>
         </div>
       </div>
     </Dialog>
   );
 };
 
-export default FeaturedProductDetailViewDialog;
+export default ProductQuickViewDialog;
