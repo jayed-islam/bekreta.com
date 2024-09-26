@@ -91,9 +91,15 @@ const OrderSummery = ({
           <LoadingButton
             type="submit"
             onClick={onSubmit}
+            variant="contained"
+            style={{
+              marginTop: 15,
+            }}
+            fullWidth
+            className="mt-5"
             disabled={cartItems.length === 0 || isLoading}
             loading={isLoading}
-            className={`relative h-auto inline-flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium py-3 px-4 sm:py-3.5 sm:px-6 text-white disabled:bg-opacity-55 disabled:cursor-not-allowed bg-green-600  hover:bg-green-700 shadow-xl mt-8 w-full capitalize disabled:bg-gray-200`}
+            // className={`relative h-auto inline-flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium py-3 px-4 sm:py-3.5 sm:px-6 text-white disabled:bg-opacity-55 disabled:cursor-not-allowed bg-green-600  hover:bg-green-700 shadow-xl mt-8 w-full capitalize disabled:bg-gray-200`}
           >
             {buttonTitle}
           </LoadingButton>

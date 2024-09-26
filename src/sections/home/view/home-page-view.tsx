@@ -10,7 +10,10 @@ import { IGetHomeItemProductListResponse, IProduct } from "@/types/products";
 export const HomePageView = async () => {
   // const { data, isLoading } = useGetHomeItemsQuery();
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_API}/api/v1/product/get-home-items`
+    `${process.env.NEXT_PUBLIC_SERVER_API}/api/v1/product/get-home-items`,
+    {
+      cache: "no-cache",
+    }
   );
   const data: IGetHomeItemProductListResponse = await res.json();
 

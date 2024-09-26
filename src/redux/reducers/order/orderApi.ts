@@ -4,13 +4,13 @@ import { ICreateOrder, IOrder } from "@/types/order";
 interface IGetCreateOrderResponse {
   data: ICreateOrder;
   message: string;
-  state: boolean;
+  success: boolean;
 }
 
 interface IGetUserOrderResponse {
   data: IOrder[];
   message: string;
-  state: boolean;
+  success: boolean;
 }
 
 export const orderApi = api.injectEndpoints({

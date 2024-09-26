@@ -117,7 +117,7 @@ const CheckoutProudctView = () => {
 
     const response = await createOrder(payload).unwrap();
 
-    if (response.state) {
+    if (response.success) {
       toast.success(response.message);
       router.push(paths.success);
     } else {

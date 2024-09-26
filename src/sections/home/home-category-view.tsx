@@ -5,9 +5,14 @@ import React from "react";
 
 const HomeTopCategoryView = async () => {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_API}/api/v1/category`
+    `${process.env.NEXT_PUBLIC_SERVER_API}/api/v1/category`,
+    {
+      cache: "no-cache",
+    }
   );
   const data: ICategoriesResponse = await res.json();
+
+  console.log("category", data);
   return (
     <div className="bg-gray-100">
       <div className="max-w-6xl mx-auto py-3 md:py-5">
