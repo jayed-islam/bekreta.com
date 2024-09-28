@@ -14,6 +14,7 @@ import SmallLoader from "@/components/loader/small-loader";
 import AuthModal from "@/layouts/common/modal/auth-modal";
 import { addLastVisitedProduct } from "@/redux/reducers/product/productSlice";
 import { CartItem } from "@/types/cart";
+import { Button } from "@mui/material";
 
 type TMiddleDescriptionProps = {
   product: IProduct;
@@ -87,61 +88,10 @@ const MiddleProductDescription = ({ product }: TMiddleDescriptionProps) => {
   return (
     <div className='className="w-full px-3 flex-1 mt-7 md:mt-0 lg:pl-7 xl:pl-9 2xl:pl-10"'>
       <div>
-        <h2 className="text-xl sm:text-2xl font-semibold text-green-600">
-          {name}
-        </h2>
-        <div className="flex items-center flex-wrap gap-2 mt-3">
-          {socialInfo.map((info, i) => (
-            <div className="flex items-center px-4 gap-2 py-1.5 border cursor-pointer hover:bg-green-500 transition-all duration-150 ease-in hover:text-white border-gray-300">
-              <Icon icon={info.icon} className="text-xl" />
-              <p className="text-sm">{info.name}</p>
-            </div>
-          ))}
-        </div>
+        <h2 className="text-xl sm:text-2xl font-semibold text-black">{name}</h2>
 
-        <div className="py-5">
-          {specifications.map((item, index) => (
-            <h2 className="text-sm md:text-md">{item}</h2>
-          ))}
-        </div>
-
-        {/* <div className="flex items-center flex-wrap gap-5 mt-5">
-          <div className="flex items-center">
-            {[1, 2, 3, 4].map((i) => (
-              <Icon icon="noto:star" className="text-xl" />
-            ))}
-            <Icon icon="la:star-half-alt" className="text-gray-400 text-sm" />
-          </div>
-          <h2 className="text-[13px] border-l px-5 border-r hover:text-green-500">
-            Read Reviews: (0)
-          </h2>
-          <h2 className="text-[13px] hover:text-green-500">Rrite a review</h2>
-        </div>
-
-        <div className="mt-7">
-          <h3 className="">
-            <span className="text-sm font-semibold">Condition: </span>
-            <span className="text-gray-500 text-sm pl-1"> New Product</span>
-          </h3>
-          <h3 className="pt-1.5">
-            <span className="text-sm font-semibold">Brand: </span>
-            <span className="text-gray-500 text-sm pl-1">Brand</span>
-          </h3>
-          <h3 className="pt-1.5">
-            <span className="text-sm font-semibold">Product Code: </span>
-            <span className="text-gray-500 text-sm pl-1">
-              {product._id.slice(0, 5)}
-            </span>
-          </h3>
-        </div> */}
-
-        <div className="flex items-center justify-between mt-5">
-          <div className="border-y py-3 flex items-center gap-3">
-            <h3 className="text-3xl font-semibold text-green-500">৳{price}</h3>
-            <h3 className="text-md font-semibold">
-              <span className="text-gray-400 pl-2 line-through ">৳{price}</span>
-            </h3>
-          </div>
+        <div className="flex items-center gap-5 mt-5">
+          <h3 className="text-3xl font-semibold text-green-500">৳{price}</h3>
           <div
             className={`px-2 py-1 border text-white font-semibold text-sm ${getStatusStyles(
               status
@@ -150,10 +100,8 @@ const MiddleProductDescription = ({ product }: TMiddleDescriptionProps) => {
             {getProductStatus(status)}
           </div>
         </div>
-      </div>
 
-      <div className="flex space-x-3.5 mt-7">
-        <div className="flex items-center justify-center bg-slate-100/70 px-2 py-3 sm:p-3.5 rounded-full">
+        <div className="flex items-center bg-slate-100/70 px-2 py-2 mt-5 rounded-full w-min">
           <div className=" flex items-center justify-between space-x-5 w-full">
             <div className="flex items-center justify-between w-[104px] sm:w-28">
               <ActionButton icon="ph:minus" onClick={handleDecrease} />
@@ -164,7 +112,26 @@ const MiddleProductDescription = ({ product }: TMiddleDescriptionProps) => {
             </div>
           </div>
         </div>
-        <button
+        <div className="flex flex-col gap-3 w-auto mt-5">
+          <Button variant="contained" color="secondary">
+            কার্টে যোগ করুণ
+          </Button>
+
+          <Button variant="contained" color="success">
+            এখনই অর্ডার করুন
+          </Button>
+        </div>
+
+        <div className="py-5 flex flex-col gap-1">
+          <h2 className="text-xl font-semibold pb-2">Specifications</h2>
+          {specifications.map((item, index) => (
+            <h2 className="text-sm md:text-md">{item}</h2>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex h-min gap-3 mt-7">
+        {/* <button
           disabled={status === "OUT_OF_STOCK"}
           onClick={handleAddToCartMain}
           className={`w-full relative flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium px-4 sm:px-6  shadow-md flex-1 h-13 ${
@@ -181,10 +148,10 @@ const MiddleProductDescription = ({ product }: TMiddleDescriptionProps) => {
           <span className="ml-3">
             {status === "OUT_OF_STOCK" ? "Out of stock" : "Add to cart"}
           </span>
-        </button>
+        </button> */}
       </div>
 
-      <p className="pt-5 text-slate-600 text-md leading-6">{about}</p>
+      <p className="text-slate-600 text-md leading-6">{about}</p>
 
       {/* <div className=" mt-7">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 relative">

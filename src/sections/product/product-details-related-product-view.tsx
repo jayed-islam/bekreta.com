@@ -8,9 +8,13 @@ import { IProduct } from "@/types/products";
 
 interface Props {
   relatedProducts: IProduct[];
+  currentProductId: string;
 }
 
-const RelatedProductsSection: React.FC<Props> = ({ relatedProducts }) => {
+const RelatedProductsSection: React.FC<Props> = ({
+  relatedProducts,
+  currentProductId,
+}) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -27,12 +31,14 @@ const RelatedProductsSection: React.FC<Props> = ({ relatedProducts }) => {
 
   return (
     <div className="w-full lg:w-[301px] mt-5 lg:mt-0">
-      <div className=" bg-white py-5 px-5">
-        <h3 className="text-xl border-t pt-3 font-semibold text-green-700 text-center pb-5 uppercase">
-          Related Products
-        </h3>
+      {relatedProducts.length > 0 ? (
+        <>
+          <div className=" bg-white py-5 px-5">
+            <h3 className="text-xl border-t pt-3 font-semibold text-green-700 text-center pb-5 uppercase">
+              Related Products
+            </h3>
 
-        {/* {isLoading
+            {/* {isLoading
           ? [1, 2, 3].map((i) => (
               <div className="animate-pulse flex space-x-4">
                 <div className=" bg-slate-200 h-20 w-20 rounded-lg border"></div>
@@ -47,19 +53,32 @@ const RelatedProductsSection: React.FC<Props> = ({ relatedProducts }) => {
               </div>
             ))
           : data?.data.map((product) => <SideProductCard product={product} />)} */}
-        {relatedProducts?.map((product) => (
-          <SideProductCard product={product} />
-        ))}
-      </div>
+            {relatedProducts?.map((product) => (
+              <SideProductCard product={product} />
+            ))}
+          </div>
+        </>
+      ) : null}
 
-      <div className=" bg-white py-5 px-5 mt-5">
-        <h3 className="text-xl font-semibold text-green-700 text-center pb-5">
-          Recently Viewed
-        </h3>
-        {lastVisitedProducts.map((product, index) => (
-          <RecentViewedProductCard product={product} />
-        ))}
-      </div>
+      {lastVisitedProducts.length === 0 ? null : (
+        <div
+          className={` bg-white py-5 px-5 ${
+            relatedProducts.length > 0 ? "mt-5" : ""
+          }`}
+        >
+          <h3 className="text-xl font-semibold text-green-700 text-center pb-5">
+            Recently Viewed
+          </h3>
+          {lastVisitedProducts
+            .filter((product) => product.productId !== currentProductId)
+            .map((product) => (
+              <RecentViewedProductCard
+                key={product.productId}
+                product={product}
+              />
+            ))}
+        </div>
+      )}
     </div>
   );
 };

@@ -77,6 +77,7 @@ const ProductsDetailsView = ({ id, product, data }: IProductDetailsProps) => {
         </div>
 
         <RelatedProductsSection
+          currentProductId={data?.data.product._id as string}
           relatedProducts={data?.data.relatedProducts as IProduct[]}
         />
       </div>

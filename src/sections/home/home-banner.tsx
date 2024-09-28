@@ -7,6 +7,7 @@ import { offerProductSettings } from "@/utils/react-slick-utils";
 import Image from "next/image";
 import banner from "../../../public/assets/bg-light-banner.jpg";
 import { IProduct } from "@/types/products";
+import ProductCardNew from "@/layouts/common/product/product-new-cart";
 
 interface Props {
   offerItems: IProduct[];
@@ -73,7 +74,7 @@ const HomeBanner = ({ isLoading, offerItems }: Props) => {
               </div>
             ))}
           </Slider> */}
-          <div className="flex items-center justify-center w-full h-52 sm:h-72 md:h-[400px] lg:h-[491px] relative  bg-gray-300">
+          <div className="flex items-center justify-center w-full h-52 sm:h-72 md:h-[400px] lg:h-[455px] relative  bg-gray-300">
             <Image
               alt="Bekreta"
               src={banner}
@@ -81,7 +82,7 @@ const HomeBanner = ({ isLoading, offerItems }: Props) => {
             />
           </div>
         </div>
-        <div className="w-full hidden lg:block sm:max-w-[18rem] h-full border py-5 bg-white">
+        <div className="w-full hidden lg:block sm:max-w-[18rem] h-full border pt-5 pb-2 bg-white">
           <div className="flex items-center justify-between px-5">
             <h2 className="text-xl font-bold text-green-500">Special Deal</h2>
             <div className="flex items-center gap-3">
@@ -99,37 +100,39 @@ const HomeBanner = ({ isLoading, offerItems }: Props) => {
               </div>
             </div>
           </div>
-          <Slider {...offerProductSettings} ref={sliderRef}>
-            {isLoading
-              ? fakeArr.map((i) => (
-                  <div className="animate-pulse flex px-5 mt-5" key={i}>
-                    <div className="bg-slate-200 h-48 w-full"></div>
-                    <div className="flex-1 py-1 mt-3">
-                      <div className="h-3 bg-slate-200 rounded"></div>
-                      <div className="h-3 bg-slate-200 rounded mt-2"></div>
-                      <div className="">
-                        <div className="grid grid-cols-3 gap-4 mt-5">
-                          <div className="h-3 bg-slate-200 rounded col-span-2"></div>
-                          <div className="h-3 bg-slate-200 rounded col-span-1"></div>
+          <div className="mt-3">
+            <Slider {...offerProductSettings} ref={sliderRef}>
+              {isLoading
+                ? fakeArr.map((i) => (
+                    <div className="animate-pulse flex px-5 mt-5" key={i}>
+                      <div className="bg-slate-200 h-48 w-full"></div>
+                      <div className="flex-1 py-1 mt-3">
+                        <div className="h-3 bg-slate-200 rounded"></div>
+                        <div className="h-3 bg-slate-200 rounded mt-2"></div>
+                        <div className="">
+                          <div className="grid grid-cols-3 gap-4 mt-5">
+                            <div className="h-3 bg-slate-200 rounded col-span-2"></div>
+                            <div className="h-3 bg-slate-200 rounded col-span-1"></div>
+                          </div>
+                          <div className="h-3 mt-3 bg-slate-200 rounded"></div>
+                          <div className="h-3 mt-3 bg-slate-200 rounded"></div>
+                          <div className="h-[3rem] mt-5 bg-slate-200 rounded"></div>
                         </div>
-                        <div className="h-3 mt-3 bg-slate-200 rounded"></div>
-                        <div className="h-3 mt-3 bg-slate-200 rounded"></div>
-                        <div className="h-[3rem] mt-5 bg-slate-200 rounded"></div>
                       </div>
                     </div>
-                  </div>
-                ))
-              : offerItems?.map((product, index) => (
-                  <div className="w-full">
-                    <BannerProductCard
-                      key={index}
-                      product={product}
-                      index={index}
-                      timerBoolean
-                    />
-                  </div>
-                ))}
-          </Slider>
+                  ))
+                : offerItems?.map((product, index) => (
+                    <div className="w-full">
+                      <BannerProductCard
+                        key={index}
+                        product={product}
+                        index={index}
+                        timerBoolean
+                      />
+                    </div>
+                  ))}
+            </Slider>
+          </div>
         </div>
       </div>
     </div>

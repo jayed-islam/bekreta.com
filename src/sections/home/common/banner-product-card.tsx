@@ -5,6 +5,7 @@ import Link from "next/link";
 import ProductCardTimer from "@/components/timer/product-card-timer";
 import { IProduct } from "@/types/products";
 import { paths } from "@/layouts/paths";
+import { Button, Tooltip } from "@mui/material";
 
 interface IProductCardProps {
   product: IProduct;
@@ -22,8 +23,7 @@ const BannerProductCard = ({
   timerBoolean,
 }: IProductCardProps) => {
   const { name, images, price, _id } = product;
-  const [selectedImage, setSelectedImage] = useState(images[0]);
-  const [isLoading, setLoading] = useState(false);
+  const isOutOfStock = product.status === "OUT_OF_STOCK";
 
   const actionButtonsInfo = [
     // {
@@ -49,83 +49,62 @@ const BannerProductCard = ({
   const endTime = "2024-06-25T19:59:59";
 
   return (
-    <div
-      className={twMerge(
-        "relative flex z-10 flex-col w-full group cursor-pointer overflow-hidden",
-        className
-      )}
-    >
-      <div className="absolute -right-11 top-1/3 z-10  flex-col flex gap-2 group-hover:right-5 transition-all duration-500">
-        {actionButtonsInfo.map((action, index) => (
-          <div
-            key={index}
-            onClick={() => action.action()}
-            className="bg-gray-200 h-9 w-9 hover:bg-green-500 transition-all duration-200 rounded-full flex items-center justify-center hover:text-white"
-          >
-            <Icon icon={action.icon} className="text-xl" />
-          </div>
-        ))}
-      </div>
-      <div className="relative flex-shrink-0 overflow-hidden w-full">
-        <div className="hidden sm:flex object-cover bg-white h-48 items-center justify-center group">
+    <div className="relative flex z-10 flex-col w-full group cursor-pointer overflow-hidden px-2">
+      <div className="p-3 h-[271px] overflow-hidden">
+        <div className="w-full flex items-center justify-center h-full">
           <img
-            className="h-full transition-all duration-500 group-hover:scale-110"
+            alt={product.name}
+            className="h-[241px] object-contain"
             src={images[0]}
           />
         </div>
-        <div className="sm:hidden flex aspect-w-11 h-36 md:h-64 w-full object-cover border">
-          <img
-            className="object-cover h-full w-full drop-shadow-xl"
-            src={images[0]}
-          />
-        </div>
-      </div>
 
-      <button
-        className={`w-7 h-7 flex items-center justify-center rounded-full bg-white  text-neutral-700 absolute right-3 top-2 sm:hidden`}
-      >
-        {isLoading ? (
-          <div className="w-3.5 h-3.5 border-2 border-dashed rounded-full animate-spin border-violet-400"></div>
-        ) : (
-          <Icon icon="ph:heart-light" className="text-xl" />
+        {product.status === "OUT_OF_STOCK" && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <span className="text-white font-bold text-lg">OUT OF STOCK</span>
+          </div>
         )}
-      </button>
+      </div>
 
-      <div className={`px-5`}>
-        <div className={` pt-2 pb-2 `}>
-          <h2 className="font-semibold text-sm text-gray-600">
-            {product.category}
+      <div className="px-3 pb-3 bg-gray-200">
+        <div className="flex items-center justify-between mt-2 w-full">
+          <h3 className="text-[#2e7d32] text-lg sm:text-xl font-bold text-center">
+            ৳{price}
+          </h3>
+        </div>
+        <Link href={`${paths.product.root}/${_id}`}>
+          <h2
+            className={`font-bold hover:text-[#2e7d32] transition-all duration-300 ease-in leading-5 line-clamp-1 overflow-ellipsis text-sm md:text-sm`}
+          >
+            {name}
           </h2>
-          <Link href={`${paths.product.root}/${_id}`}>
-            <h2 className="text-lg  font-bold hover:text-green-500 transition-all duration-300 ease-in pb-2 leading-6 hidden sm:block ">
-              {name}
-            </h2>
-            <h2 className="text-xs sm:hidden font-semibold hover:text-red-500 transition-all duration-300 ease-in pb-2 text-ellipsis ">
-              {name}
-            </h2>
-          </Link>
-          <div className="flex items-center sm:items-end gap-2 justify-between">
-            <div className="flex items-center gap-3">
-              <h3 className="text-green-500 text-[19px] font-bold price">
-                ৳{price}
-              </h3>
-              <h3 className="text-gray-500 text-[15px] line-through price font-semibold">
-                ৳{price}
-              </h3>
-            </div>
-            <Link href={`${paths.product.root}/${_id}`}>
-              <div className="bg-gray-200 h-9 w-9 hover:bg-green-500 transition-all duration-200 rounded-full flex items-center justify-center hover:text-white">
+        </Link>
+
+        <div className="flex items-center gap-3 mt-3">
+          <Button
+            style={{
+              borderRadius: 0,
+            }}
+            variant="contained"
+            color="success"
+            fullWidth
+          >
+            অর্ডার করুন
+          </Button>
+          <div className="w-[47px]">
+            <Tooltip title="কার্টে যোগ করুণ">
+              <button
+                disabled={isOutOfStock}
+                className={`h-9 w-9 transition-all duration-200 rounded-full flex items-center justify-center ${
+                  isOutOfStock
+                    ? "bg-gray-300 text-gray-500"
+                    : "bg-white hover:bg-green-600 hover:text-white"
+                }`}
+                // onClick={handleAddToCartMain}
+              >
                 <Icon icon="solar:bag-4-linear" className="text-xl" />
-              </div>
-            </Link>
-          </div>
-          <div className="w-full mt-4">
-            <h2 className="text-lg text-gray-600">Hurry Up Offer ends in:</h2>
-            {timerBoolean === true && (
-              <div className="mt-1 w-full">
-                <ProductCardTimer endTime={endTime} />
-              </div>
-            )}
+              </button>
+            </Tooltip>
           </div>
         </div>
       </div>

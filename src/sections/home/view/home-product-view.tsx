@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import ProductCard from "../../../layouts/common/product/product-card";
 import { paths } from "@/layouts/paths";
 import { IProduct } from "@/types/products";
+import ProductCardNew from "@/layouts/common/product/product-new-cart";
 
 interface Props {
   newItems: IProduct[];
@@ -34,7 +35,7 @@ const HomeProductsView = ({ isLoading, newItems }: Props) => {
           ) : (
             <>
               {newItems?.map((product, index) => (
-                <ProductCard key={index} product={product} size="lg" />
+                <ProductCardNew key={index} product={product} size="lg" />
               ))}
             </>
           )}

@@ -116,7 +116,11 @@ const socialInfo = [
   },
 ];
 
-const queries = [
+const productInfoTabs = [
+  {
+    id: "reviews",
+    name: "Reviews",
+  },
   // {
   //   id: "specification",
   //   name: "Specification",
@@ -129,10 +133,6 @@ const queries = [
   //   id: "questions",
   //   name: "Questions",
   // },
-  {
-    id: "reviews",
-    name: "Reviews",
-  },
 ];
 
 const features = [
@@ -267,7 +267,7 @@ export {
   bannerImages,
   categories,
   socialInfo,
-  queries,
+  productInfoTabs as queries,
   features,
   payment_methode,
   profileInfo,

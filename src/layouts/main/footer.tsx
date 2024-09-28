@@ -48,9 +48,6 @@ export const Footer = () => {
                     className="block h-10 md:h-12 w-auto"
                     src={logo}
                   />
-                  {/* <h3 className="text-3xl md:text-4xl font-bold text-teal-500">
-                    Bazaro
-                  </h3> */}
                 </div>
                 {/* <p className="hidden md:block text-xs text-gray-400">
                   Online superium shoping center
