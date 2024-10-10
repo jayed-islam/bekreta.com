@@ -16,6 +16,7 @@ import { addLastVisitedProduct } from "@/redux/reducers/product/productSlice";
 import { CartItem } from "@/types/cart";
 import { Button } from "@mui/material";
 import { BooleanState } from "@/types/utils";
+import { FaStar, FaShoppingCart } from "react-icons/fa";
 
 type TMiddleDescriptionProps = {
   product: IProduct;
@@ -151,6 +152,7 @@ const MiddleProductDescription = ({
             variant="contained"
             color="success"
             onClick={() => handleQuickOrder(product)}
+            startIcon={<FaShoppingCart />}
           >
             এখনই অর্ডার করুন
           </Button>

@@ -10,7 +10,7 @@ import RelatedProductsSection from "../product-details-related-product-view";
 import { queries } from "@/constants";
 import Tab from "../product-details-sections";
 import DescriptionSection from "../product-details-sections/description-section";
-import ReviewSection from "../product-details-sections/review-section";
+import ReviewSection from "../product-details-sections/product-review-section";
 import LeftSideImageView from "../left-side-image-view";
 import MiddleProductDescription from "../middle-product-description-view";
 import useBoolean from "@/hooks/use-boolean";
@@ -23,7 +23,7 @@ interface IProductDetailsProps {
 }
 
 const ProductsDetailsView = ({ id, product, data }: IProductDetailsProps) => {
-  const [activeTab, setActiveTab] = useState("Description");
+  const [activeTab, setActiveTab] = useState("Reviews");
 
   // const { data, isLoading } = useGetSingleWithRelatedProductQuery(id);
 
@@ -62,10 +62,7 @@ const ProductsDetailsView = ({ id, product, data }: IProductDetailsProps) => {
             </div>
 
             {/* <SpecificationSection activeTab={activeTab} /> */}
-            <DescriptionSection
-              activeTab={activeTab}
-              descriptions={data?.data.product?.descriptions as string[]}
-            />
+
             {/* <QuestionSection
                 activeTab={activeTab}
                 questions={questions}
@@ -75,6 +72,10 @@ const ProductsDetailsView = ({ id, product, data }: IProductDetailsProps) => {
               activeTab={activeTab}
               questions={questions}
               product={data?.data.product as IProduct}
+            />
+            <DescriptionSection
+              activeTab={activeTab}
+              descriptions={data?.data.product?.descriptions as string[]}
             />
           </div>
         </div>

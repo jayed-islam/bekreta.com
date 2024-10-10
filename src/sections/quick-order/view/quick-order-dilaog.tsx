@@ -1,7 +1,7 @@
 // QuickOrderDialog.tsx
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -65,6 +65,8 @@ const QuickOrderDialog: React.FC<QuickOrderDialogProps> = ({
   const router = useRouter();
   const dispatch = useAppDispatch();
 
+  const dialogContentRef = useRef<HTMLDivElement | null>(null);
+
   const {
     handleSubmit,
     formState: { errors },
@@ -75,7 +77,22 @@ const QuickOrderDialog: React.FC<QuickOrderDialogProps> = ({
   const [createOrder, { isLoading }] = useCreateOrderMutation();
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log("test", errors);
+    console.log("error", errors);
+    // if (Object.keys(errors).length > 0) {
+    //   const firstErrorField = Object.keys(errors)[0];
+    //   const element = document.querySelector(`[name="${firstErrorField}"]`);
+    //   if (element) {
+    //     element.scrollIntoView({ behavior: "smooth", block: "center" });
+    //     (element as HTMLElement).focus();
+    //   }
+    //   return;
+    // }
+
+    if (Object.keys(errors).length > 0) {
+      toast.error("Please add required fileds!!");
+      return;
+    }
+
     if (cartItems.length === 0) {
       toast.error("Please add minimum 1 product for order");
       return;
@@ -186,6 +203,7 @@ const QuickOrderDialog: React.FC<QuickOrderDialogProps> = ({
             // },
             position: "relative",
           }}
+          ref={dialogContentRef}
         >
           <FormProvider methods={methods} onSubmit={onSubmit}>
             <div className="px-3 sm:px-5 py-4">
