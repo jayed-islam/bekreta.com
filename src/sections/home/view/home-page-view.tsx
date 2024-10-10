@@ -17,6 +17,8 @@ export const HomePageView = async () => {
   );
   const data: IGetHomeItemProductListResponse = await res.json();
 
+  console.log("home ites", data.data.newItems[0].category);
+
   return (
     <div>
       <HomeTopCategoryView />

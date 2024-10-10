@@ -7,7 +7,7 @@ import { offerProductSettings } from "@/utils/react-slick-utils";
 import Image from "next/image";
 import banner from "../../../public/assets/bg-light-banner.jpg";
 import { IProduct } from "@/types/products";
-import ProductCardNew from "@/layouts/common/product/product-new-cart";
+import ProductCardNew from "@/layouts/common/product/product-new-card";
 
 interface Props {
   offerItems: IProduct[];

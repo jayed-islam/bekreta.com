@@ -1,40 +1,42 @@
 import React, { useRef, useState } from "react";
-import { twMerge } from "tailwind-merge";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import Link from "next/link";
-import { Button, Tooltip } from "@mui/material";
+import { Button, IconButton, Tooltip } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { openCartDrawer } from "@/redux/reducers/cart/cartSlice";
+import {
+  addToCart,
+  isItemInCart,
+  openCartDrawer,
+} from "@/redux/reducers/cart/cartSlice";
 import { IProduct } from "@/types/products";
 import { paths } from "@/layouts/paths";
-import { useAddToCartMutation } from "@/redux/reducers/cart/cartApi";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { IoEyeOutline } from "react-icons/io5";
+import { AiOutlineShoppingCart } from "react-icons/ai";
 import useBoolean from "@/hooks/use-boolean";
-import ProductQuickViewDialog from "./product-quick-view-dialog";
 import AuthModal from "../modal/auth-modal";
 import Slider from "react-slick";
-import {
-  offerProductSettings,
-  SampleNextArrow,
-  SamplePrevArrow,
-} from "@/utils/react-slick-utils";
+import { SampleNextArrow, SamplePrevArrow } from "@/utils/react-slick-utils";
+import { CartItem } from "@/types/cart";
+import QuickOrderDialog from "@/sections/quick-order/view/quick-order-dilaog";
+import { BooleanState } from "@/types/utils";
 
 interface IProductCardProps {
   product: IProduct;
+  quickOrderDialog: BooleanState;
 }
 
-const ProductCardNew = ({ product }: IProductCardProps) => {
-  const { name, images, price, _id, discount, status } = product;
+const ProductCardNew = ({ product, quickOrderDialog }: IProductCardProps) => {
+  const { name, images, price, _id, discount, status, category } = product;
 
-  const { accessToken, user } = useAppSelector((state) => state.auth);
-  const router = useRouter();
-  const isOutOfStock = product.status === "OUT_OF_STOCK";
+  // const isOutOfStock = product.status === "OUT_OF_STOCK";
 
   const sliderRef = useRef<Slider | null>(null);
-  const bannerRef = useRef<Slider | null>(null);
   const [isHovered, setIsHovered] = useState(false);
+
+  const itemExists = useAppSelector(isItemInCart(product._id));
+
+  const quickOrder = useBoolean();
 
   const previous = () => {
     sliderRef.current?.slickPrev();
@@ -56,48 +58,58 @@ const ProductCardNew = ({ product }: IProductCardProps) => {
 
   const dispatch = useAppDispatch();
 
-  const [addToCart, { isLoading }] = useAddToCartMutation();
+  // const [addToCart, { isLoading }] = useAddToCartMutation();
 
-  const handleAddToCart = async () => {
-    try {
-      const res = await addToCart({
-        item: {
-          product: product._id,
-          quantity: 1,
-        },
-      }).unwrap();
+  const handleAddToCart = async (item: IProduct) => {
+    const carItem: CartItem = {
+      category: item.category?.title ?? "",
+      image: item.images[0],
+      name: item.name,
+      price: item.price,
+      productId: item._id,
+      quantity: 1,
+      ...(item.about && { about: item.about }),
+    };
+    dispatch(addToCart(carItem));
+    toast.success("Product added to cart successfully!!!");
+    dispatch(openCartDrawer());
+    // try {
+    //   const res = await addToCart({
+    //     item: {
+    //       product: product._id,
+    //       quantity: 1,
+    //     },
+    //   }).unwrap();
 
-      if (res.success) {
-        toast.success(res.message);
-        dispatch(openCartDrawer());
-      } else {
-        toast.error(res.message);
-      }
-    } catch (err) {
-      console.log(err);
-    }
+    //   if (res.success) {
+    //     toast.success(res.message);
+    //     dispatch(openCartDrawer());
+    //   } else {
+    //     toast.error(res.message);
+    //   }
+    // } catch (err) {
+    //   console.log(err);
+    // }
   };
 
-  const handleAddToCartMain = () => {
-    if (!user || !accessToken) {
-      router.push(`${paths.product.root}/${_id}`);
-    } else {
-      handleAddToCart();
-    }
-  };
-
-  const quickView = useBoolean();
+  // const handleAddToCartMain = () => {
+  //   if (!user || !accessToken) {
+  //     router.push(`${paths.product.root}/${_id}`);
+  //   } else {
+  //     handleAddToCart();
+  //   }
+  // };
 
   const authDialog = useBoolean();
 
-  const han = () => {
-    if (!user || !accessToken) {
-      authDialog.setTrue();
-      console.log("test");
-    } else {
-      handleAddToCart();
-    }
-  };
+  // const han = () => {
+  //   if (!user || !accessToken) {
+  //     authDialog.setTrue();
+  //     console.log("test");
+  //   } else {
+  //     handleAddToCart();
+  //   }
+  // };
 
   var sliderSettings = {
     dots: false,
@@ -110,6 +122,24 @@ const ProductCardNew = ({ product }: IProductCardProps) => {
     initialSlide: 1,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
+  };
+
+  const handleQuickOrder = (item: IProduct) => {
+    const carItem: CartItem = {
+      category: item.category?.title ?? "",
+      image: item.images[0],
+      name: item.name,
+      price: item.price,
+      productId: item._id,
+      quantity: 1,
+      ...(item.about && { about: item.about }),
+    };
+    if (itemExists) {
+      quickOrderDialog.setTrue();
+    } else {
+      dispatch(addToCart(carItem));
+      quickOrderDialog.setTrue();
+    }
   };
 
   return (
@@ -135,7 +165,7 @@ const ProductCardNew = ({ product }: IProductCardProps) => {
 
           <div className="absolute -right-11 top-1/3 z-10 flex-col md:flex gap-2 group-hover:right-3 transition-all duration-500 hidden">
             <button
-              className="bg-gray-300 h-9 w-9 hover:bg-green-500 transition-all duration-200 rounded-full flex items-center justify-center hover:text-white bg-opacity-65 text-xs px-1.5 py-[2px]"
+              className="bg-gray-300 h-9 w-9 hover:bg-[#2e7d32] transition-all duration-200 rounded-full flex items-center justify-center hover:text-white bg-opacity-65 text-xs px-1.5 py-[2px]"
               onClick={previous}
             >
               <Icon icon="mdi:chevron-right" className="text-2xl" />
@@ -144,7 +174,7 @@ const ProductCardNew = ({ product }: IProductCardProps) => {
 
           <div className="absolute -left-11 top-1/3 z-10 flex-col md:flex gap-2 group-hover:left-3 transition-all duration-500 hidden">
             <button
-              className="bg-gray-300 h-9 w-9 hover:bg-green-500 transition-all duration-200 rounded-full flex items-center justify-center hover:text-white bg-opacity-65 text-xs px-1.5 py-[2px]"
+              className="bg-gray-300 h-9 w-9 hover:bg-[#2e7d32] transition-all duration-200 rounded-full flex items-center justify-center hover:text-white bg-opacity-65 text-xs px-1.5 py-[2px]"
               onClick={next}
             >
               <Icon icon="mdi:chevron-left" className="text-2xl" />
@@ -190,6 +220,9 @@ const ProductCardNew = ({ product }: IProductCardProps) => {
             <h3 className="text-[#2e7d32] text-lg sm:text-xl font-bold text-center">
               ৳{price}
             </h3>
+            <div className="bg-[#2e7d32] text-white text-xs px-3 py-0.5 font-semibold text-center">
+              {category?.title ?? "N/A"}
+            </div>
           </div>
           <Link href={`${paths.product.root}/${_id}`}>
             <h2
@@ -200,40 +233,46 @@ const ProductCardNew = ({ product }: IProductCardProps) => {
           </Link>
 
           <div className="flex items-center gap-3 mt-3">
-            <Button
-              style={{
-                borderRadius: 0,
-              }}
-              variant="contained"
-              color="success"
-              fullWidth
-            >
-              অর্ডার করুন
-            </Button>
+            <Tooltip title="ক্যাশ অন ডেলিভারিতে অর্ডার করুন" arrow>
+              <Button
+                style={{
+                  borderRadius: 0,
+                }}
+                variant="contained"
+                color="success"
+                fullWidth
+                onClick={() => handleQuickOrder(product)}
+              >
+                অর্ডার করুন
+              </Button>
+            </Tooltip>
             <div className="w-[47px]">
-              <Tooltip title="কার্টে যোগ করুণ">
-                <button
-                  disabled={isOutOfStock}
-                  className={`h-9 w-9 transition-all duration-200 rounded-full flex items-center justify-center ${
-                    isOutOfStock
-                      ? "bg-gray-300 text-gray-500"
-                      : "bg-white hover:bg-green-600 hover:text-white"
-                  }`}
-                  onClick={handleAddToCartMain}
+              <Tooltip title="কার্টে যোগ করুণ" arrow>
+                <IconButton
+                  // disabled={isOutOfStock}
+                  sx={{
+                    bgcolor: "white",
+                    border: "1px solid #2e7d32",
+                    "&:hover": {
+                      bgcolor: "#2e7d32",
+                      color: "white",
+                    },
+                  }}
+                  onClick={() => handleAddToCart(product)}
                 >
-                  <Icon icon="solar:bag-4-linear" className="text-xl" />
-                </button>
+                  <AiOutlineShoppingCart />
+                </IconButton>
               </Tooltip>
             </div>
           </div>
         </div>
       </div>
-      <AuthModal dialog={authDialog} />
-      <ProductQuickViewDialog
+      {/* <AuthModal dialog={authDialog} /> */}
+      {/* <ProductQuickViewDialog
         dialog={quickView}
         product={product}
         onClick={han}
-      />
+      /> */}
     </>
   );
 };

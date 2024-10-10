@@ -10,35 +10,26 @@ import { logout } from "@/redux/reducers/auth/authSlice";
 
 const loginPaths: Record<string, string> = {
   login: paths.website.signin,
-  adminLogin: paths.signin,
 };
 
 interface IAuthGuardProps {
   children: ReactNode;
-  isAdminLogin?: boolean;
 }
 
-export const AuthGuard: FC<IAuthGuardProps> = ({ children, isAdminLogin }) => {
+export const AuthGuard: FC<IAuthGuardProps> = ({ children }) => {
   const { authLoading } = useAppSelector((state) => state.auth);
   return (
-    <>
-      {authLoading ? (
-        <SplashScreen />
-      ) : (
-        <Container isAdminLogin={isAdminLogin}>{children}</Container>
-      )}
-    </>
+    <>{authLoading ? <SplashScreen /> : <Container>{children}</Container>}</>
   );
 };
 
-function Container({ children, isAdminLogin }: IAuthGuardProps) {
+function Container({ children }: IAuthGuardProps) {
   const { isAuthenticated } = useAppSelector((state) => state.auth);
   const router = useRouter();
   const [checked, setChecked] = useState(false);
   let accessToken: string | null = null;
 
   if (typeof window === "object") {
-    // console.log("object");
     accessToken = localStorage?.getItem("accessToken");
   }
 
@@ -55,9 +46,7 @@ function Container({ children, isAdminLogin }: IAuthGuardProps) {
         returnTo: window.location.pathname,
       }).toString();
 
-      const loginPath = !isAdminLogin
-        ? loginPaths.login
-        : loginPaths.adminLogin;
+      const loginPath = loginPaths.login;
 
       const href = `${loginPath}?${searchParams}`;
       router.replace(href);

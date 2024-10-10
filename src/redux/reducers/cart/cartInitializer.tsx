@@ -1,32 +1,34 @@
 "use client";
 
 import React, { ReactNode, useEffect } from "react";
-import { CartItem } from "@/types/cart";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
+import { setCartItems } from "./cartSlice";
 import { setLastVisitedProducts } from "../product/productSlice";
 
 interface Props {
   children: ReactNode;
 }
 
-const CartInitializer: React.FC<Props> = ({ children }) => {
-  const { user } = useAppSelector((state) => state.auth);
-
-  // const { data } = useGetUserCartsQuery(user?._id as string);
-
+const CartAndLastVisitedInitializer: React.FC<Props> = ({ children }) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const loadLastVisitedProducts = (): CartItem[] => {
-      const storedProducts = localStorage.getItem("lastVisitedProducts");
-      return storedProducts ? JSON.parse(storedProducts) : [];
-    };
+    // Initialize cart items from localStorage
+    const storedCartItems = localStorage.getItem("cartItems");
+    if (storedCartItems) {
+      dispatch(setCartItems(JSON.parse(storedCartItems)));
+    }
 
-    const lastVisitedProducts = loadLastVisitedProducts();
-    dispatch(setLastVisitedProducts(lastVisitedProducts));
+    // Initialize last visited products from localStorage
+    const storedLastVisitedProducts = localStorage.getItem(
+      "lastVisitedProducts"
+    );
+    if (storedLastVisitedProducts) {
+      dispatch(setLastVisitedProducts(JSON.parse(storedLastVisitedProducts)));
+    }
   }, [dispatch]);
 
   return <>{children}</>;
 };
 
-export default CartInitializer;
+export default CartAndLastVisitedInitializer;

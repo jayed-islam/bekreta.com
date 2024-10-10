@@ -1,9 +1,9 @@
 import QuantityLoader from "@/components/loader/quantity-loder";
 import useBoolean from "@/hooks/use-boolean";
 import ActionButton from "@/layouts/common/buttons/action-button";
-import DeleteConformationModal from "@/layouts/common/modal/delete-modal";
+import DeleteConformationModal from "@/layouts/common/modal/cart-item-delete-dialog";
 import { useUpdateCartItemQuantityMutation } from "@/redux/reducers/cart/cartApi";
-import { IUserCartItem } from "@/types/cart";
+import { CartItem, IUserCartItem } from "@/types/cart";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import React from "react";
 import toast from "react-hot-toast";
@@ -12,10 +12,10 @@ import Link from "next/link";
 import { paths } from "@/layouts/paths";
 
 interface Props {
-  product: IUserCartItem;
+  item: CartItem;
 }
 
-const CheckoutProductRow = ({ product }: Props) => {
+const CheckoutProductRow = ({ item }: Props) => {
   const click = () => {
     console.log("ff");
   };
@@ -44,29 +44,26 @@ const CheckoutProductRow = ({ product }: Props) => {
   return (
     <div className="relative flex bg-white p-3 border rounded-xl gap-3 shadow-sm">
       <div className="relative h-24 w-20  flex-shrink-0 overflow-hidden rounded-xl bg-slate-100 border">
-        <img
-          src={product.product.images[0]}
-          className="h-full w-full object-cover"
-        />
+        <img src={item.image} className="h-full w-full object-cover" />
       </div>
 
       <div className="flex flex-1 flex-col">
         <div className="flex justify-between">
           <div className="">
             <h3 className="text-sm font-semibold line-clamp-1 overflow-ellipsis">
-              <Link href={`${paths.product.root}/${product.product._id}`}>
-                {product.product.name}
+              <Link href={`${paths.product.root}/${item.productId}`}>
+                {item.name}
               </Link>
             </h3>
             <div className="text-sm flex items-center text-slate-600 mt-2">
               <div className="flex items-center space-x-1.5">
                 <Icon icon="tdesign:fill-color-1" />
-                <span>{product.product.category}</span>
+                <span>{item.category}</span>
               </div>
               <span className="mx-1 border-l border-slate-200  "></span>
               <div className="flex items-center space-x-1.5">
                 <Icon icon="tabler:brand-kbin" />
-                <span>{getProductStatus(product.product.status)}</span>
+                {/* <span>{getProductStatus(item.status)}</span> */}
               </div>
             </div>
           </div>
@@ -82,19 +79,15 @@ const CheckoutProductRow = ({ product }: Props) => {
           <div className="flex items-center justify-between w-[104px] sm:w-28">
             <ActionButton
               icon="ph:minus"
-              onClick={() =>
-                handleUpdateQuantity(product.product._id, "decrease")
-              }
+              onClick={() => handleUpdateQuantity(item.productId, "decrease")}
             />
             <span className="select-none  text-center leading-none">
-              {isLoading ? <QuantityLoader /> : product.quantity}
+              {isLoading ? <QuantityLoader /> : item.quantity}
             </span>
 
             <ActionButton
               icon="ph:plus"
-              onClick={() =>
-                handleUpdateQuantity(product.product._id, "increase")
-              }
+              onClick={() => handleUpdateQuantity(item.productId, "increase")}
             />
           </div>
           <button
@@ -106,10 +99,7 @@ const CheckoutProductRow = ({ product }: Props) => {
           </button>
         </div>
       </div>
-      <DeleteConformationModal
-        dialog={dialog}
-        productId={product.product._id}
-      />
+      <DeleteConformationModal dialog={dialog} productId={item.productId} />
     </div>
   );
 };

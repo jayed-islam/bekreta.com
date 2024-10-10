@@ -1,13 +1,8 @@
-import { CartItem } from "@/types/cart";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface OrderState {
-  lastVisitedProducts: CartItem[];
-}
+interface OrderState {}
 
-const initialState: OrderState = {
-  lastVisitedProducts: [],
-};
+const initialState: OrderState = {};
 
 const orderSlice = createSlice({
   name: "orders",

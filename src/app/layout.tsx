@@ -8,6 +8,7 @@ import { Metadata } from "next";
 import Favicon from "../../public/favicon.jpeg";
 import LocalizationProvider from "@/locals/localization-provider";
 import ThemeProvider from "@/theme";
+import CartAndLastVisitedInitializer from "@/redux/reducers/cart/cartInitializer";
 
 const roboto_condensed = Roboto_Condensed({
   weight: ["400"],
@@ -32,10 +33,12 @@ export default function RootLayout({
       <body>
         <LocalizationProvider>
           <ReduxProvider>
-            <ThemeProvider>
-              {children}
-              <Toaster />
-            </ThemeProvider>
+            <CartAndLastVisitedInitializer>
+              <ThemeProvider>
+                {children}
+                <Toaster />
+              </ThemeProvider>
+            </CartAndLastVisitedInitializer>
           </ReduxProvider>
         </LocalizationProvider>
       </body>

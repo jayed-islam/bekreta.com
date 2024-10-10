@@ -1,3 +1,5 @@
+import { ICategory } from "./category";
+
 export interface IProductItem {
   _id: string;
   desc: string;
@@ -17,7 +19,7 @@ export interface IProduct {
   about: string;
   descriptions: string[];
   price: number;
-  category: string;
+  category: ICategory;
   stock: number;
   images: string[];
   specifications: string[];

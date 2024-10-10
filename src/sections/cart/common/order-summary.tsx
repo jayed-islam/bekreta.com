@@ -4,9 +4,9 @@ import {
   selectCartSubtotal,
   selectCartTotalItems,
   selectCartTotalPrice,
-  selectDeliveryCharge,
 } from "@/redux/reducers/cart/cartSlice";
 import { RootState } from "@/redux/store";
+import DeliveryOptionsComponent from "@/sections/quick-order/order-delivery-option";
 import { Icon } from "@iconify-icon/react/dist/iconify.mjs";
 import { LoadingButton } from "@mui/lab";
 import { Button } from "@mui/material";
@@ -30,9 +30,6 @@ const OrderSummery = ({
   const subtotal = useAppSelector((state: RootState) =>
     selectCartSubtotal(state)
   );
-  const deliveryCharge = useAppSelector((state: RootState) =>
-    selectDeliveryCharge(state)
-  );
   const totalPrice = useAppSelector((state: RootState) =>
     selectCartTotalPrice(state)
   );
@@ -41,30 +38,21 @@ const OrderSummery = ({
   );
   return (
     <div
-      className={`flex-1 px-5 py-5 md:rounded-2xl  bg-white h-min border ${
+      className={`flex-1 px-5 py-5 md:rounded-2xl  bg-white h-min border shadow ${
         isSubmit ? "" : "sticky top-28"
       }`}
     >
       <div className="">
-        <div className="">
-          <h3 className="text-lg font-semibold">Order Summary</h3>
-        </div>
-        <div className="mt-7 text-sm text-slate-500 divide-y divide-slate-200/70 ">
+        <h3 className="text-lg md:text-xl font-semibold">Order Summary</h3>
+        <div className="mt-7 text-sm text-slate-500">
           <div className="flex justify-between pb-4">
             <span>Subtotal Items({totalItems})</span>
             <span className="font-semibold text-slate-900 text-lg">
               ৳{subtotal.toFixed(2)}
             </span>
           </div>
-          <div className="flex justify-between py-4">
-            <span>
-              Delivery Charge (
-              {district === "1" ? "Inside Dhaka" : "Outside Dhaka"})
-            </span>
-            <span className="font-semibold text-slate-900 text-lg">
-              ৳{deliveryCharge}
-            </span>
-          </div>
+          {/* delevaru ahareg */}
+          <DeliveryOptionsComponent />
           <div className="flex justify-between font-semibold text-slate-900  text-base pt-4">
             <span>Order total</span>
             <span className="text-xl  text-green-700">
@@ -73,33 +61,38 @@ const OrderSummery = ({
           </div>
         </div>
         {cartItems.length === 0 && (
-          <h2 className="mt-5 text-md font-semibold text-red-500">
-            Your cart is empty please add product in your cart to make order
-            easy.{" "}
+          <div className="mt-5">
+            <h3 className="text-md mb-5">
+              আপনার কার্ট খালি। প্রিয় পণ্য পেতে পণ্য যোগ করুন।
+            </h3>
             <Link href={paths.product.category}>
               <Button
-                className="hover:bg-green-600 bg-green-500 capitalize text-md"
                 variant="contained"
-                size="small"
+                color="success"
+                size="large"
+                sx={{
+                  textTransform: "capitalize",
+                }}
               >
-                See Product
+                পণ্য দেখুন
               </Button>
             </Link>
-          </h2>
+          </div>
         )}
         {isSubmit ? (
           <LoadingButton
             type="submit"
             onClick={onSubmit}
             variant="contained"
-            style={{
-              marginTop: 15,
-            }}
+            size="large"
+            color="success"
             fullWidth
-            className="mt-5"
             disabled={cartItems.length === 0 || isLoading}
             loading={isLoading}
-            // className={`relative h-auto inline-flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium py-3 px-4 sm:py-3.5 sm:px-6 text-white disabled:bg-opacity-55 disabled:cursor-not-allowed bg-green-600  hover:bg-green-700 shadow-xl mt-8 w-full capitalize disabled:bg-gray-200`}
+            sx={{
+              textTransform: "capitalize",
+              mt: 3,
+            }}
           >
             {buttonTitle}
           </LoadingButton>
@@ -108,7 +101,15 @@ const OrderSummery = ({
             <Button
               disabled={cartItems.length === 0}
               type="button"
-              className="relative h-auto inline-flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium py-3 px-4 sm:py-3.5 sm:px-6 text-white disabled:bg-opacity-55 disabled:cursor-not-allowed bg-green-600  hover:bg-green-700 shadow-xl mt-8 w-full capitalize"
+              fullWidth
+              color="success"
+              variant="contained"
+              size="large"
+              sx={{
+                textTransform: "capitalize",
+                mt: 3,
+                borderRadius: "0.5rem",
+              }}
             >
               {buttonTitle}
             </Button>

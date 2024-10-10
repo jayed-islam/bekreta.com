@@ -7,26 +7,13 @@ export const checkoutSchema = z.object({
   name: z
     .string({ required_error: "Full name is required" })
     .min(1, { message: "Name is required" }),
-  email: z
-    .string({ required_error: "Email is required" })
-    .regex(emailRegex, { message: "Invalid email address" }),
+  address: z.string({ required_error: "Address is required" }),
   phone: z
     .string({ required_error: "Phone number is required" })
     .regex(bdPhoneRegex, {
       message: "Invalid phone number",
     }),
-  division: z
-    .string({ required_error: "Division is required" })
-    .min(1, { message: "Division is required" }),
-  district: z
-    .string({ required_error: "District is required" })
-    .min(1, { message: "District is required" }),
-  subDistrict: z
-    .string({ required_error: "Sub District is required" })
-    .min(1, { message: "SubDistrict is required" }),
-  detailAddress: z
-    .string({ required_error: "Details address is required" })
-    .min(1, { message: "Details Address is required" }),
+  orderNote: z.string().optional(),
 });
 
 export const productSchema = z.object({
