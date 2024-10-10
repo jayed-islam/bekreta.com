@@ -14,8 +14,8 @@ const initialState: cartState = {
   isCartDrawerOpen: false,
   cartItems: [],
   district: "",
-  deliveryCharge: 70,
-  selectedDeliveryOption: "insideDhaka",
+  deliveryCharge: 130,
+  selectedDeliveryOption: "outsideDhaka",
 };
 
 const cartSlice = createSlice({
@@ -95,7 +95,7 @@ const cartSlice = createSlice({
           state.deliveryCharge = 70;
           break;
         case "outsideDhaka":
-          state.deliveryCharge = 120;
+          state.deliveryCharge = 130;
           break;
         case "homeDelivery":
           state.deliveryCharge = 120;

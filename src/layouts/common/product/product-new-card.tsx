@@ -153,12 +153,14 @@ const ProductCardNew = ({ product, quickOrderDialog }: IProductCardProps) => {
           <Slider {...sliderSettings} ref={sliderRef}>
             {images.map((img, index) => (
               <div className="w-full flex items-center justify-center h-full">
-                <img
-                  key={index}
-                  alt={product.name}
-                  className="h-[241px] object-contain"
-                  src={img}
-                />
+                <Link href={`${paths.product.root}/${_id}`}>
+                  <img
+                    key={index}
+                    alt={product.name}
+                    className="h-[241px] object-contain"
+                    src={img}
+                  />
+                </Link>
               </div>
             ))}
           </Slider>

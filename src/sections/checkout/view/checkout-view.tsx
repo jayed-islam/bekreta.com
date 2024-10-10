@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import CheckoutInstantSignin from "../checkout-instant-signin";
 import CheckoutProductRow from "../checkout-item-row";
 import CartRow from "@/sections/cart/cart-row-view";
+import { paths } from "@/layouts/paths";
 
 const CheckoutProudctView = () => {
   const { cartItems } = useAppSelector((state) => state.cart);
@@ -32,6 +33,8 @@ const CheckoutProudctView = () => {
       name: user?.name,
     },
   });
+
+  const router = useRouter();
 
   const {
     handleSubmit,
@@ -52,30 +55,34 @@ const CheckoutProudctView = () => {
       return;
     }
 
-    // const products = cartItems.map((item) => ({
-    //   product: item.product._id,
-    //   quantity: item.quantity,
-    //   price: item.product.price,
-    // }));
+    const products = cartItems.map((item) => ({
+      product: item.productId,
+      quantity: item.quantity,
+      price: item.price,
+    }));
 
     const payload = {
-      userId: user?._id as string,
+      ...(user && { userId: user?._id as string }),
       phone: data.phone,
-      userName: data.name,
+      name: data.name,
+      address: data.address,
+      ...(data.orderNote && { orderNote: data.orderNote }),
       totalPrice: totalPrice,
+      products,
     };
 
-    // const response = await createOrder(payload).unwrap();
+    const response = await createOrder(payload).unwrap();
 
-    // if (response.success) {
-    //   toast.success(response.message);
-    //   router.push(paths.success);
-    // } else {
-    //   toast.success(response.message);
-    // }
+    if (response.success) {
+      toast.success(response.message);
+      router.push(paths.success);
+    } else {
+      toast.error(response.message);
+    }
     try {
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error submitting form:", error);
+      toast.error(error.data.message);
     }
   });
 
@@ -137,7 +144,7 @@ const CheckoutProudctView = () => {
 
                   <div className="px-3 lg:px-0 w-full">
                     <OrderSummery
-                      buttonTitle="Place Order"
+                      buttonTitle="ওর্ডার করুণ"
                       isSubmit
                       onSubmit={() => {}}
                       isLoading={isLoading}

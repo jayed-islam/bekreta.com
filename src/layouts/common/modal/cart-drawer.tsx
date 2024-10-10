@@ -119,31 +119,25 @@ const CartDrawer = () => {
                 <span className="text-lg">৳{subtotal.toFixed(2)}</span>
               </p>
               <div className="flex flex-col gap-3 mt-7 w-full items-center justify-center">
-                <Link
-                  onClick={handleClose}
-                  href={paths.cart.root}
-                  className="w-full"
+                <div
+                  style={{
+                    animation: "bounce 1.5s infinite",
+                  }}
+                  className="animate-bounce"
                 >
-                  <div
-                    style={{
-                      animation: "bounce 1.5s infinite",
+                  <Button
+                    onClick={handleConfirmOrderClick}
+                    variant="contained"
+                    fullWidth
+                    color="success"
+                    size="large"
+                    sx={{
+                      textTransform: "capitalize",
                     }}
-                    className="animate-bounce"
                   >
-                    <Button
-                      onClick={handleConfirmOrderClick}
-                      variant="contained"
-                      fullWidth
-                      color="success"
-                      size="large"
-                      sx={{
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      আপনার অর্ডার কনফার্ম করতে ক্লিক করুন
-                    </Button>
-                  </div>
-                </Link>
+                    আপনার অর্ডার কনফার্ম করতে ক্লিক করুন
+                  </Button>
+                </div>
 
                 <Link onClick={handleClose} href={paths.cart.root}>
                   <Button

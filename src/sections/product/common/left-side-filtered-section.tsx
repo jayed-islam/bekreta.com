@@ -1,7 +1,9 @@
 import { availabilities } from "@/constants";
 import { scrollToTop } from "@/hooks/use-clicktoTop";
 import { useAppSelector } from "@/redux/hooks";
+import { useGetCategoriesQuery } from "@/redux/reducers/category/categoryApi";
 import { IProductFilters, ProductStatus } from "@/types/products";
+import { Button, FormControlLabel, Radio, Skeleton } from "@mui/material";
 import React, { useCallback } from "react";
 import { Range, getTrackBackground } from "react-range";
 
@@ -10,15 +12,18 @@ interface LeftSideFilterProps {
   values: [number, number];
   setValues: React.Dispatch<React.SetStateAction<[number, number]>>;
   onFilters: (name: string, value: string | number | string[]) => void;
+  resetFilter: () => void;
 }
 
 const LeftSideFilter: React.FC<LeftSideFilterProps> = ({
   values,
   setValues,
   onFilters,
+  resetFilter,
   filters,
 }) => {
-  const { categories } = useAppSelector((state) => state.category);
+  // const { categories } = useAppSelector((state) => state.category);
+  const { data, isLoading } = useGetCategoriesQuery();
   const handleFilterChange = useCallback(
     (name: string, event: React.ChangeEvent<HTMLInputElement>) => {
       const value = Number(event.target.value);
@@ -181,6 +186,19 @@ const LeftSideFilter: React.FC<LeftSideFilterProps> = ({
         </div>
       </div>
       <div className="bg-white w-full rounded-lg shadow-sm mt-3">
+        <div className="px-5">
+          <Button
+            variant="contained"
+            color="success"
+            fullWidth
+            onClick={resetFilter}
+            sx={{
+              textTransform: "capitalize",
+            }}
+          >
+            Reset filters
+          </Button>
+        </div>
         <h3 className="text-md font-semibold px-5 py-3 border-b">
           Availability
         </h3>
@@ -213,31 +231,33 @@ const LeftSideFilter: React.FC<LeftSideFilterProps> = ({
       <div className="bg-white w-full rounded-lg shadow-sm mt-3">
         <h3 className="text-md font-semibold px-5 py-3 border-b">Categories</h3>
 
-        <div className="flex flex-col px-5 py-6 space-y-5">
-          {categories.map((category) => (
-            <div
-              key={category.title}
-              className="flex text-sm sm:text-base items-center cursor-pointer"
-            >
-              <input
-                id={category.title}
-                name="category"
-                value={category.title}
-                className="focus:ring-action-primary text-primary-500 rounded border-slate-400 hover:border-slate-700 bg-transparent focus:ring-primary-500 w-4 h-4 cursor-pointer"
-                type="radio"
-                onChange={handleCategoryChange}
-                checked={filters.category === category.title}
-              />
-              <label
-                htmlFor={category.title}
-                className="pl-2.5 sm:pl-3.5 flex flex-col flex-1 justify-center select-none"
-              >
-                <span className="text-slate-900 font-medium">
-                  {category.name}
-                </span>
-              </label>
-            </div>
-          ))}
+        <div className="flex flex-col px-5 py-3 space-y-5">
+          {isLoading
+            ? [1, 2, 3].map((_, index) => (
+                <div
+                  key={index}
+                  className="flex items-center space-x-2 animate-pulse"
+                >
+                  <Skeleton variant="circular" width={24} height={24} />
+
+                  <Skeleton variant="text" width={100} height={20} />
+                </div>
+              ))
+            : data?.data.map((category) => (
+                <FormControlLabel
+                  key={category._id}
+                  control={
+                    <Radio
+                      value={category._id}
+                      checked={filters.category === category._id}
+                      onChange={handleCategoryChange}
+                      inputProps={{ "aria-label": category.name }}
+                    />
+                  }
+                  label={category.name}
+                  className="text-sm sm:text-base cursor-pointer"
+                />
+              ))}
         </div>
       </div>
     </div>

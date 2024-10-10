@@ -1,57 +1,58 @@
 import CartSidebar from "@/components/common/add-to-carted-product-notify-view";
-import { features, socialInfo } from "@/constants";
 import useBoolean from "@/hooks/use-boolean";
 import ActionButton from "@/layouts/common/buttons/action-button";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { openCartDrawer } from "@/redux/reducers/cart/cartSlice";
+import {
+  addToCart,
+  isItemInCart,
+  openCartDrawer,
+} from "@/redux/reducers/cart/cartSlice";
 import { IProduct } from "@/types/products";
-import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import React, { useEffect, useState } from "react";
 import { getProductStatus, getStatusStyles } from "./common/product-constants";
-import { useAddToCartMutation } from "@/redux/reducers/cart/cartApi";
 import toast from "react-hot-toast";
-import SmallLoader from "@/components/loader/small-loader";
 import AuthModal from "@/layouts/common/modal/auth-modal";
 import { addLastVisitedProduct } from "@/redux/reducers/product/productSlice";
 import { CartItem } from "@/types/cart";
 import { Button } from "@mui/material";
+import { BooleanState } from "@/types/utils";
 
 type TMiddleDescriptionProps = {
   product: IProduct;
+  quickOrderDialog: BooleanState;
 };
 
-const MiddleProductDescription = ({ product }: TMiddleDescriptionProps) => {
-  const { user, accessToken } = useAppSelector((state) => state.auth);
-
-  const sidebar = useBoolean();
-  const authModal = useBoolean();
-
+const MiddleProductDescription = ({
+  product,
+  quickOrderDialog,
+}: TMiddleDescriptionProps) => {
   const { name, price, category, about, specifications, status } = product;
 
   const [quantity, setQuantity] = useState(1);
   const dispatch = useAppDispatch();
+  const itemExists = useAppSelector(isItemInCart(product._id));
 
-  const [addToCart, { isLoading }] = useAddToCartMutation();
+  // const [addToCart, { isLoading }] = useAddToCartMutation();
 
-  const handleAddToCart = async () => {
-    try {
-      const res = await addToCart({
-        item: {
-          product: product._id,
-          quantity,
-        },
-      }).unwrap();
+  // const handleAddToCart = async () => {
+  //   try {
+  //     const res = await addToCart({
+  //       item: {
+  //         product: product._id,
+  //         quantity,
+  //       },
+  //     }).unwrap();
 
-      if (res.success) {
-        toast.success(res.message);
-        dispatch(openCartDrawer());
-      } else {
-        toast.error(res.message);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  //     if (res.success) {
+  //       toast.success(res.message);
+  //       dispatch(openCartDrawer());
+  //     } else {
+  //       toast.error(res.message);
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   const handleIncrease = () => {
     setQuantity((prev) => prev + 1);
@@ -63,16 +64,23 @@ const MiddleProductDescription = ({ product }: TMiddleDescriptionProps) => {
     }
   };
 
-  const handleAddToCartMain = () => {
-    if (!user || !accessToken) {
-      authModal.setTrue();
-    } else {
-      handleAddToCart();
-    }
+  const handleAddToCart = async (item: IProduct) => {
+    const carItem: CartItem = {
+      category: item.category?.title ?? "",
+      image: item.images[0],
+      name: item.name,
+      price: item.price,
+      productId: item._id,
+      quantity,
+      ...(item.about && { about: item.about }),
+    };
+    dispatch(addToCart(carItem));
+    toast.success("Product added to cart successfully!!!");
+    dispatch(openCartDrawer());
   };
 
   const lastVisitItem: CartItem = {
-    category: product.category,
+    category: product.category._id ?? "",
     image: product.images[0],
     name: product.name,
     price: product.price,
@@ -84,6 +92,24 @@ const MiddleProductDescription = ({ product }: TMiddleDescriptionProps) => {
   useEffect(() => {
     dispatch(addLastVisitedProduct(lastVisitItem));
   }, [dispatch, product]);
+
+  const handleQuickOrder = (item: IProduct) => {
+    const carItem: CartItem = {
+      category: item.category?.title ?? "",
+      image: item.images[0],
+      name: item.name,
+      price: item.price,
+      productId: item._id,
+      quantity: 1,
+      ...(item.about && { about: item.about }),
+    };
+    if (itemExists) {
+      quickOrderDialog.setTrue();
+    } else {
+      dispatch(addToCart(carItem));
+      quickOrderDialog.setTrue();
+    }
+  };
 
   return (
     <div className='className="w-full px-3 flex-1 mt-7 md:mt-0 lg:pl-7 xl:pl-9 2xl:pl-10"'>
@@ -113,11 +139,19 @@ const MiddleProductDescription = ({ product }: TMiddleDescriptionProps) => {
           </div>
         </div>
         <div className="flex flex-col gap-3 w-auto mt-5">
-          <Button variant="contained" color="secondary">
+          <Button
+            onClick={() => handleAddToCart(product)}
+            variant="contained"
+            color="secondary"
+          >
             কার্টে যোগ করুণ
           </Button>
 
-          <Button variant="contained" color="success">
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => handleQuickOrder(product)}
+          >
             এখনই অর্ডার করুন
           </Button>
         </div>
@@ -171,8 +205,8 @@ const MiddleProductDescription = ({ product }: TMiddleDescriptionProps) => {
           ))}
         </div>
       </div> */}
-      {sidebar.value && <CartSidebar dialog={sidebar} />}
-      {authModal.value && <AuthModal dialog={authModal} />}
+      {/* {sidebar.value && <CartSidebar dialog={sidebar} />}
+      {authModal.value && <AuthModal dialog={authModal} />} */}
     </div>
   );
 };

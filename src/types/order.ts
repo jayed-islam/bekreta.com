@@ -22,19 +22,15 @@ export interface IOrderItem {
 
 export interface ICreateOrder {
   _id?: string;
-  userId: string;
+  userId?: string;
   products: IOrderCreateItem[];
   phone: string;
-  userName: string;
+  name: string;
+  address: string;
+  orderNote?: string;
   status?: OrderStatus;
   paymentMethod?: string;
   paymentStatus?: string;
-  shippingAddress: {
-    detailAddress: string;
-    district: string;
-    division: string;
-    subDistrict: string;
-  };
   totalPrice: number;
   isCanceled?: boolean;
   createdAt?: Date;

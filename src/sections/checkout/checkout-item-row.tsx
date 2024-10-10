@@ -3,44 +3,47 @@ import useBoolean from "@/hooks/use-boolean";
 import ActionButton from "@/layouts/common/buttons/action-button";
 import DeleteConformationModal from "@/layouts/common/modal/cart-item-delete-dialog";
 import { useUpdateCartItemQuantityMutation } from "@/redux/reducers/cart/cartApi";
-import { CartItem, IUserCartItem } from "@/types/cart";
+import { CartItem } from "@/types/cart";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import React from "react";
 import toast from "react-hot-toast";
-import { getProductStatus } from "../product/common/product-constants";
 import Link from "next/link";
 import { paths } from "@/layouts/paths";
+import { useAppDispatch } from "@/redux/hooks";
+import { updateCartItemQuantity } from "@/redux/reducers/cart/cartSlice";
 
 interface Props {
   item: CartItem;
 }
 
 const CheckoutProductRow = ({ item }: Props) => {
-  const click = () => {
-    console.log("ff");
-  };
   const dialog = useBoolean();
 
-  const [updateQuantity, { isLoading }] = useUpdateCartItemQuantityMutation();
+  // const [updateQuantity, { isLoading }] = useUpdateCartItemQuantityMutation();
 
-  const handleUpdateQuantity = async (
-    productId: string,
-    action: "increase" | "decrease"
-  ) => {
-    try {
-      const res = await updateQuantity({ productId, action }).unwrap();
-      if (res.success) {
-        console.log(res.message);
-        toast.success(res.message);
-      } else {
-        toast.error(res.message);
-      }
-    } catch (err: any) {
-      console.log(err);
-      toast.error(err.data.message);
-    }
+  // const handleUpdateQuantity = async (
+  //   productId: string,
+  //   action: "increase" | "decrease"
+  // ) => {
+  //   try {
+  //     const res = await updateQuantity({ productId, action }).unwrap();
+  //     if (res.success) {
+  //       console.log(res.message);
+  //       toast.success(res.message);
+  //     } else {
+  //       toast.error(res.message);
+  //     }
+  //   } catch (err: any) {
+  //     console.log(err);
+  //     toast.error(err.data.message);
+  //   }
+  // };
+
+  const dispatch = useAppDispatch();
+
+  const handleQuantityChange = (productId: string, increment: boolean) => {
+    dispatch(updateCartItemQuantity({ productId, increment }));
   };
-
   return (
     <div className="relative flex bg-white p-3 border rounded-xl gap-3 shadow-sm">
       <div className="relative h-24 w-20  flex-shrink-0 overflow-hidden rounded-xl bg-slate-100 border">
@@ -79,15 +82,15 @@ const CheckoutProductRow = ({ item }: Props) => {
           <div className="flex items-center justify-between w-[104px] sm:w-28">
             <ActionButton
               icon="ph:minus"
-              onClick={() => handleUpdateQuantity(item.productId, "decrease")}
+              onClick={() => handleQuantityChange(item.productId, false)}
             />
             <span className="select-none  text-center leading-none">
-              {isLoading ? <QuantityLoader /> : item.quantity}
+              {item.quantity}
             </span>
 
             <ActionButton
               icon="ph:plus"
-              onClick={() => handleUpdateQuantity(item.productId, "increase")}
+              onClick={() => handleQuantityChange(item.productId, false)}
             />
           </div>
           <button

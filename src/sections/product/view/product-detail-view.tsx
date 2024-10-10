@@ -13,8 +13,8 @@ import DescriptionSection from "../product-details-sections/description-section"
 import ReviewSection from "../product-details-sections/review-section";
 import LeftSideImageView from "../left-side-image-view";
 import MiddleProductDescription from "../middle-product-description-view";
-import { useGetSingleWithRelatedProductQuery } from "@/redux/reducers/product/productApi";
-import ProductDetailLoader from "@/components/loader/product-detail-loader";
+import useBoolean from "@/hooks/use-boolean";
+import QuickOrderDialog from "@/sections/quick-order/view/quick-order-dilaog";
 
 interface IProductDetailsProps {
   product?: IProductItem;
@@ -33,6 +33,8 @@ const ProductsDetailsView = ({ id, product, data }: IProductDetailsProps) => {
     setActiveTab(label);
   };
 
+  const quickOrderDialog = useBoolean();
+
   return (
     <>
       <div className="lg:flex relative max-w-6xl mx-auto xl:px-0 gap-7 pt-5 pb-11 md:pt-16 md:pb-16">
@@ -41,6 +43,7 @@ const ProductsDetailsView = ({ id, product, data }: IProductDetailsProps) => {
             <LeftSideImageView product={data?.data.product as IProduct} />
             <MiddleProductDescription
               product={data?.data.product as IProduct}
+              quickOrderDialog={quickOrderDialog}
             />
           </div>
 
@@ -76,10 +79,14 @@ const ProductsDetailsView = ({ id, product, data }: IProductDetailsProps) => {
           </div>
         </div>
 
-        <RelatedProductsSection
-          currentProductId={data?.data.product._id as string}
-          relatedProducts={data?.data.relatedProducts as IProduct[]}
-        />
+        <div className="w-full lg:w-[301px] mt-5 lg:mt-0">
+          {data.data.relatedProducts.length > 0 && (
+            <RelatedProductsSection
+              currentProductId={data?.data.product._id as string}
+              relatedProducts={data?.data.relatedProducts as IProduct[]}
+            />
+          )}
+        </div>
       </div>
       {/* {isLoading ? (
         <ProductDetailLoader />
@@ -99,6 +106,10 @@ const ProductsDetailsView = ({ id, product, data }: IProductDetailsProps) => {
             imageTitle={`Image ${lightboxIndex + 1} of ${images.length}`}
           />
         )} */}
+      <QuickOrderDialog
+        onClose={quickOrderDialog.setFalse}
+        open={quickOrderDialog.value}
+      />
     </>
   );
 };

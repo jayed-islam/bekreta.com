@@ -7,13 +7,12 @@ import ProductsSceleton from "@/components/skeleton/product-skeleton";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import LeftSideFilter from "../common/left-side-filtered-section";
 import { useSearchParams } from "next/navigation";
-import { IProductFilters, IProductItem } from "@/types/products";
+import { IProductFilters } from "@/types/products";
 import NoDataFoundView from "@/components/no-data/no-data-view";
 import ProductCard from "@/layouts/common/product/product-card";
 import useBoolean from "@/hooks/use-boolean";
 import { useGetProductsQuery } from "@/redux/reducers/product/productApi";
 import useDebounce from "@/hooks/use-debounce";
-import { useRouter } from "next/navigation";
 import { Drawer } from "@mui/material";
 
 interface CategoryWiseProductProps {}
@@ -157,6 +156,15 @@ const CategoryWiseProductFilterView: React.FC<
     { id: 2, name: "Category", url: "/" },
   ];
 
+  const handleResetFilters = () => {
+    setFilters(defaultFilters);
+    setValues([5, 2001]);
+    setQueries({ category: null, searchTerm: null });
+    setSortId(1);
+    setPage(0);
+    filterDrawer.setFalse();
+  };
+
   return (
     <div className="relative w-full bg-gray-100 z-10 pb-32 overflow-x-hidden">
       <PageHeader
@@ -201,6 +209,7 @@ const CategoryWiseProductFilterView: React.FC<
               values={values}
               setValues={setValues}
               onFilters={handleFilters}
+              resetFilter={handleResetFilters}
             />
           </div>
 
@@ -268,11 +277,6 @@ const CategoryWiseProductFilterView: React.FC<
                 <NoDataFoundView category={categoryId as string} />
               )}
             </div>
-            {/* ) : (
-                  <NoDataFoundView />
-                )} */}
-            {/* </>
-            )} */}
           </div>
         </div>
       </div>
@@ -293,6 +297,7 @@ const CategoryWiseProductFilterView: React.FC<
             values={values}
             setValues={setValues}
             onFilters={handleFilters}
+            resetFilter={handleResetFilters}
           />
         </div>
       </Drawer>
