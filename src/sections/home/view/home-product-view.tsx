@@ -19,14 +19,6 @@ const HomeProductsView = ({ isLoading, newItems }: Props) => {
   const quickOrderDialog = useBoolean();
   return (
     <div className="w-full bg-gray-100">
-      <div className="flex flex-col items-center justify-center pt-7 md:pt-16 pb-7">
-        <h3 className="text-2xl md:text-3xl font-bold text-center">
-          Exclusive Items
-        </h3>
-        <p className="text-md md:text-lg text-center">
-          Best collections for you. check it!!
-        </p>
-      </div>
       <div className="max-w-6xl mx-auto px-3 md:px-5 xl:px-0 pb-11">
         <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-x-3 md:gap-x-5 gap-y-3 md:gap-y-5 ">
           {isLoading ? (

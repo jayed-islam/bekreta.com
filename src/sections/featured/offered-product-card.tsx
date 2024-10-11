@@ -1,15 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { twMerge } from "tailwind-merge";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
-import Link from "next/link";
 import { Tooltip } from "@mui/material";
 import { actionButtonsInfo } from "@/constants";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { openCartDrawer } from "@/redux/reducers/cart/cartSlice";
 import { IProduct } from "@/types/products";
-import { paths } from "@/layouts/paths";
-import { useAddToCartMutation } from "@/redux/reducers/cart/cartApi";
-import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { addProduct } from "@/redux/reducers/featured/featuredProductSlice";

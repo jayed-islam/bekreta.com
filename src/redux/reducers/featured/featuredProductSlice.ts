@@ -6,12 +6,14 @@ import toast from "react-hot-toast";
 
 interface FeaturedProductState {
   products: IFeaturedProduct[];
-  selectedDistrict: string;
+  deliveryCharge: number;
+  selectedDeliveryOption: string;
 }
 
 const initialState: FeaturedProductState = {
   products: [],
-  selectedDistrict: "",
+  deliveryCharge: 130,
+  selectedDeliveryOption: "outsideDhaka",
 };
 
 export const featuredProductSlice = createSlice({
@@ -49,9 +51,6 @@ export const featuredProductSlice = createSlice({
         toast.error("You must have at least one product in your cart");
       }
     },
-    setDistrictName: (state, action: PayloadAction<string>) => {
-      state.selectedDistrict = action.payload;
-    },
     setFeaturedProduct: (state, action: PayloadAction<IProduct>) => {
       state.products = [
         {
@@ -60,6 +59,23 @@ export const featuredProductSlice = createSlice({
         },
       ];
     },
+    setDeliveryOption(state, action: PayloadAction<string>) {
+      state.selectedDeliveryOption = action.payload;
+
+      switch (action.payload) {
+        case "insideDhaka":
+          state.deliveryCharge = 70;
+          break;
+        case "outsideDhaka":
+          state.deliveryCharge = 130;
+          break;
+        case "homeDelivery":
+          state.deliveryCharge = 120;
+          break;
+        default:
+          state.deliveryCharge = 70;
+      }
+    },
   },
 });
 
@@ -67,16 +83,17 @@ export const {
   addProduct,
   updateProductQuantity,
   deleteProduct,
-  setDistrictName,
   setFeaturedProduct,
+  setDeliveryOption,
 } = featuredProductSlice.actions;
 
 export default featuredProductSlice.reducer;
 
 export const selectProducts = (state: RootState) =>
   state.featuredProduct.products;
-export const selectSelectedDistrict = (state: RootState) =>
-  state.featuredProduct.selectedDistrict;
+
+export const selectDeliveryCharge = (state: RootState) =>
+  state.cart.deliveryCharge;
 
 export const selectSubtotal = createSelector(selectProducts, (products) =>
   products
@@ -88,21 +105,24 @@ export const selectSubtotal = createSelector(selectProducts, (products) =>
     .toFixed(2)
 );
 
-export const selectShippingFee = createSelector(
-  selectSelectedDistrict,
-  (district) => {
-    // console.log("district", district);
-    return district === "1" ? 71 : 110;
-  }
-);
-
-export const selectTotal = createSelector(
-  selectSubtotal,
-  selectShippingFee,
-  (subtotal, shippingFee) => (parseFloat(subtotal) + shippingFee).toFixed(2)
-);
-
 export const selectTotalItems = createSelector(
   (state: RootState) => state.featuredProduct.products,
   (products) => products.reduce((total, product) => total + product.quantity, 0)
+);
+
+export const selectFeaturedOrderSubtotal = createSelector(
+  selectProducts,
+  (cartItems: IFeaturedProduct[]) => {
+    return cartItems.reduce(
+      (total, item) => total + item.product.price * item.quantity,
+      0
+    );
+  }
+);
+
+export const selectFeaturedOrderTotalPrice = createSelector(
+  [selectFeaturedOrderSubtotal, selectDeliveryCharge],
+  (subtotal, deliveryCharge) => {
+    return subtotal + deliveryCharge;
+  }
 );

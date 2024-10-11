@@ -34,6 +34,8 @@ export interface ICreateOrder {
   totalPrice: number;
   isCanceled?: boolean;
   createdAt?: Date;
+  deliveryArea: string;
+  deliveryCharge: number;
 }
 
 export interface IOrder {
@@ -41,16 +43,13 @@ export interface IOrder {
   userId: string;
   products: IOrderItem[];
   phone: string;
-  userName: string;
+  name: string;
+  address: string;
+  deliveryArea: string;
+  deliveryCharge: number;
   status?: OrderStatus;
   paymentMethod?: string;
   paymentStatus?: string;
-  shippingAddress: {
-    detailAddress: string;
-    district: string;
-    division: string;
-    subDistrict: string;
-  };
   totalPrice: number;
   isCanceled?: boolean;
   createdAt?: Date;

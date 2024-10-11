@@ -13,6 +13,12 @@ interface IGetUserOrderResponse {
   success: boolean;
 }
 
+interface IGetSingleOrderResponse {
+  data: IOrder;
+  message: string;
+  success: boolean;
+}
+
 export const orderApi = api.injectEndpoints({
   endpoints: (builder) => ({
     createOrder: builder.mutation<IGetCreateOrderResponse, ICreateOrder>({
@@ -30,8 +36,19 @@ export const orderApi = api.injectEndpoints({
       }),
       providesTags: ["Orders"],
     }),
+    getSingleOrder: builder.query<IGetSingleOrderResponse, string>({
+      query: (id) => ({
+        url: `/order/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["single-order"],
+    }),
   }),
   overrideExisting: true,
 });
 
-export const { useCreateOrderMutation, useGetUserOrderByIdQuery } = orderApi;
+export const {
+  useCreateOrderMutation,
+  useGetUserOrderByIdQuery,
+  useGetSingleOrderQuery,
+} = orderApi;

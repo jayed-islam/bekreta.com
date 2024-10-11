@@ -1,6 +1,7 @@
+import { SplashScreen } from "@/components/loader/splash-screen";
 import ProductsDetailsView from "@/sections/product/view/product-detail-view";
 import { IGetSingleAndRelatedProductListResponse } from "@/types/products";
-import React from "react";
+import React, { Suspense } from "react";
 
 interface IProductProps {
   params: {
@@ -17,7 +18,11 @@ const ProductDetailPage = async ({ params }: IProductProps) => {
     }
   );
   const data: IGetSingleAndRelatedProductListResponse = await res.json();
-  return <ProductsDetailsView id={id} data={data} />;
+  return (
+    <Suspense fallback={<SplashScreen />}>
+      <ProductsDetailsView id={id} data={data} />
+    </Suspense>
+  );
 };
 
 export default ProductDetailPage;

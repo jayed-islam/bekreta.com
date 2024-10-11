@@ -22,7 +22,9 @@ import CartRow from "@/sections/cart/cart-row-view";
 import { paths } from "@/layouts/paths";
 
 const CheckoutProudctView = () => {
-  const { cartItems } = useAppSelector((state) => state.cart);
+  const { cartItems, deliveryCharge, selectedDeliveryOption } = useAppSelector(
+    (state) => state.cart
+  );
   const { user } = useAppSelector((state) => state.auth);
 
   const totalPrice = useAppSelector((state) => selectCartTotalPrice(state));
@@ -69,13 +71,15 @@ const CheckoutProudctView = () => {
       ...(data.orderNote && { orderNote: data.orderNote }),
       totalPrice: totalPrice,
       products,
+      deliveryArea: selectedDeliveryOption,
+      deliveryCharge,
     };
 
     const response = await createOrder(payload).unwrap();
 
     if (response.success) {
       toast.success(response.message);
-      router.push(paths.success);
+      router.push(`${paths.success}?id=${response.data._id}`);
     } else {
       toast.error(response.message);
     }

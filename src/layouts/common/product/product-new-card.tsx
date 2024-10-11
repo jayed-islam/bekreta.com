@@ -11,14 +11,11 @@ import {
 import { IProduct } from "@/types/products";
 import { paths } from "@/layouts/paths";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import useBoolean from "@/hooks/use-boolean";
-import AuthModal from "../modal/auth-modal";
 import Slider from "react-slick";
 import { SampleNextArrow, SamplePrevArrow } from "@/utils/react-slick-utils";
 import { CartItem } from "@/types/cart";
-import QuickOrderDialog from "@/sections/quick-order/view/quick-order-dilaog";
 import { BooleanState } from "@/types/utils";
 
 interface IProductCardProps {
@@ -109,49 +106,64 @@ const ProductCardNew = ({ product, quickOrderDialog }: IProductCardProps) => {
   return (
     <>
       <div className="relative flex z-10 flex-col w-full group shadow bg-white border p-1 group cursor-pointer overflow-hidden">
-        <div
-          className="p-3 h-[271px] overflow-hidden "
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
-          <Slider {...sliderSettings} ref={sliderRef}>
-            {images.map((img, index) => (
-              <div className="w-full flex items-center justify-center h-full">
-                <Link href={`${paths.product.root}/${_id}`}>
-                  <img
-                    key={index}
-                    alt={product.name}
-                    className="h-[241px] object-contain"
-                    src={img}
-                  />
-                </Link>
-              </div>
-            ))}
-          </Slider>
-
-          <div className="absolute -right-11 top-1/3 z-10 flex-col md:flex gap-2 group-hover:right-3 transition-all duration-500 hidden">
-            <button
-              className="bg-gray-300 h-9 w-9 hover:bg-[#2e7d32] transition-all duration-200 rounded-full flex items-center justify-center hover:text-white bg-opacity-65 text-xs px-1.5 py-[2px]"
-              onClick={previous}
-            >
-              <Icon icon="mdi:chevron-right" className="text-2xl" />
-            </button>
-          </div>
-
-          <div className="absolute -left-11 top-1/3 z-10 flex-col md:flex gap-2 group-hover:left-3 transition-all duration-500 hidden">
-            <button
-              className="bg-gray-300 h-9 w-9 hover:bg-[#2e7d32] transition-all duration-200 rounded-full flex items-center justify-center hover:text-white bg-opacity-65 text-xs px-1.5 py-[2px]"
-              onClick={next}
-            >
-              <Icon icon="mdi:chevron-left" className="text-2xl" />
-            </button>
-          </div>
-
-          {status === "OUT_OF_STOCK" && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
-              <span className="text-white font-bold text-lg">OUT OF STOCK</span>
+        <div>
+          <div className="p-3 h-[271px] overflow-hidden lg:hidden">
+            <div className="w-full flex items-center justify-center h-full">
+              <Link href={`${paths.product.root}/${_id}`}>
+                <img
+                  alt={product.name}
+                  className="h-[241px] object-contain"
+                  src={images[0]}
+                />
+              </Link>
             </div>
-          )}
+          </div>
+          <div
+            className="p-3 h-[271px] overflow-hidden hidden lg:block"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <Slider {...sliderSettings} ref={sliderRef}>
+              {images.map((img, index) => (
+                <div className="w-full flex items-center justify-center h-full">
+                  <Link href={`${paths.product.root}/${_id}`}>
+                    <img
+                      key={index}
+                      alt={product.name}
+                      className="h-[241px] object-contain"
+                      src={img}
+                    />
+                  </Link>
+                </div>
+              ))}
+            </Slider>
+
+            <div className="absolute -right-11 top-1/3 z-10 flex-col md:flex gap-2 group-hover:right-3 transition-all duration-500 hidden">
+              <button
+                className="bg-gray-300 h-9 w-9 hover:bg-[#2e7d32] transition-all duration-200 rounded-full flex items-center justify-center hover:text-white bg-opacity-65 text-xs px-1.5 py-[2px]"
+                onClick={previous}
+              >
+                <Icon icon="mdi:chevron-right" className="text-2xl" />
+              </button>
+            </div>
+
+            <div className="absolute -left-11 top-1/3 z-10 flex-col md:flex gap-2 group-hover:left-3 transition-all duration-500 hidden">
+              <button
+                className="bg-gray-300 h-9 w-9 hover:bg-[#2e7d32] transition-all duration-200 rounded-full flex items-center justify-center hover:text-white bg-opacity-65 text-xs px-1.5 py-[2px]"
+                onClick={next}
+              >
+                <Icon icon="mdi:chevron-left" className="text-2xl" />
+              </button>
+            </div>
+
+            {status === "OUT_OF_STOCK" && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                <span className="text-white font-bold text-lg">
+                  OUT OF STOCK
+                </span>
+              </div>
+            )}
+          </div>
         </div>
         {discount.isDiscount && (
           <div className="hidden rounded-full md:flex items-center justify-center absolute top-2 left-2 px-2.5 py-1.5 text-xs bg-green-500 text-white">
@@ -167,7 +179,7 @@ const ProductCardNew = ({ product, quickOrderDialog }: IProductCardProps) => {
 
         <div className="px-3 pb-3 bg-gray-200">
           <div className="flex items-center justify-between mt-2 w-full">
-            <h3 className="text-[#2e7d32] text-lg sm:text-xl font-bold text-center">
+            <h3 className="text-[#2e7d32] text-2xl sm:text-xl font-bold text-center">
               ৳{price}
             </h3>
             <div className="bg-[#2e7d32] text-white text-xs px-3 py-0.5 font-semibold text-center">
@@ -176,7 +188,7 @@ const ProductCardNew = ({ product, quickOrderDialog }: IProductCardProps) => {
           </div>
           <Link href={`${paths.product.root}/${_id}`}>
             <h2
-              className={`font-bold hover:text-[#2e7d32] transition-all duration-300 ease-in leading-5 line-clamp-2 overflow-ellipsis text-sm md:text-sm hover:underline h-10`}
+              className={`font-bold hover:text-[#2e7d32] transition-all duration-300 ease-in leading-5 line-clamp-2 overflow-ellipsis text-md mt-3 lg:mt-0 md:text-sm hover:underline h-10`}
             >
               {name}
             </h2>

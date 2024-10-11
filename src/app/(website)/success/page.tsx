@@ -1,4 +1,4 @@
-import OrderSuccessView from "@/sections/success";
+import OrderSuccessView from "@/sections/success/order-success-view";
 import React from "react";
 
 const OrderSuccessPage = () => {

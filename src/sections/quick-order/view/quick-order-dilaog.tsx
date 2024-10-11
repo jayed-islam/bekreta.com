@@ -53,7 +53,9 @@ const QuickOrderDialog: React.FC<QuickOrderDialogProps> = ({
   const totalPrice = useAppSelector((state) => selectCartTotalPrice(state));
   const subtotal = useAppSelector((state) => selectCartSubtotal(state));
 
-  const deliveryCharge = useAppSelector((state) => state.cart.deliveryCharge);
+  const { deliveryCharge, selectedDeliveryOption } = useAppSelector(
+    (state) => state.cart
+  );
 
   const methods = useForm<TCheckoutFormData>({
     resolver: zodResolver(checkoutSchema),
@@ -71,8 +73,6 @@ const QuickOrderDialog: React.FC<QuickOrderDialogProps> = ({
     handleSubmit,
     formState: { errors },
   } = methods;
-
-  console.log("er", errors);
 
   const [createOrder, { isLoading }] = useCreateOrderMutation();
 
@@ -112,6 +112,8 @@ const QuickOrderDialog: React.FC<QuickOrderDialogProps> = ({
       ...(data.orderNote && { orderNote: data.orderNote }),
       totalPrice: totalPrice,
       products,
+      deliveryArea: selectedDeliveryOption,
+      deliveryCharge,
     };
 
     const response = await createOrder(payload).unwrap();
@@ -120,7 +122,7 @@ const QuickOrderDialog: React.FC<QuickOrderDialogProps> = ({
       toast.success(response.message);
       onClose();
       dispatch(clearCart());
-      router.push(paths.success);
+      router.push(`${paths.success}?id=${response.data._id}`);
     } else {
       toast.error(response.message);
     }

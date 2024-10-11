@@ -4,12 +4,12 @@ import React, { useEffect, useState } from "react";
 import ImageViewFeatured from "./image-view-featured";
 import { IGetFeaturedProductResponse, IProduct } from "@/types/products";
 import { Divider, Typography } from "@mui/material";
-import FeaturedProductCheckoutItem from "./cart-product-item-featured";
+import FeaturedProductCheckoutItem from "./common/cart-product-item-featured";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
-  selectShippingFee,
+  selectFeaturedOrderSubtotal,
+  selectFeaturedOrderTotalPrice,
   selectSubtotal,
-  selectTotal,
   selectTotalItems,
   setFeaturedProduct,
 } from "@/redux/reducers/featured/featuredProductSlice";
@@ -17,23 +17,20 @@ import OfferedProductViewFeatued from "./offered-product-view-featured";
 import useResponsive from "@/hooks/use-responsive";
 import useBoolean from "@/hooks/use-boolean";
 import OrderSubmissionFormDialog from "./common/order-submission-form-dialog";
-import OrderSuccessModal from "./common/success-order-dialog";
+
 import MobileOrderForm from "./common/mobile-order-form";
 import { useGetFeaturedCurrentSingleProductQuery } from "@/redux/reducers/product/productApi";
+import FeaturedOrderSummaryView from "./common/feature-order-summary-view";
+import FeatureOrderSubmissionDialog from "./common/order-submission-form-dialog";
 
 interface Props {
   data: IGetFeaturedProductResponse;
 }
 
 const ProductViewFeatured = ({ data }: Props) => {
-  const { products, selectedDistrict: districtNumber } = useAppSelector(
-    (state) => state.featuredProduct
-  );
+  const { products } = useAppSelector((state) => state.featuredProduct);
   const dispatch = useAppDispatch();
-  // const { data, isLoading } = useGetFeaturedCurrentSingleProductQuery();
   const [orderId, setOrderID] = useState("");
-
-  const isMdUp = useResponsive({ breakpoint: "md", direction: "up" });
 
   useEffect(() => {
     if (data && data.data && Object.keys(data).length > 0) {
@@ -41,13 +38,11 @@ const ProductViewFeatured = ({ data }: Props) => {
     }
   }, [data, dispatch]);
 
-  const subtotal = useAppSelector(selectSubtotal);
-  const total = useAppSelector(selectTotal);
-  const shippingFee = useAppSelector(selectShippingFee);
-  const totalItem = useAppSelector(selectTotalItems);
-
   const dialog = useBoolean();
-  const successModal = useBoolean();
+
+  const handleSubmit = () => {
+    dialog.setTrue();
+  };
 
   return (
     <div className="max-w-6xl mx-auto xl:px-0 gap-7 pt-5 pb-11 md:pb-16 px-5">
@@ -126,11 +121,9 @@ const ProductViewFeatured = ({ data }: Props) => {
                   <Typography className="text-md font-semibold mb-2">
                     Specification
                   </Typography>
-                  {data?.data.featuredProduct.specifications.map(
-                    (item, index) => (
-                      <h2 className="text-sm md:text-md">{item}</h2>
-                    )
-                  )}
+                  {data?.data.featuredProduct.specifications.map((item) => (
+                    <h2 className="text-sm md:text-md">{item}</h2>
+                  ))}
                 </div>
 
                 <div className="flex items-center gap-3">
@@ -209,45 +202,7 @@ const ProductViewFeatured = ({ data }: Props) => {
           </div>
 
           <div className="rounded-xl border hidden md:block mt-5">
-            <div className="p-3 bg-gray-100 border-b rounded-t-xl">
-              <h2 className="text-md font-semibold">Order Summary</h2>
-            </div>
-            <div className="p-3 flex flex-col gap-3">
-              <div className="flex items-center justify-between">
-                <Typography variant="body1">
-                  Subtotal ({totalItem} Items)
-                </Typography>
-                <Typography variant="subtitle1" className="font-semibold">
-                  ৳ {subtotal}
-                </Typography>
-              </div>
-              <div className="flex items-center justify-between">
-                <Typography variant="body1">
-                  Shipping Fee (
-                  {districtNumber === "1" ? "Inside Dhaka" : "Outside Dhaka"})
-                </Typography>
-                <Typography variant="subtitle1" className="font-semibold">
-                  ৳ {shippingFee}
-                </Typography>
-              </div>
-              <Divider />
-              <div className="flex items-center justify-between">
-                <Typography variant="body1" className="font-semibold">
-                  Total
-                </Typography>
-                <Typography variant="subtitle1" className="font-semibold">
-                  ৳ {total}
-                </Typography>
-              </div>
-
-              <button
-                type="submit"
-                onClick={isMdUp ? dialog.setTrue : () => {}}
-                className="bg-green-500 text-white capitalize w-full py-2 mt-2 hover:bg-green-600 rounded-lg"
-              >
-                Place Order
-              </button>
-            </div>
+            <FeaturedOrderSummaryView onSubmit={handleSubmit} />
           </div>
         </div>
       </div>
@@ -256,12 +211,10 @@ const ProductViewFeatured = ({ data }: Props) => {
           products={data?.data.offerProducts as IProduct[]}
         />
       </div>
-      <OrderSubmissionFormDialog
-        dialog={dialog}
-        successModal={successModal}
-        setOrderID={setOrderID}
+      <FeatureOrderSubmissionDialog
+        onClose={dialog.setFalse}
+        open={dialog.value}
       />
-      <OrderSuccessModal dialog={successModal} orderId={orderId} />
     </div>
   );
 };

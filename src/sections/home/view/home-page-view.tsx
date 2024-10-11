@@ -31,6 +31,15 @@ export const HomePageView = async () => {
         isLoading={false}
         newItems={data?.data?.newItems as IProduct[]}
       /> */}
+
+      <div className="flex flex-col items-center justify-center pt-7 md:pt-16 pb-7 bg-gray-100">
+        <h3 className="text-2xl md:text-3xl font-bold text-center">
+          Exclusive Items
+        </h3>
+        <p className="text-md md:text-lg text-center">
+          Best collections for you. check it!!
+        </p>
+      </div>
       <Suspense fallback={<HomeProductSSRLoading />}>
         <HomeProductsView
           isLoading={false}
