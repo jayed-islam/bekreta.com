@@ -36,8 +36,8 @@ export const orderApi = api.injectEndpoints({
       }),
       providesTags: ["Orders"],
     }),
-    getSingleOrder: builder.query<IGetSingleOrderResponse, string>({
-      query: (id) => ({
+    getSingleOrder: builder.query<IGetSingleOrderResponse, { id: string }>({
+      query: ({ id }) => ({
         url: `/order/${id}`,
         method: "GET",
       }),

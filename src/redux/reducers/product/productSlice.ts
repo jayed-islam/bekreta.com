@@ -3,10 +3,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface ProductState {
   lastVisitedProducts: CartItem[];
+  searchTerm: string;
+  selectedCategoryId: string | null;
 }
 
 const initialState: ProductState = {
   lastVisitedProducts: [],
+  searchTerm: "",
+  selectedCategoryId: null,
 };
 
 const loadLastVisitedProducts = (): CartItem[] => {
@@ -22,6 +26,9 @@ const productSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
+    setSearchTerm: (state, action: PayloadAction<string>) => {
+      state.searchTerm = action.payload;
+    },
     addLastVisitedProduct(state, action: PayloadAction<CartItem>) {
       // Load existing products from local storage
       let lastVisitedProducts = loadLastVisitedProducts();
@@ -48,10 +55,17 @@ const productSlice = createSlice({
     setLastVisitedProducts(state, action: PayloadAction<CartItem[]>) {
       state.lastVisitedProducts = action.payload;
     },
+    setCategoryId: (state, action: PayloadAction<string | null>) => {
+      state.selectedCategoryId = action.payload;
+    },
   },
 });
 
-export const { addLastVisitedProduct, setLastVisitedProducts } =
-  productSlice.actions;
+export const {
+  addLastVisitedProduct,
+  setLastVisitedProducts,
+  setSearchTerm,
+  setCategoryId,
+} = productSlice.actions;
 
 export default productSlice.reducer;

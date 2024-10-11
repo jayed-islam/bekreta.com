@@ -30,7 +30,7 @@ const OrderRow = ({ row }: { row: IOrder }) => {
             {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
           </IconButton>
         </TableCell>
-        <TableCell>{row.userName}</TableCell>
+        <TableCell>{row.name}</TableCell>
         <TableCell>{row.phone}</TableCell>
         <TableCell>{row.totalPrice}</TableCell>
         <TableCell>{row.status}</TableCell>

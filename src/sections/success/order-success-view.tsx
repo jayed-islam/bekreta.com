@@ -16,7 +16,7 @@ const OrderSuccessView = () => {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("id");
   const router = useRouter();
-  const { data, isLoading } = useGetSingleOrderQuery(orderId as string);
+  const { data, isLoading } = useGetSingleOrderQuery({ id: orderId as string });
 
   // Responsive view hook
   const isMobile = useMediaQuery("(max-width:600px)");
@@ -29,13 +29,13 @@ const OrderSuccessView = () => {
     if (orderId) {
       navigator.clipboard.writeText(orderId);
       setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 3000); // Reset icon after 3 seconds
+      setTimeout(() => setIsCopied(false), 3000);
     }
   };
 
   // Button handlers
   const handleOrderStatusClick = () => {
-    router.push(`${paths.account.orders}/${orderId}`);
+    router.push(`${paths.orderTrucking}?id=${orderId}`);
   };
 
   if (isLoading) return <div>Loading...</div>;

@@ -14,13 +14,13 @@ import useBoolean from "@/hooks/use-boolean";
 import { useGetProductsQuery } from "@/redux/reducers/product/productApi";
 import useDebounce from "@/hooks/use-debounce";
 import { Drawer } from "@mui/material";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import {
+  setCategoryId,
+  setSearchTerm,
+} from "@/redux/reducers/product/productSlice";
 
 interface CategoryWiseProductProps {}
-
-interface QueryParams {
-  category: string | null;
-  searchTerm: string | null;
-}
 
 const defaultFilters: IProductFilters = {
   category: "",
@@ -31,77 +31,23 @@ const defaultFilters: IProductFilters = {
   isLowestFirst: null,
 };
 
-const CategoryWiseProductFilterView: React.FC<
-  CategoryWiseProductProps
-> = () => {
-  const filterSidebar = useBoolean();
+const ProductWithFilterView: React.FC<CategoryWiseProductProps> = () => {
+  const { searchTerm, selectedCategoryId } = useAppSelector(
+    (state) => state.product
+  );
   const [filters, setFilters] = useState(defaultFilters);
   const [values, setValues] = useState<[number, number]>([5, 2001]);
-  const [queries, setQueries] = useState<QueryParams>({
-    category: null,
-    searchTerm: null,
-  });
 
   const [page, setPage] = useState<number>(0);
   const [size, setSize] = useState<number>(5);
   const [sortId, setSortId] = useState<number>(1);
 
+  const debouncedSearchTerm = useDebounce(searchTerm ? searchTerm : "", 500);
+
   const filterDrawer = useBoolean();
-
-  // const searchParams: any = useSearchParams();
-  // const categoryId: string | null = searchParams.get("category");
-  // const searchQuery: string | null = searchParams.get("search");
-
-  // useEffect(() => {
-  //   const urlParams = new URLSearchParams(window.location.search);
-  //   const queryParamCategory = urlParams.get("category");
-  //   const queryParamSearch = urlParams.get("search");
-  //   setQueries((prev) => ({
-  //     ...prev,
-  //     category: queryParamCategory,
-  //     searchTerm: queryParamSearch,
-  //   }));
-  // }, []);
-
-  const searchParams = useSearchParams();
-  const categoryId = searchParams.get("category");
-  const searchQuery = searchParams.get("search");
-
-  useEffect(() => {
-    // setQueries({
-    //   category: categoryId,
-    //   searchTerm: searchQuery,
-    // });
-    setFilters((prev) => ({
-      ...prev,
-      category: categoryId as string,
-      searchTerm: searchQuery as string,
-    }));
-  }, [categoryId, searchQuery]);
-
-  console.log("query", queries);
-
-  console.log("query", queries);
-  // console.log("search", search);
+  const dispatch = useAppDispatch();
 
   const fakeArray: number[] = Array.from({ length: 12 });
-
-  // const handleFilters = useCallback(
-  //   (name: string, value: string | number | string[]) => {
-  //     setFilters((prev) => {
-  //       if (name === "status") {
-  //         const newStatus = Array.isArray(value) ? value : [value];
-  //         return { ...prev, status: newStatus } as IProductFilters;
-  //       } else {
-  //         if (name === "category") {
-  //           return { ...prev, [name]: value } as IProductFilters;
-  //         }
-  //         return { ...prev, [name]: value } as IProductFilters;
-  //       }
-  //     });
-  //   },
-  //   []
-  // );
 
   const handleFilters = useCallback(
     (name: string, value: string | number | string[]) => {
@@ -142,12 +88,12 @@ const CategoryWiseProductFilterView: React.FC<
   const debouncedFilters = useDebounce(filters, 1000);
 
   const { data, isFetching } = useGetProductsQuery({
-    category: filters.category ? filters.category : "",
+    category: selectedCategoryId !== null ? selectedCategoryId : "",
     limit: size,
     minPrice: debouncedFilters.minPrice,
     maxPrice: debouncedFilters.maxPrice,
     status: filters.status.length > 0 ? filters.status : [],
-    searchTerm: filters.searchTerm ? filters.searchTerm : "",
+    searchTerm: debouncedSearchTerm ?? undefined,
     isLowestFirst: filters.isLowestFirst,
   });
 
@@ -159,10 +105,11 @@ const CategoryWiseProductFilterView: React.FC<
   const handleResetFilters = () => {
     setFilters(defaultFilters);
     setValues([5, 2001]);
-    setQueries({ category: null, searchTerm: null });
     setSortId(1);
     setPage(0);
     filterDrawer.setFalse();
+    dispatch(setCategoryId(""));
+    dispatch(setSearchTerm(""));
   };
 
   return (
@@ -268,7 +215,6 @@ const CategoryWiseProductFilterView: React.FC<
                 </div>
               ) : (
                 <>
-                  {/* Data Available: Show products */}
                   {data && data?.data?.products?.length > 0 ? (
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-x-3 md:gap-x-3 gap-y-3 md:gap-y-5 mt-3">
                       {data?.data.products.map((product, index) => (
@@ -277,7 +223,7 @@ const CategoryWiseProductFilterView: React.FC<
                     </div>
                   ) : (
                     // No Data Found: Show fallback view
-                    <NoDataFoundView category={categoryId as string} />
+                    <NoDataFoundView resetFilter={handleResetFilters} />
                   )}
                 </>
               )}
@@ -310,4 +256,4 @@ const CategoryWiseProductFilterView: React.FC<
   );
 };
 
-export default CategoryWiseProductFilterView;
+export default ProductWithFilterView;

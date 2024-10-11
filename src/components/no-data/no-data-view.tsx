@@ -1,12 +1,14 @@
 import { paths } from "@/layouts/paths";
+import { Button } from "@mui/material";
 import Link from "next/link";
 import React from "react";
 
 interface Props {
   category?: string;
+  resetFilter: () => void;
 }
 
-const NoDataFoundView = ({ category }: Props) => {
+const NoDataFoundView = ({ category, resetFilter }: Props) => {
   return (
     <div className="w-full px-3 sm:px-0 py-11">
       <div className="border border-green-500 px-5 py-2 mb-7">
@@ -17,12 +19,16 @@ const NoDataFoundView = ({ category }: Props) => {
         </h1>
       </div>
 
-      <Link
-        href={paths.root}
-        className=" bg-green-500 px-5 text-sm font-semibold py-2 rounded-full text-white"
+      <Button
+        onClick={resetFilter}
+        color="success"
+        variant="contained"
+        sx={{
+          textTransform: "capitalize",
+        }}
       >
-        RETURN TO SHOP
-      </Link>
+        Reset Filters
+      </Button>
     </div>
   );
 };

@@ -1,7 +1,8 @@
 import { availabilities } from "@/constants";
 import { scrollToTop } from "@/hooks/use-clicktoTop";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useGetCategoriesQuery } from "@/redux/reducers/category/categoryApi";
+import { setCategoryId } from "@/redux/reducers/product/productSlice";
 import { IProductFilters, ProductStatus } from "@/types/products";
 import { Button, FormControlLabel, Radio, Skeleton } from "@mui/material";
 import React, { useCallback } from "react";
@@ -22,7 +23,8 @@ const LeftSideFilter: React.FC<LeftSideFilterProps> = ({
   resetFilter,
   filters,
 }) => {
-  // const { categories } = useAppSelector((state) => state.category);
+  const dispatch = useAppDispatch();
+  const { selectedCategoryId } = useAppSelector((state) => state.product);
   const { data, isLoading } = useGetCategoriesQuery();
   const handleFilterChange = useCallback(
     (name: string, event: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,14 +65,21 @@ const LeftSideFilter: React.FC<LeftSideFilterProps> = ({
     [setValues, onFilters]
   );
 
-  const handleCategoryChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const value = event.target.value;
-      onFilters("category", value);
-      scrollToTop();
-    },
-    [onFilters]
-  );
+  // const handleCategoryChange = useCallback(
+  //   (event: React.ChangeEvent<HTMLInputElement>) => {
+  //     const value = event.target.value;
+  //     onFilters("category", value);
+  //     scrollToTop();
+  //   },
+  //   [onFilters]
+  // );
+
+  const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    console.log("v", value);
+    dispatch(setCategoryId(value));
+    scrollToTop();
+  };
 
   return (
     <div className="w-full lg:w-[281px]">
@@ -249,7 +258,7 @@ const LeftSideFilter: React.FC<LeftSideFilterProps> = ({
                   control={
                     <Radio
                       value={category._id}
-                      checked={filters.category === category._id}
+                      checked={selectedCategoryId === category._id}
                       onChange={handleCategoryChange}
                       inputProps={{ "aria-label": category.name }}
                     />

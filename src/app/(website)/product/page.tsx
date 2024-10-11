@@ -1,7 +1,7 @@
 import ProductWithFilterView from "@/sections/product/view/product-with-filter-view";
 import React, { Suspense } from "react";
 
-const CategoryBasedProductViewPage = () => {
+const Page = () => {
   return (
     <Suspense>
       <ProductWithFilterView />
@@ -9,4 +9,4 @@ const CategoryBasedProductViewPage = () => {
   );
 };
 
-export default CategoryBasedProductViewPage;
+export default Page;

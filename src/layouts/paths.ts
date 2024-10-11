@@ -7,8 +7,10 @@ export const paths = {
   },
   product: {
     root: "/product",
+    products: "/product",
     category: "/product/category",
   },
+  orderTrucking: "/order-trucking",
   cart: {
     root: "/cart",
   },
