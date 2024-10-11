@@ -86,10 +86,12 @@ const ProductCard = ({
 
         <div className="p-2 bg-gray-200">
           <Link href={`${paths.product.root}/${_id}`}>
-            <h2 className="text-xs line-clamp-2 overflow-ellipsis">{name}</h2>
+            <h2 className="text-xs line-clamp-2 overflow-ellipsis group-hover:underline group-hover:text-[#2e7d32] transition-all duration-300 h-8">
+              {name}
+            </h2>
           </Link>
 
-          <div className="flex items-center flex-col-reverse md:flex-row justify-between w-full pt-2">
+          <div className="flex items-center flex-col-reverse md:flex-row justify-between w-full pt-2 gap-2">
             <Button
               onClick={() => handleAddToCart(product)}
               variant="contained"

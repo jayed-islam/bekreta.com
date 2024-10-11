@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 const FlashSaleProductCard = ({ product, i }: any) => {
-  const { name, images, price, desc, review, _id } = product;
+  const { images, price, desc } = product;
   const [selectedImage, setSelectedImage] = useState(images[0]);
-  const [isLoading, setLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
 
   const handleImageHover = (image: string) => {
     setSelectedImage(image);

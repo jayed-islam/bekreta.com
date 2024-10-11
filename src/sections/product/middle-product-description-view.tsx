@@ -11,12 +11,13 @@ import { IProduct } from "@/types/products";
 import React, { useEffect, useState } from "react";
 import { getProductStatus, getStatusStyles } from "./common/product-constants";
 import toast from "react-hot-toast";
-import AuthModal from "@/layouts/common/modal/auth-modal";
 import { addLastVisitedProduct } from "@/redux/reducers/product/productSlice";
 import { CartItem } from "@/types/cart";
-import { Button } from "@mui/material";
+import { Button, colors } from "@mui/material";
 import { BooleanState } from "@/types/utils";
-import { FaStar, FaShoppingCart } from "react-icons/fa";
+import { MdOutlineShoppingCart } from "react-icons/md";
+import { HiOutlineShoppingBag } from "react-icons/hi2";
+import { FaWhatsapp } from "react-icons/fa";
 
 type TMiddleDescriptionProps = {
   product: IProduct;
@@ -32,28 +33,6 @@ const MiddleProductDescription = ({
   const [quantity, setQuantity] = useState(1);
   const dispatch = useAppDispatch();
   const itemExists = useAppSelector(isItemInCart(product._id));
-
-  // const [addToCart, { isLoading }] = useAddToCartMutation();
-
-  // const handleAddToCart = async () => {
-  //   try {
-  //     const res = await addToCart({
-  //       item: {
-  //         product: product._id,
-  //         quantity,
-  //       },
-  //     }).unwrap();
-
-  //     if (res.success) {
-  //       toast.success(res.message);
-  //       dispatch(openCartDrawer());
-  //     } else {
-  //       toast.error(res.message);
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
 
   const handleIncrease = () => {
     setQuantity((prev) => prev + 1);
@@ -144,6 +123,7 @@ const MiddleProductDescription = ({
             onClick={() => handleAddToCart(product)}
             variant="contained"
             color="secondary"
+            startIcon={<MdOutlineShoppingCart />}
           >
             কার্টে যোগ করুণ
           </Button>
@@ -152,9 +132,21 @@ const MiddleProductDescription = ({
             variant="contained"
             color="success"
             onClick={() => handleQuickOrder(product)}
-            startIcon={<FaShoppingCart />}
+            startIcon={<HiOutlineShoppingBag />}
           >
             এখনই অর্ডার করুন
+          </Button>
+          <Button
+            variant="contained"
+            color="warning"
+            onClick={() => handleQuickOrder(product)}
+            startIcon={<FaWhatsapp />}
+            sx={{
+              textTransform: "capitalize",
+              bgcolor: colors.orange[800],
+            }}
+          >
+            Whatsapp Us
           </Button>
         </div>
 
@@ -166,49 +158,7 @@ const MiddleProductDescription = ({
         </div>
       </div>
 
-      <div className="flex h-min gap-3 mt-7">
-        {/* <button
-          disabled={status === "OUT_OF_STOCK"}
-          onClick={handleAddToCartMain}
-          className={`w-full relative flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium px-4 sm:px-6  shadow-md flex-1 h-13 ${
-            status === "OUT_OF_STOCK"
-              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-              : "bg-gray-800 text-white hover:bg-gray-900"
-          }`}
-        >
-          {isLoading ? (
-            <SmallLoader />
-          ) : (
-            <Icon icon="iconamoon:shopping-bag-light" className="text-xl" />
-          )}
-          <span className="ml-3">
-            {status === "OUT_OF_STOCK" ? "Out of stock" : "Add to cart"}
-          </span>
-        </button> */}
-      </div>
-
       <p className="text-slate-600 text-md leading-6">{about}</p>
-
-      {/* <div className=" mt-7">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 relative">
-          {features.map((feature, index) => (
-            <div
-              key={index}
-              className={`flex flex-col p-5 rounded-lg dark:bg-opacity-90 ${feature.bg} cursor-pointer`}
-            >
-              <Icon icon={feature.icon} />
-              <div className="mt-2.5">
-                <p className="font-semibold text-slate-900">{feature.title}</p>
-                <p className="text-slate-500 mt-0.5 text-sm">
-                  {feature.description}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div> */}
-      {/* {sidebar.value && <CartSidebar dialog={sidebar} />}
-      {authModal.value && <AuthModal dialog={authModal} />} */}
     </div>
   );
 };

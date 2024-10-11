@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   IGetSingleAndRelatedProductListResponse,
   IProduct,
   IProductItem,
 } from "@/types/products";
-import RelatedProductsSection from "../product-details-related-product-view";
 import { queries } from "@/constants";
 import Tab from "../product-details-sections";
 import DescriptionSection from "../product-details-sections/description-section";
@@ -15,6 +14,11 @@ import LeftSideImageView from "../left-side-image-view";
 import MiddleProductDescription from "../middle-product-description-view";
 import useBoolean from "@/hooks/use-boolean";
 import QuickOrderDialog from "@/sections/quick-order/view/quick-order-dilaog";
+import RelatedProductView from "../product-details-related-product-view";
+import RecentlyViewedProductView from "../product-details-recently-viewed-product-view";
+import { useAppDispatch } from "@/redux/hooks";
+import { addLastVisitedProduct } from "@/redux/reducers/product/productSlice";
+import { CartItem } from "@/types/cart";
 
 interface IProductDetailsProps {
   product?: IProductItem;
@@ -25,8 +29,6 @@ interface IProductDetailsProps {
 const ProductsDetailsView = ({ id, product, data }: IProductDetailsProps) => {
   const [activeTab, setActiveTab] = useState("Reviews");
 
-  // const { data, isLoading } = useGetSingleWithRelatedProductQuery(id);
-
   const questions = 0;
 
   const handleClick = (label: string) => {
@@ -34,6 +36,22 @@ const ProductsDetailsView = ({ id, product, data }: IProductDetailsProps) => {
   };
 
   const quickOrderDialog = useBoolean();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (data.data.product) {
+      const item: CartItem = {
+        productId: data.data.product._id,
+        name: data.data.product.name,
+        price: data.data.product.price,
+        image: data.data.product.images[0],
+        quantity: 1,
+        category: data.data.product.category.name ?? "",
+        about: data.data.product.about,
+      };
+      dispatch(addLastVisitedProduct(item));
+    }
+  }, [product, dispatch, data.data]);
 
   return (
     <>
@@ -61,13 +79,6 @@ const ProductsDetailsView = ({ id, product, data }: IProductDetailsProps) => {
               ))}
             </div>
 
-            {/* <SpecificationSection activeTab={activeTab} /> */}
-
-            {/* <QuestionSection
-                activeTab={activeTab}
-                questions={questions}
-                product={data?.data as IProduct}
-              /> */}
             <ReviewSection
               activeTab={activeTab}
               questions={questions}
@@ -80,33 +91,21 @@ const ProductsDetailsView = ({ id, product, data }: IProductDetailsProps) => {
           </div>
         </div>
 
-        <div className="w-full lg:w-[301px] mt-5 lg:mt-0">
-          {data.data.relatedProducts.length > 0 && (
-            <RelatedProductsSection
-              currentProductId={data?.data.product._id as string}
-              relatedProducts={data?.data.relatedProducts as IProduct[]}
+        <div className="w-full lg:w-[301px] mt-5 lg:mt-0 h-min lg:sticky top-11">
+          <RelatedProductView
+            relatedProducts={data?.data.relatedProducts as IProduct[]}
+          />
+          {/* {product?._id && (
+            <RecentlyViewedProductView
+              currentProductId={product?._id as string}
             />
-          )}
+          )} */}
+
+          <RecentlyViewedProductView
+            currentProductId={product?._id as string}
+          />
         </div>
       </div>
-      {/* {isLoading ? (
-        <ProductDetailLoader />
-      ) : (
-        
-      )} */}
-      {/* {isLightboxOpen && (
-          <Lightbox
-            mainSrc={images[lightboxIndex]}
-            nextSrc={images[(lightboxIndex + 1) % images.length]}
-            prevSrc={
-              images[(lightboxIndex - 1 + images.length) % images.length]
-            }
-            onCloseRequest={handleLightboxClose}
-            onMovePrevRequest={handlePrevImage}
-            onMoveNextRequest={handleNextImage}
-            imageTitle={`Image ${lightboxIndex + 1} of ${images.length}`}
-          />
-        )} */}
       <QuickOrderDialog
         onClose={quickOrderDialog.setFalse}
         open={quickOrderDialog.value}

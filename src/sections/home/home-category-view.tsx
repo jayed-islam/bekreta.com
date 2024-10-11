@@ -12,7 +12,6 @@ const HomeTopCategoryView = async () => {
   );
   const data: ICategoriesResponse = await res.json();
 
-  console.log("category", data);
   return (
     <div className="bg-gray-100">
       <div className="max-w-6xl mx-auto py-3 md:py-5">

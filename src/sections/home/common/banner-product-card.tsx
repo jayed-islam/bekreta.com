@@ -1,52 +1,21 @@
-import React, { useState } from "react";
-import { twMerge } from "tailwind-merge";
-import { Icon } from "@iconify-icon/react/dist/iconify.js";
+import React from "react";
 import Link from "next/link";
-import ProductCardTimer from "@/components/timer/product-card-timer";
 import { IProduct } from "@/types/products";
 import { paths } from "@/layouts/paths";
-import { Button, Tooltip } from "@mui/material";
+import { Button } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 interface IProductCardProps {
   product: IProduct;
-  index: number;
-  className?: string;
-  newPadding?: number;
-  newSize?: number;
-  timerBoolean?: boolean;
 }
 
-const BannerProductCard = ({
-  product,
-  className,
-  newPadding,
-  timerBoolean,
-}: IProductCardProps) => {
+const BannerProductCard = ({ product }: IProductCardProps) => {
   const { name, images, price, _id } = product;
   const isOutOfStock = product.status === "OUT_OF_STOCK";
 
-  const actionButtonsInfo = [
-    // {
-    //   icon: "ic:baseline-compare-arrows",
-    //   action: () => {
-    //     console.log("action, compare");
-    //   },
-    // },
-    // {
-    //   icon: "ph:heart-light",
-    //   action: () => {
-    //     console.log("action, wishlist");
-    //   },
-    // },
-    {
-      icon: "carbon:view",
-      action: () => {
-        console.log("action, view");
-      },
-    },
-  ];
-
   const endTime = "2024-06-25T19:59:59";
+
+  const router = useRouter();
 
   return (
     <div className="relative flex z-10 flex-col w-full group cursor-pointer overflow-hidden px-2">
@@ -74,39 +43,23 @@ const BannerProductCard = ({
         </div>
         <Link href={`${paths.product.root}/${_id}`}>
           <h2
-            className={`font-bold hover:text-[#2e7d32] transition-all duration-300 ease-in leading-5 line-clamp-1 overflow-ellipsis text-sm md:text-sm`}
+            className={`font-bold group-hover:text-[#2e7d32] transition-all duration-300 ease-in leading-5 line-clamp-1 overflow-ellipsis text-sm md:text-sm hover:underline`}
           >
             {name}
           </h2>
         </Link>
-
-        <div className="flex items-center gap-3 mt-3">
-          <Button
-            style={{
-              borderRadius: 0,
-            }}
-            variant="contained"
-            color="success"
-            fullWidth
-          >
-            অর্ডার করুন
-          </Button>
-          <div className="w-[47px]">
-            <Tooltip title="কার্টে যোগ করুণ">
-              <button
-                disabled={isOutOfStock}
-                className={`h-9 w-9 transition-all duration-200 rounded-full flex items-center justify-center ${
-                  isOutOfStock
-                    ? "bg-gray-300 text-gray-500"
-                    : "bg-white hover:bg-green-600 hover:text-white"
-                }`}
-                // onClick={handleAddToCartMain}
-              >
-                <Icon icon="solar:bag-4-linear" className="text-xl" />
-              </button>
-            </Tooltip>
-          </div>
-        </div>
+        <Button
+          sx={{
+            borderRadius: 0,
+            mt: 1.5,
+          }}
+          variant="contained"
+          color="success"
+          fullWidth
+          onClick={() => router.push(`${paths.product.root}/${product._id}`)}
+        >
+          বিস্তারিত দেখুন
+        </Button>
       </div>
     </div>
   );

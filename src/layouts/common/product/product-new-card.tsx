@@ -58,8 +58,6 @@ const ProductCardNew = ({ product, quickOrderDialog }: IProductCardProps) => {
 
   const dispatch = useAppDispatch();
 
-  // const [addToCart, { isLoading }] = useAddToCartMutation();
-
   const handleAddToCart = async (item: IProduct) => {
     const carItem: CartItem = {
       category: item.category?.title ?? "",
@@ -73,43 +71,9 @@ const ProductCardNew = ({ product, quickOrderDialog }: IProductCardProps) => {
     dispatch(addToCart(carItem));
     toast.success("Product added to cart successfully!!!");
     dispatch(openCartDrawer());
-    // try {
-    //   const res = await addToCart({
-    //     item: {
-    //       product: product._id,
-    //       quantity: 1,
-    //     },
-    //   }).unwrap();
-
-    //   if (res.success) {
-    //     toast.success(res.message);
-    //     dispatch(openCartDrawer());
-    //   } else {
-    //     toast.error(res.message);
-    //   }
-    // } catch (err) {
-    //   console.log(err);
-    // }
   };
 
-  // const handleAddToCartMain = () => {
-  //   if (!user || !accessToken) {
-  //     router.push(`${paths.product.root}/${_id}`);
-  //   } else {
-  //     handleAddToCart();
-  //   }
-  // };
-
   const authDialog = useBoolean();
-
-  // const han = () => {
-  //   if (!user || !accessToken) {
-  //     authDialog.setTrue();
-  //     console.log("test");
-  //   } else {
-  //     handleAddToCart();
-  //   }
-  // };
 
   var sliderSettings = {
     dots: false,
@@ -183,22 +147,6 @@ const ProductCardNew = ({ product, quickOrderDialog }: IProductCardProps) => {
             </button>
           </div>
 
-          {/* <div className="absolute bottom-32 -right-32 z-10 flex-col md:flex gap-2 group-hover:right-3 transition-all duration-500 hidden">
-            <Button
-              onClick={quickView.setTrue}
-              color="success"
-              size="small"
-              variant="outlined"
-              style={{
-                textTransform: "capitalize",
-                paddingTop: 0,
-                paddingBottom: 0,
-              }}
-            >
-              Quick View
-            </Button>
-          </div> */}
-
           {status === "OUT_OF_STOCK" && (
             <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
               <span className="text-white font-bold text-lg">OUT OF STOCK</span>
@@ -228,7 +176,7 @@ const ProductCardNew = ({ product, quickOrderDialog }: IProductCardProps) => {
           </div>
           <Link href={`${paths.product.root}/${_id}`}>
             <h2
-              className={`font-bold hover:text-[#2e7d32] transition-all duration-300 ease-in leading-5 line-clamp-1 overflow-ellipsis text-sm md:text-sm`}
+              className={`font-bold hover:text-[#2e7d32] transition-all duration-300 ease-in leading-5 line-clamp-2 overflow-ellipsis text-sm md:text-sm hover:underline h-10`}
             >
               {name}
             </h2>

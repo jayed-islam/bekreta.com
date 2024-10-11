@@ -1,14 +1,12 @@
-// "use client";
-
-import React from "react";
+import React, { Suspense } from "react";
 import HomeBanner from "../home-banner";
 import HomeProductsView from "./home-product-view";
 import HomeTopCategoryView from "../home-category-view";
-// import { useGetHomeItemsQuery } from "@/redux/reducers/product/productApi";
 import { IGetHomeItemProductListResponse, IProduct } from "@/types/products";
+import HomeProductSSRLoading from "@/layouts/common/loading/home-product-ssr-loading";
+import HomeCategorySSRLoading from "@/layouts/common/loading/home-category-ssr-loading";
 
 export const HomePageView = async () => {
-  // const { data, isLoading } = useGetHomeItemsQuery();
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_API}/api/v1/product/get-home-items`,
     {
@@ -17,11 +15,11 @@ export const HomePageView = async () => {
   );
   const data: IGetHomeItemProductListResponse = await res.json();
 
-  console.log("home ites", data.data.newItems[0].category);
-
   return (
     <div>
-      <HomeTopCategoryView />
+      <Suspense fallback={<HomeCategorySSRLoading />}>
+        <HomeTopCategoryView />
+      </Suspense>
       {/* <HomeHeaderCategoryView /> */}
       <HomeBanner
         isLoading={false}
@@ -29,10 +27,16 @@ export const HomePageView = async () => {
       />
       {/* <HomeFlashSaleView /> 
    <HomeCategorySection /> */}
-      <HomeProductsView
+      {/* <HomeProductsView
         isLoading={false}
         newItems={data?.data?.newItems as IProduct[]}
-      />
+      /> */}
+      <Suspense fallback={<HomeProductSSRLoading />}>
+        <HomeProductsView
+          isLoading={false}
+          newItems={data?.data?.newItems as IProduct[]}
+        />
+      </Suspense>
     </div>
   );
 };

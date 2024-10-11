@@ -186,7 +186,7 @@ const LeftSideFilter: React.FC<LeftSideFilterProps> = ({
         </div>
       </div>
       <div className="bg-white w-full rounded-lg shadow-sm mt-3">
-        <div className="px-5">
+        <div className="px-5 lg:pt-5">
           <Button
             variant="contained"
             color="success"

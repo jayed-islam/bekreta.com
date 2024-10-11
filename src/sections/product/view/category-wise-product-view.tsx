@@ -260,21 +260,26 @@ const CategoryWiseProductFilterView: React.FC<
               </div>
             </div>
             <div>
-              {isFetching && (
+              {isFetching ? (
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-x-3 md:gap-x-3 gap-y-3 md:gap-y-5 mt-3">
                   {fakeArray.map((_, index) => (
                     <ProductsSceleton key={index} />
                   ))}
                 </div>
-              )}
-              {data?.data && data?.data.products.length > 0 ? (
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-x-3 md:gap-x-3 gap-y-3 md:gap-y-5 mt-3">
-                  {data?.data.products.map((product, index) => (
-                    <ProductCard key={index} product={product} size="sm" />
-                  ))}
-                </div>
               ) : (
-                <NoDataFoundView category={categoryId as string} />
+                <>
+                  {/* Data Available: Show products */}
+                  {data && data?.data?.products?.length > 0 ? (
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-x-3 md:gap-x-3 gap-y-3 md:gap-y-5 mt-3">
+                      {data?.data.products.map((product, index) => (
+                        <ProductCard key={index} product={product} size="sm" />
+                      ))}
+                    </div>
+                  ) : (
+                    // No Data Found: Show fallback view
+                    <NoDataFoundView category={categoryId as string} />
+                  )}
+                </>
               )}
             </div>
           </div>

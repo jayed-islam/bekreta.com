@@ -1,60 +1,39 @@
-import React, { useEffect } from "react";
+import React from "react";
 import SideProductCard from "./common/side-product-card";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import RecentViewedProductCard from "./common/recent-viewed-product-card";
-import { CartItem } from "@/types/cart";
-import { setLastVisitedProducts } from "@/redux/reducers/product/productSlice";
 import { IProduct } from "@/types/products";
+import { CartItem } from "@/types/cart";
 
 interface Props {
   relatedProducts: IProduct[];
-  currentProductId: string;
 }
 
-const RelatedProductsSection: React.FC<Props> = ({
-  relatedProducts,
-  currentProductId,
-}) => {
-  const dispatch = useAppDispatch();
-
-  const { lastVisitedProducts } = useAppSelector((state) => state.product);
-
+const RelatedProductView: React.FC<Props> = ({ relatedProducts }) => {
   return (
-    <div className="w-full">
-      {relatedProducts.length > 0 ? (
-        <>
-          <div className=" bg-white py-5 px-5">
-            <h3 className="text-xl border-t pt-3 font-semibold text-green-700 text-center pb-5 uppercase">
-              Related Products
-            </h3>
-            {relatedProducts?.map((product) => (
-              <SideProductCard product={product} />
-            ))}
-          </div>
-        </>
-      ) : null}
-
-      {lastVisitedProducts.length === 0 ? null : (
-        <div
-          className={` bg-white py-5 px-5 ${
-            relatedProducts.length > 0 ? "mt-5" : ""
-          }`}
-        >
-          <h3 className="text-xl font-semibold text-green-700 text-center pb-5">
-            Recently Viewed
+    <div className="w-full bg-gray-100 p-2 rounded-lg">
+      {relatedProducts.length > 0 && (
+        <div className="">
+          <h3 className="text-xl font-semibold text-green-700 text-center pb-3">
+            Related Products
           </h3>
-          {lastVisitedProducts
-            .filter((product) => product.productId !== currentProductId)
-            .map((product) => (
-              <RecentViewedProductCard
-                key={product.productId}
-                product={product}
-              />
-            ))}
+          <div className="flex flex-col gap-3">
+            {relatedProducts.map((product) => {
+              const cartItem: CartItem = {
+                productId: product._id,
+                name: product.name,
+                price: product.price,
+                quantity: 1,
+                image: product.images[0],
+                category: product.category?.name ?? "",
+                about: product.about,
+              };
+
+              return <SideProductCard key={product._id} product={cartItem} />;
+            })}
+          </div>
         </div>
       )}
     </div>
   );
 };
 
-export default RelatedProductsSection;
+export default RelatedProductView;
