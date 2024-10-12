@@ -115,7 +115,11 @@ const SignInView = () => {
               loading={isLoading}
               variant="contained"
               size="large"
-              className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-500 rounded-none hover:bg-green-600"
+              color="success"
+              sx={{
+                textTransform: "capitalize",
+              }}
+              fullWidth
             >
               Sign in
             </LoadingButton>

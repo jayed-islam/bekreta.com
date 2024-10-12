@@ -3,6 +3,7 @@
 import { useAppSelector } from "@/redux/hooks";
 import { useGetUserOrderByIdQuery } from "@/redux/reducers/order/orderApi";
 import {
+  Button,
   CircularProgress,
   Paper,
   Table,
@@ -11,10 +12,13 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
 import React from "react";
 import OrderRow from "../order-row";
-import { ICreateOrder, IOrder } from "@/types/order";
+import { IOrder } from "@/types/order";
+import { useRouter } from "next/navigation";
+import { paths } from "@/layouts/paths";
 
 const UserOrderView = () => {
   const { user } = useAppSelector((state) => state.auth);
@@ -22,9 +26,32 @@ const UserOrderView = () => {
     skip: !user?._id,
   });
 
+  const router = useRouter();
+
   if (isLoading) {
     return <CircularProgress />;
   }
+
+  if (!data?.data.length) {
+    return (
+      <div className="text-center my-8">
+        <Typography variant="h6" gutterBottom>
+          No orders found
+        </Typography>
+        <Button
+          variant="contained"
+          color="success"
+          sx={{
+            textTransform: "capitalize",
+          }}
+          onClick={() => router.push(paths.product.products)}
+        >
+          Shop Now
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div>
       <TableContainer component={Paper}>
