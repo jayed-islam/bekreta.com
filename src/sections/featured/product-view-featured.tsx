@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import ImageViewFeatured from "./image-view-featured";
 import { IGetFeaturedProductResponse, IProduct } from "@/types/products";
-import { Divider, Typography } from "@mui/material";
+import { Button, Divider, Typography } from "@mui/material";
 import FeaturedProductCheckoutItem from "./common/cart-product-item-featured";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
@@ -19,7 +19,7 @@ import useBoolean from "@/hooks/use-boolean";
 import OrderSubmissionFormDialog from "./common/order-submission-form-dialog";
 
 import MobileOrderForm from "./common/mobile-order-form";
-import { useGetFeaturedCurrentSingleProductQuery } from "@/redux/reducers/product/productApi";
+import { HiOutlineShoppingBag } from "react-icons/hi2";
 import FeaturedOrderSummaryView from "./common/feature-order-summary-view";
 import FeatureOrderSubmissionDialog from "./common/order-submission-form-dialog";
 
@@ -117,6 +117,37 @@ const ProductViewFeatured = ({ data }: Props) => {
                 <Typography variant="h5" className="pb-1.5 font-semibold">
                   {data?.data.featuredProduct.name}
                 </Typography>
+
+                <h2 className="text-xl md:text-2xl font-bold text-green-700 mt-5">
+                  ৳{data?.data.featuredProduct.price}{" "}
+                  <span className="text-black">টাকা</span>
+                </h2>
+
+                <Button
+                  variant="contained"
+                  sx={{
+                    textTransform: "capitalize",
+                    mt: 2,
+                    display: {
+                      lg: "flex",
+                      xs: "none",
+                    },
+                    borderRadius: 2,
+                  }}
+                  color="success"
+                  startIcon={<HiOutlineShoppingBag />}
+                  onClick={dialog.setTrue}
+                >
+                  অর্ডার করুন
+                </Button>
+
+                <div className="flex items-center gap-3 mt-3">
+                  <h2 className="text-lg">Stock:</h2>
+                  <h2 className="text-lg md:text-xl font-bold">
+                    {data?.data.featuredProduct.stock}{" "}
+                    <span className="font-normal">items only</span>
+                  </h2>
+                </div>
                 <div className="py-5">
                   <Typography className="text-md font-semibold mb-2">
                     Specification
@@ -124,21 +155,6 @@ const ProductViewFeatured = ({ data }: Props) => {
                   {data?.data.featuredProduct.specifications.map((item) => (
                     <h2 className="text-sm md:text-md">{item}</h2>
                   ))}
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <h2 className="text-xl">Price:</h2>
-                  <h2 className="text-xl md:text-2xl font-bold text-green-500">
-                    ৳{data?.data.featuredProduct.price}
-                  </h2>
-                </div>
-
-                <div className="flex items-center gap-3 mt-2">
-                  <h2 className="text-lg">Stock:</h2>
-                  <h2 className="text-lg md:text-xl font-bold">
-                    {data?.data.featuredProduct.stock}{" "}
-                    <span className="font-normal">items only</span>
-                  </h2>
                 </div>
               </div>
             </div>

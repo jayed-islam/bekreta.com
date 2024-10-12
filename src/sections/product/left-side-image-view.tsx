@@ -1,3 +1,4 @@
+import ImageGallery from "@/components/image-gallery/image-gallery";
 import { IProduct } from "@/types/products";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import React, { RefObject, useRef, useState } from "react";
@@ -9,9 +10,6 @@ type TProps = {
 const LeftSideImageView = ({ product }: TProps) => {
   const productImageRef: RefObject<HTMLImageElement> = useRef(null);
   const [currentImage, setCurrentImage] = useState(product?.images[0]);
-  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
-  const [lightboxIndex, setLightboxIndex] = useState(0);
-  const [isLove, setIsLove] = useState(false);
 
   const handleImageClick = async (index: number) => {
     for (let i = 0; i < product.images.length; i++) {
@@ -23,29 +21,6 @@ const LeftSideImageView = ({ product }: TProps) => {
         });
       }
     }
-
-    setLightboxIndex(index);
-    setIsLightboxOpen(true);
-  };
-
-  const handleImageZoom = (e: React.MouseEvent<HTMLImageElement>) => {
-    const image = productImageRef.current;
-    if (image) {
-      const { left, top, width, height } = image.getBoundingClientRect();
-      const x = e.clientX - left;
-      const y = e.clientY - top;
-      const xPercent = (x / width) * 100;
-      const yPercent = (y / height) * 100;
-      image.style.transformOrigin = `${xPercent}% ${yPercent}%`;
-      image.style.transform = "scale(1.5)";
-    }
-  };
-
-  const handleImageZoomReset = () => {
-    const image = productImageRef.current;
-    if (image) {
-      image.style.transform = "scale(1)";
-    }
   };
 
   return (
@@ -53,8 +28,6 @@ const LeftSideImageView = ({ product }: TProps) => {
       <div className="relative">
         <div
           className="h-[300px] md:h-[350px] xl:h-[450px] relative sm:border border-gray-300 sm:p-2 overflow-hidden cursor-pointer"
-          onMouseMove={handleImageZoom}
-          onMouseLeave={handleImageZoomReset}
           onClick={() => handleImageClick(0)}
         >
           <img
@@ -65,7 +38,7 @@ const LeftSideImageView = ({ product }: TProps) => {
           />
         </div>
         <div className="flex items-center gap-2 justify-start mt-5 shadow-md border p-2 xl:-ml-11 sm:w-[300px] mx-3">
-          {product?.images?.map((img, i) => (
+          {/* {product?.images?.map((img, i) => (
             <div
               className={`border p-2 border-gray-300 ${
                 currentImage === img && "border-green-500"
@@ -78,9 +51,10 @@ const LeftSideImageView = ({ product }: TProps) => {
                 onClick={() => setCurrentImage(product.images[i])}
               />
             </div>
-          ))}
+          ))} */}
+          <ImageGallery images={product.images} />
         </div>
-        <div className="absolute top-3.5 left-3.5 px-2.5 py-1.5 text-xs bg-red-500 nc-shadow-lg flex items-center justify-center text-white  ">
+        <div className="absolute top-3.5 left-3.5 px-2.5 py-1.5 text-xs bg-green-700 nc-shadow-lg flex items-center justify-center text-white  ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

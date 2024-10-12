@@ -53,7 +53,7 @@ const FeaturedOrderSummaryView = ({ onSubmit, type = "button" }: Props) => {
             borderRadius: 2,
           }}
         >
-          Place Order
+          অর্ডার করুন
         </LoadingButton>
       </div>
     </div>

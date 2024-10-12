@@ -10,7 +10,7 @@ export const paths = {
     products: "/product",
     category: "/product/category",
   },
-  orderTrucking: "/order-trucking",
+  orderTrucking: "/order/tracking",
   cart: {
     root: "/cart",
   },

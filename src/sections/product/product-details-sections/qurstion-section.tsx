@@ -1,5 +1,4 @@
 import useBoolean from "@/hooks/use-boolean";
-import QuestionModal from "@/layouts/common/modal/question-modal";
 import { IProduct, IProductItem } from "@/types/products";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import React from "react";

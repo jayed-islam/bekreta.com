@@ -1,8 +1,12 @@
 import OrderStatusView from "@/sections/order/view/order-status-view";
-import React from "react";
+import React, { Suspense } from "react";
 
 const Page = () => {
-  return <OrderStatusView />;
+  return (
+    <Suspense>
+      <OrderStatusView />
+    </Suspense>
+  );
 };
 
 export default Page;

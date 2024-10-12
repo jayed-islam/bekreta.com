@@ -64,9 +64,6 @@ export const cartApi = api.injectEndpoints({
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          if (data?.data) {
-            dispatch(setCartItems(data.data.products));
-          }
         } catch (error) {
           console.log(error);
         }

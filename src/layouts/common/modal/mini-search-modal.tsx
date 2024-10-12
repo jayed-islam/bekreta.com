@@ -1,80 +1,110 @@
 "use client";
 import { paths } from "@/layouts/paths";
 import { BooleanState } from "@/types/utils";
-import { Dialog, Transition } from "@headlessui/react";
-import { Icon } from "@iconify-icon/react/dist/iconify.js";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  TextField,
+} from "@mui/material";
+import { Icon } from "@iconify-icon/react";
 import { useRouter } from "next/navigation";
-import { Fragment, useState } from "react";
+import { ChangeEvent, useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { setSearchTerm } from "@/redux/reducers/product/productSlice";
 
 interface ISearchModal {
   dialog: BooleanState;
 }
 
 const MiniSearchModal = ({ dialog }: ISearchModal) => {
-  const [query, setQuery] = useState("");
+  const { searchTerm } = useAppSelector((state) => state.product);
 
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const onSubmit = () => {
-    router.push(`${paths.product.category}?search=${query}`);
+    router.push(`${paths.product.products}`);
     dialog.setFalse();
   };
 
-  return (
-    <>
-      <Transition appear show={dialog.value} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={dialog.setFalse}>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
-          </Transition.Child>
+  // Handle search input change
+  const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const searchValue = e.target.value;
+    dispatch(setSearchTerm(searchValue));
+  };
 
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-3 text-center">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-3 text-left align-middle shadow-xl transition-all">
-                  <div className="">
-                    <div className="bg-gray-100 flex items-center rounded-md  relative">
-                      <input
-                        type="text"
-                        placeholder="Search for products..."
-                        onChange={(e) => setQuery(e.target.value)}
-                        className={`flex-grow border border-gray-100 bg-transparent border-none focus:outline-none h-[55px] px-5 w-full rounded-md`}
-                      />
-                      <button
-                        type="button"
-                        onClick={onSubmit}
-                        className="absolute right-5"
-                      >
-                        <Icon
-                          icon="iconamoon:search-light"
-                          className="text-gray-600 text-xl"
-                        />
-                      </button>
-                    </div>
-                  </div>
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
-          </div>
-        </Dialog>
-      </Transition>
-    </>
+  const handleSearchSubmit = () => {
+    router.push(`${paths.product.products}`);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearchSubmit();
+      dialog.setFalse();
+    }
+  };
+
+  return (
+    <Dialog
+      open={dialog.value}
+      onClose={dialog.setFalse}
+      maxWidth="sm"
+      fullWidth
+    >
+      <DialogTitle>
+        Search for Products
+        <IconButton
+          aria-label="close"
+          onClick={dialog.setFalse}
+          sx={{
+            position: "absolute",
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <Icon icon="mdi:close" />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent>
+        <TextField
+          autoFocus
+          margin="dense"
+          id="search"
+          label="Search for products"
+          type="search"
+          fullWidth
+          variant="outlined"
+          value={searchTerm}
+          onChange={handleSearchInputChange}
+          onKeyDown={handleKeyDown}
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button
+          type="button"
+          color="success"
+          onClick={onSubmit}
+          variant="contained"
+          size="small"
+          sx={{
+            textTransform: "capitalize",
+          }}
+          startIcon={
+            <Icon
+              icon="iconamoon:search-light"
+              className="text-white text-xl"
+            />
+          }
+        >
+          Submit
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 

@@ -1,3 +1,4 @@
+import ImageGallery from "@/components/image-gallery/image-gallery";
 import { Icon } from "@mui/material";
 import Image from "next/image";
 import React, { RefObject, useRef, useState } from "react";
@@ -12,46 +13,10 @@ const ImageViewFeatured = ({ images, name, isDetailsViewDialog }: Props) => {
   const productImageRef: RefObject<HTMLImageElement> = useRef(null);
   const [currentImage, setCurrentImage] = useState(images[0]);
 
-  //   const handleImageClick = async (index: number) => {
-  //     for (let i = 0; i < images.length; i++) {
-  //       if (i !== index) {
-  //         await new Promise((resolve) => {
-  //           const img = new Image();
-  //           img.src = images[i];
-  //           img.onload = resolve;
-  //         });
-  //       }
-  //     }
-  //   };
-
-  const handleImageZoom = (e: React.MouseEvent<HTMLImageElement>) => {
-    const image = productImageRef.current;
-    if (image) {
-      const { left, top, width, height } = image.getBoundingClientRect();
-      const x = e.clientX - left;
-      const y = e.clientY - top;
-      const xPercent = (x / width) * 100;
-      const yPercent = (y / height) * 100;
-      image.style.transformOrigin = `${xPercent}% ${yPercent}%`;
-      image.style.transform = "scale(1.5)";
-    }
-  };
-
-  const handleImageZoomReset = () => {
-    const image = productImageRef.current;
-    if (image) {
-      image.style.transform = "scale(1)";
-    }
-  };
-
   return (
     <div className="w-full md:w-[41%] lg:w-[71%] lg:px-5 xl:px-0 ">
       <div className="relative">
-        <div
-          className="h-[300px] md:h-[351px] xl:h-[371px] relative border border-gray-300 sm:p-2 overflow-hidden cursor-pointer flex items-center justify-center"
-          onMouseMove={handleImageZoom}
-          onMouseLeave={handleImageZoomReset}
-        >
+        <div className="h-[300px] md:h-[351px] xl:h-[371px] relative border border-gray-300 sm:p-2 overflow-hidden cursor-pointer flex items-center justify-center">
           <img
             src={currentImage}
             alt="Product Image"
@@ -64,7 +29,7 @@ const ImageViewFeatured = ({ images, name, isDetailsViewDialog }: Props) => {
             isDetailsViewDialog ? "" : "xl:-ml-11"
           }`}
         >
-          {images?.map((image, index) => (
+          {/* {images?.map((image, index) => (
             <div
               key={index}
               className={`border p-2 border-gray-300 ${
@@ -80,7 +45,8 @@ const ImageViewFeatured = ({ images, name, isDetailsViewDialog }: Props) => {
                 width={500}
               />
             </div>
-          ))}
+          ))} */}
+          <ImageGallery images={images} />
         </div>
       </div>
     </div>
