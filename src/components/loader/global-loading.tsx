@@ -1,5 +1,5 @@
 import Image from "next/image";
-import logo from "../../public/assets/logo.jpg";
+import logo from "../../../public/assets/logo.jpg";
 
 const LoadingSpinner = () => {
   return (

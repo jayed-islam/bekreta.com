@@ -14,7 +14,7 @@ const FeaturedProductFooter = () => {
       <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:pt-24">
         <div className="absolute end-4 top-4 sm:end-6 sm:top-6 lg:end-8 lg:top-8">
           <div
-            className="inline-block rounded-full bg-green-600 p-2 text-white shadow transition hover:bg-green-500 sm:p-3 lg:p-4 cursor-pointer"
+            className="inline-block rounded-full bg-[#2e7d32] p-2 text-white shadow transition hover:bg-green-800 sm:p-3 lg:p-4 cursor-pointer"
             onClick={scrollToTop}
           >
             <span className="sr-only">Back to top</span>
@@ -36,7 +36,7 @@ const FeaturedProductFooter = () => {
 
         <div className="lg:flex lg:items-end lg:justify-between">
           <div>
-            <div className="flex justify-center text-teal-600 lg:justify-start">
+            <div className="flex justify-center  lg:justify-start">
               <Image src={logo} alt="" className="w-32" />
             </div>
 
@@ -51,7 +51,7 @@ const FeaturedProductFooter = () => {
 
           <Link
             href={paths.root}
-            className="mt-12 flex flex-wrap justify-center gap-6 md:gap-8 lg:mt-0 lg:justify-end lg:gap-12 bg-green-500 p-2 rounded-xl text-white"
+            className="mt-12 flex flex-wrap justify-center gap-6 md:gap-8 lg:mt-0 lg:justify-end lg:gap-12 bg-[#2e7d32] p-2 rounded-xl text-white"
           >
             Go Bekreta Main Site
           </Link>

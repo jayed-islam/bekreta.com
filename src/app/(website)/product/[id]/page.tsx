@@ -1,3 +1,4 @@
+import LoadingSpinner from "@/components/loader/global-loading";
 import { SplashScreen } from "@/components/loader/splash-screen";
 import ProductsDetailsView from "@/sections/product/view/product-detail-view";
 import { IGetSingleAndRelatedProductListResponse } from "@/types/products";
@@ -19,7 +20,7 @@ const ProductDetailPage = async ({ params }: IProductProps) => {
   );
   const data: IGetSingleAndRelatedProductListResponse = await res.json();
   return (
-    <Suspense fallback={<SplashScreen />}>
+    <Suspense fallback={<LoadingSpinner />}>
       <ProductsDetailsView id={id} data={data} />
     </Suspense>
   );

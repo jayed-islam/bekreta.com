@@ -11,6 +11,7 @@ import { addProduct } from "@/redux/reducers/featured/featuredProductSlice";
 import { IoEyeOutline } from "react-icons/io5";
 import useBoolean from "@/hooks/use-boolean";
 import FeaturedProductDetailViewDialog from "./common/feature-product-detail-view-dialog";
+import toast from "react-hot-toast";
 
 interface IProductCardProps {
   product: IProduct;
@@ -23,7 +24,7 @@ const OfferedProductCard = ({
   className,
   size = "lg",
 }: IProductCardProps) => {
-  const { name, images, price, _id, discount, status } = product;
+  const { name, images, price, _id, discount, status, category } = product;
 
   const { accessToken, user } = useAppSelector((state) => state.auth);
   const router = useRouter();
@@ -33,6 +34,7 @@ const OfferedProductCard = ({
 
   const handleAddToCart = () => {
     dispatch(addProduct({ product: product, quantity: 1 }));
+    toast.success("Product added!!");
   };
 
   const detailDialog = useBoolean();
@@ -54,7 +56,7 @@ const OfferedProductCard = ({
             <div
               key={index}
               onClick={detailDialog.setTrue}
-              className="bg-gray-300 h-9 w-9 hover:bg-green-500 transition-all duration-200 rounded-full flex items-center justify-center hover:text-white"
+              className="bg-gray-300 h-9 w-9 hover:bg-[#2e7d32] transition-all duration-200 rounded-full flex items-center justify-center hover:text-white"
             >
               <Icon icon={action.icon} className="text-xl" />
             </div>
@@ -82,7 +84,7 @@ const OfferedProductCard = ({
         )}
       </div>
       {discount.isDiscount && (
-        <div className="hidden rounded-full md:flex items-center justify-center absolute top-2 left-2 px-2.5 py-1.5 text-xs bg-green-500 text-white">
+        <div className="hidden rounded-full md:flex items-center justify-center absolute top-2 left-2 px-2.5 py-1.5 text-xs bg-[#2e7d32] text-white">
           <Icon
             icon="iconamoon:discount-light"
             className="h-3 w-3 text-white"
@@ -103,7 +105,7 @@ const OfferedProductCard = ({
         <div className={`pt-2 pb-2 `}>
           {/* <Link href={`${paths.product.root}/${_id}`}> */}
           <h2
-            className={`font-bold hover:text-green-500 transition-all duration-300 ease-in leading-5 line-clamp-2 overflow-ellipsis  ${
+            className={`font-bold hover:text-[#2e7d32] transition-all duration-300 ease-in leading-5 line-clamp-2 overflow-ellipsis group-hover:underline  ${
               size === "sm"
                 ? "text-xs h-9"
                 : "text-xs md:text-lg h-9 md:h-[4rem]"
@@ -112,24 +114,17 @@ const OfferedProductCard = ({
             {name}
           </h2>
           <div className="flex items-center mt-2 justify-between">
-            <div className="items-center hidden md:flex">
-              {[1, 2, 3].map((i) => (
-                <Icon icon="noto:star" className="text-md" />
-              ))}
-              <Icon
-                icon="clarity:half-star-solid"
-                className="text-gray-400 text-md"
-              />
-              <p className="text-xs text-gray-500 pl-1">(5)</p>
+            <div className="items-center hidden md:flex bg-[#2e7d32] px-2 text-xs text-white">
+              {category.name ?? "N/A"}
             </div>
 
-            <h3 className="text-green-500 text-lg sm:text-[19px] font-bold">
+            <h3 className="text-[#2e7d32] text-lg sm:text-[19px] font-bold">
               ৳{price}
             </h3>
 
             <div
               onClick={detailDialog.setTrue}
-              className="bg-gray-300 h-7 w-7 hover:bg-green-500 transition-all duration-200 rounded-full flex items-center justify-center hover:text-white md:hidden cursor-pointer"
+              className="bg-gray-300 h-7 w-7 hover:bg-[#2e7d32] transition-all duration-200 rounded-full flex items-center justify-center hover:text-white md:hidden cursor-pointer"
             >
               <IoEyeOutline className="text-xl" />
             </div>
@@ -165,7 +160,7 @@ const OfferedProductCard = ({
               className={`${
                 status === "OUT_OF_STOCK"
                   ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-green-500 hover:bg-green-600"
+                  : "bg-[#2e7d32] hover:bg-green-800"
               } transition-all duration-200 text-center w-full font-semibold text-white mt-2 ${
                 size === "sm" ? "text-sm py-1" : "text-md py-1 sm:py-2"
               }`}

@@ -1,3 +1,4 @@
+import LoadingSpinner from "@/components/loader/global-loading";
 import dynamic from "next/dynamic";
 
 // Dynamically import the component with SSR disabled
@@ -9,7 +10,7 @@ import React, { Suspense } from "react";
 
 const SuccessPage = () => {
   return (
-    <Suspense>
+    <Suspense fallback={<LoadingSpinner />}>
       <OrderSuccessView />
     </Suspense>
   );

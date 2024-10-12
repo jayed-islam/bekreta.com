@@ -14,7 +14,7 @@ export const paths = {
   cart: {
     root: "/cart",
   },
-  success: "/success",
+  success: "/order/success",
   page404: "/error/404",
   checkout: "/checkout",
   order: "/orders",
