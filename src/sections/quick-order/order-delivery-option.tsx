@@ -17,13 +17,13 @@ const deliveryOptions = [
   {
     value: "outsideDhaka",
     label: "ঢাকার সিটির বাহিরে",
-    price: "১২০ টাকা",
+    price: "১৩০ টাকা",
   },
-  {
-    value: "homeDelivery",
-    label: "হোম ডেলিভারি",
-    price: "১২০ টাকা",
-  },
+  // {
+  //   value: "homeDelivery",
+  //   label: "হোম ডেলিভারি",
+  //   price: "১২০ টাকা",
+  // },
 ];
 
 const DeliveryOptionsComponent = () => {

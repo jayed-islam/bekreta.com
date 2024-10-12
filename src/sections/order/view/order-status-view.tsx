@@ -132,6 +132,20 @@ const OrderStatusView = () => {
                       whiteSpace: "nowrap",
                     }}
                   >
+                    Name
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    Phone
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      whiteSpace: "nowrap",
+                    }}
+                  >
                     অর্ডার আইডি
                   </TableCell>
                   <TableCell
@@ -149,6 +163,8 @@ const OrderStatusView = () => {
               <TableBody>
                 <TableRow>
                   <TableCell>{orderData?.data._id}</TableCell>
+                  <TableCell>{orderData?.data.name}</TableCell>
+                  <TableCell>{orderData?.data.phone}</TableCell>
                   <TableCell>
                     ৳{orderData?.data.totalPrice.toFixed(2)}
                   </TableCell>

@@ -93,8 +93,6 @@ const OrderSuccessView = () => {
     router.push(`${paths.orderTrucking}?id=${orderId}`);
   };
 
-  if (isLoading) return <div>Loading...</div>;
-
   const InvoiceDocument: React.FC<{ order: IOrder }> = ({ order }) => {
     return (
       <Document>
@@ -153,43 +151,54 @@ const OrderSuccessView = () => {
           <h2 className="text-xl font-semibold text-center mt-5">
             অভিনন্দন!!! আপনার অর্ডার সফলভাবে সম্পন্ন হয়েছে!
           </h2>
-          <div className="flex items-center mt-4">
-            <span className="text-lg font-medium">
-              আপনার অর্ডার আইডি: {orderId}
-            </span>
-            <Tooltip title={isCopied ? "Copied!" : "Copy Order ID"} arrow>
-              <IconButton onClick={handleCopyOrderId}>
-                {isCopied ? (
-                  <CheckIcon sx={{ color: "green" }} />
-                ) : (
-                  <ContentCopyIcon />
+
+          <div>
+            {isLoading ? (
+              <div className=" p-11">
+                <span className="text-md font-medium">
+                  অর্ডার বিস্তাতির লোড হচ্ছে...
+                </span>
+              </div>
+            ) : (
+              <div>
+                <div className="flex items-center mt-4">
+                  <span className="text-lg font-medium">
+                    আপনার অর্ডার আইডি: {orderId}
+                  </span>
+                  <Tooltip title={isCopied ? "Copied!" : "Copy Order ID"} arrow>
+                    <IconButton onClick={handleCopyOrderId}>
+                      {isCopied ? (
+                        <CheckIcon sx={{ color: "green" }} />
+                      ) : (
+                        <ContentCopyIcon />
+                      )}
+                    </IconButton>
+                  </Tooltip>
+                </div>
+                {isCopied && (
+                  <p className="text-green-700 mt-2">অর্ডার আইডি কপি হয়েছে!</p>
                 )}
-              </IconButton>
-            </Tooltip>
-          </div>
+                <div className="flex gap-4 mt-6 flex-col md:flex-row">
+                  <PDFDownloadLink
+                    document={<InvoiceDocument order={data?.data as IOrder} />}
+                    fileName={`invoice-${orderId}.pdf`}
+                    className="no-underline"
+                  >
+                    <Button variant="contained" color="secondary">
+                      Invoice ডাউনলোড করুন
+                    </Button>
+                  </PDFDownloadLink>
 
-          {isCopied && (
-            <p className="text-green-700 mt-2">অর্ডার আইডি কপি হয়েছে!</p>
-          )}
-
-          <div className="flex gap-4 mt-6 flex-col md:flex-row">
-            <PDFDownloadLink
-              document={<InvoiceDocument order={data?.data as IOrder} />}
-              fileName={`invoice-${orderId}.pdf`}
-              className="no-underline"
-            >
-              <Button variant="contained" color="secondary">
-                Invoice ডাউনলোড করুন
-              </Button>
-            </PDFDownloadLink>
-
-            <Button
-              variant="contained"
-              color="success"
-              onClick={handleOrderStatusClick}
-            >
-              অর্ডার স্ট্যাটাস দেখুন
-            </Button>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    onClick={handleOrderStatusClick}
+                  >
+                    অর্ডার স্ট্যাটাস দেখুন
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
