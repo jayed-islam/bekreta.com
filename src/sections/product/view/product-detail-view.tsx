@@ -53,6 +53,10 @@ const ProductsDetailsView = ({ id, product, data }: IProductDetailsProps) => {
     }
   }, [product, dispatch, data.data]);
 
+  const isOutOfStock = data.data.product?.status === "OUT_OF_STOCK";
+
+  console.log("status", data.data.product?.status, data.data.product?.stock);
+
   return (
     <>
       <div className="lg:flex relative max-w-6xl mx-auto xl:px-0 gap-7 pt-5 pb-11 md:pt-16 md:pb-16">
@@ -92,17 +96,14 @@ const ProductsDetailsView = ({ id, product, data }: IProductDetailsProps) => {
         </div>
 
         <div className="w-full lg:w-[301px] mt-5 lg:mt-0 h-min lg:sticky top-11">
-          <RelatedProductView
-            relatedProducts={data?.data.relatedProducts as IProduct[]}
-          />
-          {/* {product?._id && (
-            <RecentlyViewedProductView
-              currentProductId={product?._id as string}
+          {data?.data?.relatedProducts.length > 0 && (
+            <RelatedProductView
+              relatedProducts={data?.data.relatedProducts as IProduct[]}
             />
-          )} */}
+          )}
 
           <RecentlyViewedProductView
-            currentProductId={product?._id as string}
+            currentProductId={data?.data?.product?._id as string}
           />
         </div>
       </div>

@@ -1,7 +1,7 @@
 // QuickOrderDialog.tsx
 "use client";
 
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -76,18 +76,28 @@ const QuickOrderDialog: React.FC<QuickOrderDialogProps> = ({
 
   const [createOrder, { isLoading }] = useCreateOrderMutation();
 
-  const onSubmit = handleSubmit(async (data) => {
-    console.log("error", errors);
-    // if (Object.keys(errors).length > 0) {
-    //   const firstErrorField = Object.keys(errors)[0];
-    //   const element = document.querySelector(`[name="${firstErrorField}"]`);
-    //   if (element) {
-    //     element.scrollIntoView({ behavior: "smooth", block: "center" });
-    //     (element as HTMLElement).focus();
-    //   }
-    //   return;
-    // }
+  useEffect(() => {
+    if (Object.keys(errors).length > 0) {
+      const firstErrorField = Object.keys(errors)[0];
+      const element = document.querySelector(`[name="${firstErrorField}"]`);
 
+      if (element && dialogContentRef.current) {
+        // Smooth scroll to the first error element within the dialog content
+        dialogContentRef.current.scrollTo({
+          top:
+            element.getBoundingClientRect().top +
+            dialogContentRef.current.scrollTop -
+            100,
+          behavior: "smooth",
+        });
+
+        // Optionally, focus the first error field
+        (element as HTMLElement).focus();
+      }
+    }
+  }, [errors]);
+
+  const onSubmit = handleSubmit(async (data) => {
     if (Object.keys(errors).length > 0) {
       toast.error("Please add required fileds!!");
       return;
@@ -192,17 +202,11 @@ const QuickOrderDialog: React.FC<QuickOrderDialogProps> = ({
             <Close />
           </IconButton>
         </DialogTitle>
-        {/* <FormProvider methods={methods} onSubmit={onSubmit}> */}
-        {/* <div className="relative"> */}
         <DialogContent
           dividers
           sx={{
             px: 0,
             py: 0,
-            // px: {
-            //   xs: 2,
-            //   sm: 3,
-            // },
             position: "relative",
           }}
           ref={dialogContentRef}
@@ -251,7 +255,7 @@ const QuickOrderDialog: React.FC<QuickOrderDialogProps> = ({
               </div>
 
               {/* Coupon Code */}
-              <Stack mt={3} direction="row" spacing={2}>
+              {/* <Stack mt={3} direction="row" spacing={2}>
                 <RHFTextField
                   size="small"
                   name="couponCode"
@@ -268,7 +272,7 @@ const QuickOrderDialog: React.FC<QuickOrderDialogProps> = ({
                 >
                   এপ্লাই
                 </Button>
-              </Stack>
+              </Stack>*/}
 
               {/* Cart Items */}
               <Box mt={3}>
@@ -310,7 +314,7 @@ const QuickOrderDialog: React.FC<QuickOrderDialogProps> = ({
                   name="orderNote"
                   label="অর্ডার নোট"
                   multiline
-                  rows={3}
+                  rows={2}
                 />
               </Box>
             </div>

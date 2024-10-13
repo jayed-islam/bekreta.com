@@ -25,7 +25,7 @@ export default function ImageGallery({ images }: IProps) {
     >
       {images?.map((image, index) => (
         <Link
-          className={`border p-2 border-gray-300 ${
+          className={`border p-2 border-gray-300 hover:border-primary ${
             index === 0 && "border-green-700"
           }`}
           key={index}

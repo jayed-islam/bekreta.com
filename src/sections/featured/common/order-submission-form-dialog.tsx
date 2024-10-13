@@ -1,7 +1,7 @@
 // QuickOrderDialog.tsx
 "use client";
 
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -79,6 +79,28 @@ const FeatureOrderSubmissionDialog: React.FC<QuickOrderDialogProps> = ({
   } = methods;
 
   const [createOrder, { isLoading }] = useCreateOrderMutation();
+
+  useEffect(() => {
+    if (Object.keys(errors).length > 0) {
+      toast.error("Please add required fileds!!");
+      const firstErrorField = Object.keys(errors)[0];
+      const element = document.querySelector(`[name="${firstErrorField}"]`);
+
+      if (element && dialogContentRef.current) {
+        // Smooth scroll to the first error element within the dialog content
+        dialogContentRef.current.scrollTo({
+          top:
+            element.getBoundingClientRect().top +
+            dialogContentRef.current.scrollTop -
+            100,
+          behavior: "smooth",
+        });
+
+        // Optionally, focus the first error field
+        (element as HTMLElement).focus();
+      }
+    }
+  }, [errors]);
 
   const onSubmit = handleSubmit(async (data) => {
     if (Object.keys(errors).length > 0) {
@@ -196,7 +218,7 @@ const FeatureOrderSubmissionDialog: React.FC<QuickOrderDialogProps> = ({
         >
           <FormProvider methods={methods} onSubmit={onSubmit}>
             <div className="px-3 sm:px-5 py-4">
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-2">
                 <RHFTextField
                   name="name"
                   label="আপনার নাম"

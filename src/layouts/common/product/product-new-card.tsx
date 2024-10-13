@@ -26,7 +26,9 @@ interface IProductCardProps {
 const ProductCardNew = ({ product, quickOrderDialog }: IProductCardProps) => {
   const { name, images, price, _id, discount, status, category } = product;
 
-  // const isOutOfStock = product.status === "OUT_OF_STOCK";
+  const isOutOfStock = product.status === "OUT_OF_STOCK";
+
+  console.log("status", status);
 
   const sliderRef = useRef<Slider | null>(null);
   const [isHovered, setIsHovered] = useState(false);

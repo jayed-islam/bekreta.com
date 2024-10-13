@@ -50,12 +50,6 @@ const CheckoutInstantSignin = () => {
       if (response.success) {
         toast.success(response.message);
         dispatch(setToken(response?.data?.accessToken));
-        let redirectPath;
-        if (typeof window !== "undefined") {
-          const redirectPath =
-            new URLSearchParams(window?.location.search).get("redirect") || "/";
-          router.push(redirectPath);
-        }
       } else {
         toast.error(response.message);
         setErrorMessage(response.message);
@@ -137,7 +131,7 @@ const CheckoutInstantSignin = () => {
               <div className="mt-6 text-center ">
                 <Link
                   href={paths.website.signup}
-                  className="text-sm text-green-500 hover:underline dark:text-blue-400"
+                  className="text-sm text-green-700 hover:underline "
                 >
                   Don’t have an account yet? Sign up
                 </Link>

@@ -15,6 +15,8 @@ import { openCartDrawer } from "@/redux/reducers/cart/cartSlice";
 import { openMenu, toggleMenu } from "@/redux/reducers/menu/menuSlice";
 import { MdMenu } from "react-icons/md";
 import { Drawer } from "@mui/material";
+import { FaRegUserCircle } from "react-icons/fa";
+import { LuGift } from "react-icons/lu";
 
 export default function Header() {
   const { cartItems } = useAppSelector((state) => state.cart);
@@ -146,10 +148,7 @@ export default function Header() {
             <Link href={paths.featured}>
               <div className="md:flex items-center gap-3 mr-7 cursor-pointer hidden">
                 <div className="h-6 w-6">
-                  <Icon
-                    icon="ph:gift-light"
-                    className="text-orange-600 font-extrabold text-2xl"
-                  />
+                  <LuGift className="text-orange-600 font-extrabold text-2xl" />
                 </div>
                 <div className="flex items-start flex-col">
                   <h3 className="font-semibold text-white">Offers</h3>
@@ -163,10 +162,7 @@ export default function Header() {
               className="sm:flex items-center gap-3 mr-7 cursor-pointer hidden"
             >
               <div className="h-6 w-6">
-                <Icon
-                  icon="iconoir:profile-circle"
-                  className="text-orange-600 font-extrabold text-2xl"
-                />
+                <FaRegUserCircle className="text-orange-600 font-extrabold text-2xl" />
               </div>
               <div className="flex items-start flex-col">
                 <h3 className="font-semibold text-white">Create Account</h3>

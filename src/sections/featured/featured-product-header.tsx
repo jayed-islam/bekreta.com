@@ -2,18 +2,13 @@
 
 import React from "react";
 
-import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import logo from "../../../public/assets/logo.jpg";
 import Link from "next/link";
 import { paths } from "@/layouts/paths";
-import { Icon } from "@iconify-icon/react/dist/iconify.mjs";
+import { MdOutlinePhone } from "react-icons/md";
 
-interface Props {
-  window?: () => Window;
-}
-
-export default function Header(props: Props) {
+export default function Header() {
   return (
     <div className="bg-gray-100 pb-3">
       <div className="border-b shadow-sm bg-white">
@@ -23,11 +18,11 @@ export default function Header(props: Props) {
           </Link>
           <div className="flex items-center gap-2 md:gap-5 flex-col md:flex-row">
             <div className="px-5 py-1 rounded-full bg-gray-100 text-md font-semibold flex items-center gap-2 border">
-              <Icon icon="line-md:phone-call-loop" />
+              <MdOutlinePhone />
               +8801954057920
             </div>
             <div className="px-5 py-1 rounded-full bg-gray-100 text-md font-semibold flex items-center gap-2 border">
-              <Icon icon="line-md:phone-call" />
+              <MdOutlinePhone />
               +8801954057920
             </div>
           </div>

@@ -6,8 +6,13 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#2e7d32",
+      },
+    },
   },
   plugins: [],
 };
 export default config;
+// [#2e7d32]

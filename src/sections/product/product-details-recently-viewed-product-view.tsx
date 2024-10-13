@@ -7,6 +7,7 @@ interface Props {
 }
 
 const RecentlyViewedProductView: React.FC<Props> = ({ currentProductId }) => {
+  console.log("current id", currentProductId);
   const { lastVisitedProducts } = useAppSelector((state) => state.product);
 
   // Filter out the current product from the recently viewed products

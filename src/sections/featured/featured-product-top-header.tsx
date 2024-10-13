@@ -1,4 +1,4 @@
-import { Icon } from "@iconify-icon/react/dist/iconify.mjs";
+import { MdOutlineMailOutline } from "react-icons/md";
 import Marquee from "react-fast-marquee";
 
 const FeaturedTopHeader = () => {
@@ -7,7 +7,7 @@ const FeaturedTopHeader = () => {
       <div className="flex items-center justify-center sm:justify-between px-5 sm:px-20 md:px-11 lg:px-5 xl:px-0 max-w-6xl mx-auto gap-20 py-1">
         <div className="sm:flex items-center gap-9 text-white bg-green-500 h-full py-2 px-5 hidden">
           <div className="flex items-center gap-2 cursor-pointer text-sm md:text-[16px]">
-            <Icon icon="line-md:email-opened-twotone-alt" />
+            <MdOutlineMailOutline />
             <h2>bekreta@gmail.com</h2>
           </div>
         </div>

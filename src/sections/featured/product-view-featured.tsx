@@ -114,9 +114,9 @@ const ProductViewFeatured = ({ data }: Props) => {
               )} */}
 
               <div>
-                <Typography variant="h5" className="pb-1.5 font-semibold">
+                <h2 className="pb-1.5 font-semibold text-xl md:text-2xl">
                   {data?.data.featuredProduct.name}
-                </Typography>
+                </h2>
 
                 <h2 className="text-xl md:text-2xl font-bold text-green-700 mt-5">
                   ৳{data?.data.featuredProduct.price}{" "}
@@ -148,13 +148,17 @@ const ProductViewFeatured = ({ data }: Props) => {
                     <span className="font-normal">items only</span>
                   </h2>
                 </div>
+                <h2 className="text-sm mt-5 font-medium">
+                  {data?.data.featuredProduct.about}{" "}
+                  <span className="font-normal">items only</span>
+                </h2>
                 <div className="py-5">
-                  <Typography className="text-md font-semibold mb-2">
-                    Specification
-                  </Typography>
-                  {data?.data.featuredProduct.specifications.map((item) => (
-                    <h2 className="text-sm md:text-md">{item}</h2>
-                  ))}
+                  <h2 className="text-md font-semibold mb-2">Specification</h2>
+                  <div className="flex flex-col gap-2">
+                    {data?.data.featuredProduct.specifications.map((item) => (
+                      <li className="text-sm md:text-md">{item}</li>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>

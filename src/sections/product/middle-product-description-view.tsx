@@ -28,16 +28,27 @@ const MiddleProductDescription = ({
   product,
   quickOrderDialog,
 }: TMiddleDescriptionProps) => {
-  const { name, price, category, about, specifications, status } = product;
+  const { name, price, category, about, specifications, status, stock } =
+    product;
+
+  const isOutOfStock = stock === 0 || status === "OUT_OF_STOCK";
+
+  console.log("status", status, stock);
 
   const [quantity, setQuantity] = useState(1);
   const dispatch = useAppDispatch();
   const itemExists = useAppSelector(isItemInCart(product._id));
 
+  // Handle quantity increase
   const handleIncrease = () => {
-    setQuantity((prev) => prev + 1);
+    if (quantity < stock) {
+      setQuantity((prev) => prev + 1);
+    } else {
+      toast.error("Cannot add more than available stock");
+    }
   };
 
+  // Handle quantity decrease
   const handleDecrease = () => {
     if (quantity > 1) {
       setQuantity((prev) => prev - 1);
@@ -45,6 +56,10 @@ const MiddleProductDescription = ({
   };
 
   const handleAddToCart = async (item: IProduct) => {
+    if (isOutOfStock) {
+      toast.error("Product is out of stock");
+      return;
+    }
     const carItem: CartItem = {
       category: item.category?.title ?? "",
       image: item.images[0],
@@ -97,7 +112,7 @@ const MiddleProductDescription = ({
         <h2 className="text-xl sm:text-2xl font-semibold text-black">{name}</h2>
 
         <div className="flex items-center gap-5 mt-5">
-          <h3 className="text-3xl font-semibold text-green-500">৳{price}</h3>
+          <h3 className="text-3xl font-semibold text-primary">৳{price}</h3>
           <div
             className={`px-2 py-1 border text-white font-semibold text-sm ${getStatusStyles(
               status
@@ -107,14 +122,72 @@ const MiddleProductDescription = ({
           </div>
         </div>
 
+        <div className="flex items-center mt-4 space-x-2">
+          {isOutOfStock ? (
+            <>
+              <span className="text-red-600">
+                {/* Out of Stock Icon */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </span>
+              <p className="text-red-700 text-lg font-semibold">
+                Currently Out of Stock
+              </p>
+            </>
+          ) : (
+            <>
+              <span className="text-primary">
+                {/* In Stock Icon */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              </span>
+              <p className="text-primary text-lg font-semibold">
+                In Stock: <span className="font-semibold">{stock}</span>
+              </p>
+            </>
+          )}
+        </div>
+
         <div className="flex items-center bg-slate-100/70 px-2 py-2 mt-5 rounded-full w-min">
           <div className=" flex items-center justify-between space-x-5 w-full">
             <div className="flex items-center justify-between w-[104px] sm:w-28">
-              <ActionButton icon="ph:minus" onClick={handleDecrease} />
+              <ActionButton
+                icon="ph:minus"
+                onClick={handleDecrease}
+                disabled={quantity === 1}
+              />
               <span className="select-none block flex-1 text-center leading-none">
                 {quantity}
               </span>
-              <ActionButton icon="ph:plus" onClick={handleIncrease} />
+              <ActionButton
+                icon="ph:plus"
+                onClick={handleIncrease}
+                disabled={quantity >= stock || isOutOfStock}
+              />
             </div>
           </div>
         </div>
@@ -124,6 +197,7 @@ const MiddleProductDescription = ({
             variant="contained"
             color="secondary"
             startIcon={<MdOutlineShoppingCart />}
+            disabled={isOutOfStock}
           >
             কার্টে যোগ করুণ
           </Button>
@@ -133,17 +207,29 @@ const MiddleProductDescription = ({
             color="success"
             onClick={() => handleQuickOrder(product)}
             startIcon={<HiOutlineShoppingBag />}
+            disabled={isOutOfStock}
           >
             এখনই অর্ডার করুন
           </Button>
           <Button
             variant="contained"
-            color="warning"
-            onClick={() => handleQuickOrder(product)}
+            onClick={() => {
+              const phoneNumber = "+8801870214081";
+              const message = `Hello, I'm interested in the product id is = ${product._id} and product name is = ${product.name}!`;
+              window.open(
+                `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+                  message
+                )}`,
+                "_blank"
+              );
+            }}
             startIcon={<FaWhatsapp />}
             sx={{
               textTransform: "capitalize",
-              bgcolor: colors.orange[800],
+              bgcolor: colors.grey[800],
+              "&:hover": {
+                bgcolor: colors.grey[900],
+              },
             }}
           >
             Whatsapp Us

@@ -54,7 +54,7 @@ const CartItemSmall: React.FC<CartItemRowProps> = ({ item }) => {
             {item.name}
           </h2>
           <div className="flex items-center gap-5 mt-1">
-            <div className="flex items-center border rounded-md px-2 gap-2 bg-gray-100">
+            <div className="flex items-center border gap-2 bg-gray-100  rounded-full">
               <IconButton
                 size="small"
                 onClick={() => handleQuantityChange(item.productId, false)}

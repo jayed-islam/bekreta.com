@@ -1,19 +1,18 @@
-import LoadingSpinner from "@/components/loader/global-loading";
+import OrderSuccessSSRLoading from "@/layouts/common/loading/order-success-ssr-loading";
 import dynamic from "next/dynamic";
+import React from "react";
 
-// Dynamically import the component with SSR disabled
+// Dynamically import the component with SSR disabled and show LoadingSpinner as a fallback
 const OrderSuccessView = dynamic(
   () => import("@/sections/success/order-success-view"),
-  { ssr: false } // Disable server-side rendering for this component
+  {
+    ssr: false,
+    loading: () => <OrderSuccessSSRLoading />,
+  }
 );
-import React, { Suspense } from "react";
 
 const SuccessPage = () => {
-  return (
-    <Suspense fallback={<LoadingSpinner />}>
-      <OrderSuccessView />
-    </Suspense>
-  );
+  return <OrderSuccessView />;
 };
 
 export default SuccessPage;

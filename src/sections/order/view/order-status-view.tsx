@@ -15,6 +15,7 @@ import {
   Typography,
   Chip,
   Collapse,
+  Skeleton,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useGetSingleOrderQuery } from "@/redux/reducers/order/orderApi";
@@ -79,8 +80,6 @@ const OrderStatusView = () => {
     setExpanded(expanded === index ? null : index);
   };
 
-  console.log("data", orderData?.data);
-
   return (
     <div className="bg-gray-100 py-16 px-5 xl:px-0">
       <div className="max-w-6xl mx-auto bg-white p-5 ">
@@ -104,150 +103,240 @@ const OrderStatusView = () => {
         </div>
 
         {/* Submit button */}
-        <Button variant="contained" color="primary" onClick={handleGetData}>
+        <Button
+          variant="contained"
+          color="success"
+          sx={{
+            mt: 2,
+          }}
+          onClick={handleGetData}
+        >
           অর্ডার ট্র্যাক করুন
         </Button>
 
-        {/* Show loading state */}
-        {isFetching && (
-          <Typography variant="h6" color="primary" sx={{ marginTop: 2 }}>
-            লোড হচ্ছে...
-          </Typography>
-        )}
-
-        {isError && (
-          <Typography variant="h6" color="error" sx={{ marginTop: 2 }}>
-            কোন অর্ডার পাওয়া যায়নি
-          </Typography>
-        )}
-
-        {/* Show order data if available */}
-        {!isFetching && orderData?.data && (
-          <TableContainer component={Paper} sx={{ marginTop: 4 }}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell
-                    sx={{
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    Name
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    Phone
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    অর্ডার আইডি
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    মোট মূল্য
-                  </TableCell>
-                  <TableCell>Date</TableCell>
-                  <TableCell>স্ট্যাটাস</TableCell>
-                  <TableCell></TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow>
-                  <TableCell>{orderData?.data._id}</TableCell>
-                  <TableCell>{orderData?.data.name}</TableCell>
-                  <TableCell>{orderData?.data.phone}</TableCell>
-                  <TableCell>
-                    ৳{orderData?.data.totalPrice.toFixed(2)}
-                  </TableCell>
-                  <TableCell>
-                    <Typography>
-                      {new Date(
-                        orderData?.data.createdAt as Date
-                      ).toLocaleString()}
-                    </Typography>
-                  </TableCell>
-
-                  <TableCell>
-                    <Chip
-                      label={orderData?.data.status}
-                      style={{
-                        backgroundColor: getStatusColor(
-                          orderData?.data.status as OrderStatus
-                        ),
-                        color: "white",
-                      }}
-                    />
-                  </TableCell>
-
-                  {/* Action buttons */}
-                  <TableCell
-                    sx={{
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    <div className="flex items-center gap-3">
-                      {/* <Button
-                        variant="contained"
-                        color="secondary"
-                        size="small"
+        <div className="mt-5">
+          {isFetching ? (
+            <TableContainer component={Paper} sx={{ marginTop: 4 }}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Name</TableCell>
+                    <TableCell>Phone</TableCell>
+                    <TableCell>অর্ডার আইডি</TableCell>
+                    <TableCell>মোট মূল্য</TableCell>
+                    <TableCell>Date</TableCell>
+                    <TableCell>স্ট্যাটাস</TableCell>
+                    <TableCell></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {[...Array(2)].map((_, index) => (
+                    <TableRow key={index}>
+                      <TableCell>
+                        <Skeleton width={80} />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton width={100} />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton width={120} />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton width={60} />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton width={90} />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton width={80} />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton width={120} />
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          ) : isError || !orderData?.data ? (
+            <Box sx={{ minHeight: 51 }}>
+              <Typography variant="h6" color="error">
+                কোন অর্ডার পাওয়া যায়নি
+              </Typography>
+            </Box>
+          ) : (
+            <div>
+              {orderId ? (
+                <Typography variant="h5" color="green">
+                  Your present order information
+                </Typography>
+              ) : (
+                <Typography variant="h5" color="green">
+                  Order information
+                </Typography>
+              )}
+              <TableContainer component={Paper} sx={{ marginTop: 4 }}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Name</TableCell>
+                      <TableCell>Phone</TableCell>
+                      <TableCell
+                        sx={{
+                          whiteSpace: "nowrap",
+                        }}
                       >
-                        অর্ডার বাতিল করুন
-                      </Button> */}
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        size="small"
-                        onClick={() => handleToggleRow(0)}
+                        অর্ডার আইডি
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          whiteSpace: "nowrap",
+                        }}
                       >
-                        বিস্তারিত দেখুন
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
+                        মোট মূল্য
+                      </TableCell>
+                      <TableCell>Date</TableCell>
+                      <TableCell>স্ট্যাটাস</TableCell>
+                      <TableCell></TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell
+                        sx={{
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {orderData?.data.name}
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {orderData?.data.phone}
+                      </TableCell>
+                      <TableCell>{orderData?.data._id}</TableCell>
+                      <TableCell
+                        sx={{
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        ৳{orderData?.data.totalPrice.toFixed(2)}
+                      </TableCell>
+                      <TableCell>
+                        <Typography>
+                          {new Date(
+                            orderData?.data.createdAt as Date
+                          ).toLocaleString()}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Chip
+                          label={orderData?.data.status}
+                          style={{
+                            backgroundColor: getStatusColor(
+                              orderData?.data.status as OrderStatus
+                            ),
+                            color: "white",
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          size="small"
+                          onClick={() => handleToggleRow(0)}
+                        >
+                          বিস্তারিত দেখুন
+                        </Button>
+                      </TableCell>
+                    </TableRow>
 
-                <TableRow>
-                  <TableCell colSpan={4}>
-                    <Collapse in={expanded === 0} timeout="auto" unmountOnExit>
-                      <Box margin={1}>
-                        <Typography variant="h6">পণ্যের বিস্তারিত:</Typography>
-                        <Table size="small" aria-label="products">
-                          <TableHead>
-                            <TableRow>
-                              <TableCell>পণ্যের নাম</TableCell>
-                              <TableCell>পরিমাণ</TableCell>
-                              <TableCell>মূল্য</TableCell>
-
-                              <TableCell>পণ্যের আইডি</TableCell>
-                            </TableRow>
-                          </TableHead>
-                          <TableBody>
-                            {orderData?.data.products.map((product, index) => (
-                              <TableRow key={index}>
-                                <TableCell>{product.product.name}</TableCell>
-                                <TableCell>{product.quantity}</TableCell>
-                                <TableCell>{product.price} ৳</TableCell>
-                                <TableCell>{product.product._id}</TableCell>
-                              </TableRow>
-                            ))}
-                          </TableBody>
-                        </Table>
-                      </Box>
-                    </Collapse>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-        )}
+                    <TableRow>
+                      <TableCell colSpan={4}>
+                        <Collapse
+                          in={expanded === 0}
+                          timeout="auto"
+                          unmountOnExit
+                        >
+                          <Box margin={1}>
+                            <Typography variant="h6">
+                              পণ্যের বিস্তারিত:
+                            </Typography>
+                            <Table size="small" aria-label="products">
+                              <TableHead>
+                                <TableRow>
+                                  <TableCell
+                                    sx={{
+                                      whiteSpace: "nowrap",
+                                    }}
+                                  >
+                                    পণ্যের নাম
+                                  </TableCell>
+                                  <TableCell>পরিমাণ</TableCell>
+                                  <TableCell>মূল্য</TableCell>
+                                  <TableCell
+                                    sx={{
+                                      whiteSpace: "nowrap",
+                                    }}
+                                  >
+                                    পণ্যের আইডি
+                                  </TableCell>
+                                </TableRow>
+                              </TableHead>
+                              <TableBody>
+                                {orderData?.data.products.map(
+                                  (product, index) => (
+                                    <TableRow key={index}>
+                                      <TableCell
+                                        sx={{
+                                          whiteSpace: "nowrap",
+                                        }}
+                                      >
+                                        {product.product.name}
+                                      </TableCell>
+                                      <TableCell
+                                        sx={{
+                                          whiteSpace: "nowrap",
+                                        }}
+                                      >
+                                        {product.quantity}x
+                                      </TableCell>
+                                      <TableCell
+                                        sx={{
+                                          whiteSpace: "nowrap",
+                                        }}
+                                      >
+                                        ৳{product.price}
+                                      </TableCell>
+                                      <TableCell
+                                        sx={{
+                                          whiteSpace: "nowrap",
+                                        }}
+                                      >
+                                        {product.product._id}
+                                      </TableCell>
+                                    </TableRow>
+                                  )
+                                )}
+                              </TableBody>
+                            </Table>
+                          </Box>
+                        </Collapse>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

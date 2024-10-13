@@ -23,16 +23,12 @@ const SideProductCard = ({ product }: Props) => {
           alt=""
         />
       </div>
-      <div className="flex flex-col flex-1">
-        <h2 className="text-md group-hover:text-green-600 line-clamp-1 text-ellipsis font-semibold transition-all duration-300 group-hover:underline">
+      <div className="flex-1">
+        <h2 className="text-sm group-hover:text-primary line-clamp-1 text-ellipsis font-semibold transition-all duration-300 group-hover:underline">
           {name}
         </h2>
-        <h2 className="text-[13px] line-clamp-2 text-ellipsis leading-4">
-          {about}
-        </h2>
-        <div>
-          <h2 className="text-md font-semibold">৳{price}</h2>
-        </div>
+        <h2 className="text-xs line-clamp-2 overflow-ellipsis">{about}</h2>
+        <h2 className="text-md font-semibold text-primary">৳{price}</h2>
       </div>
     </Link>
   );
