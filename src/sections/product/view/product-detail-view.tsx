@@ -19,6 +19,8 @@ import RecentlyViewedProductView from "../product-details-recently-viewed-produc
 import { useAppDispatch } from "@/redux/hooks";
 import { addLastVisitedProduct } from "@/redux/reducers/product/productSlice";
 import { CartItem } from "@/types/cart";
+import ReactImageMagnify from "react-image-magnify";
+import ImageMagnifyGallery from "../image-magnify-view";
 
 interface IProductDetailsProps {
   product?: IProductItem;
@@ -59,17 +61,23 @@ const ProductsDetailsView = ({ id, product, data }: IProductDetailsProps) => {
 
   return (
     <>
-      <div className="lg:flex relative max-w-6xl mx-auto xl:px-0 gap-7 pt-5 pb-11 md:pt-16 md:pb-16">
-        <div className="flex-1">
-          <div className="md:flex itmes-start sm:px-5 lg:px-0 ">
-            <LeftSideImageView product={data?.data.product as IProduct} />
+      <div className="lg:flex max-w-6xl mx-auto xl:px-0 gap-7 pt-5 pb-11 md:pt-16 md:pb-16 relative">
+        <div className="lg:flex-1 w-full">
+          <div className="w-full lg:flex lg:items-start gap-7">
+            <div className="hidden lg:flex w-full">
+              <ImageMagnifyGallery images={data.data.product?.images} />
+            </div>
+            <div className="lg:hidden w-full">
+              <LeftSideImageView product={data?.data.product as IProduct} />
+            </div>
+
             <MiddleProductDescription
               product={data?.data.product as IProduct}
               quickOrderDialog={quickOrderDialog}
             />
           </div>
 
-          <div className="flex-1 px-3 py-7 md:mt-9 bg-gray-100 mt-11">
+          <div className="flex-1 px-5 py-7 md:mt-9 bg-gray-100 mt-11">
             <div className="flex items-center gap-3 flex-wrap sm:gap-3">
               {queries.map((que, index) => (
                 <Tab

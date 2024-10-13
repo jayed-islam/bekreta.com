@@ -26,6 +26,7 @@ export const paths = {
     bilingAddress: "/account/biling-address",
   },
   featured: "/featured",
+  featuredSuccess: "/featured/success",
   admin: {
     root: "/admin",
     product: {

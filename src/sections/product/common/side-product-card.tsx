@@ -14,7 +14,7 @@ const SideProductCard = ({ product }: Props) => {
   return (
     <Link
       href={`${paths.product.root}/${productId}`}
-      className="flex items-start gap-5 border-b pb-3 pt-3 group bg-white pl-2 rounded-lg"
+      className="flex items-start gap-5 border-b p-2 group bg-white rounded-lg"
     >
       <div className="h-20 w-20 rounded-lg border overflow-hidden">
         <img

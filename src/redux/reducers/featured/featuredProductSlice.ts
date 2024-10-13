@@ -93,7 +93,7 @@ export const selectProducts = (state: RootState) =>
   state.featuredProduct.products;
 
 export const selectDeliveryCharge = (state: RootState) =>
-  state.cart.deliveryCharge;
+  state.featuredProduct.deliveryCharge;
 
 export const selectSubtotal = createSelector(selectProducts, (products) =>
   products

@@ -21,7 +21,7 @@ const RecentlyViewedProductView: React.FC<Props> = ({ currentProductId }) => {
   }
 
   return (
-    <div className="w-full bg-gray-100 p-2 rounded-lg mt-3">
+    <div className="w-full bg-gray-100 p-5 lg:p-2 lg:rounded-lg mt-3">
       <h3 className="text-xl font-semibold text-green-700 text-center pb-3">
         Recently Viewed
       </h3>

@@ -15,10 +15,14 @@ import {
 } from "@/redux/reducers/comment/commentApi";
 import useBoolean from "@/hooks/use-boolean";
 import { IProduct } from "@/types/products";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import toast from "react-hot-toast";
 import { LoadingButton } from "@mui/lab";
 import AuthModal from "@/layouts/common/modal/auth-modal";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { commentSchema } from "@/validations/comment-validation";
+import { useRouter } from "next/navigation";
 
 interface ReviewTabProps {
   activeTab: string;
@@ -35,53 +39,43 @@ const ReviewSection: React.FC<ReviewTabProps> = ({
   const { data, isFetching } = useGetCommentQuery({ productId: product._id });
   const { user } = useAppSelector((state) => state.auth);
 
-  // State for dialog
-  const [open, setOpen] = useState(false);
-  const [comment, setComment] = useState("");
+  const [createComment, { isLoading }] = useAddCommentMutation();
 
   const dialog = useBoolean();
+  const commentDialog = useBoolean();
+
+  const methods = useForm({
+    resolver: zodResolver(commentSchema),
+  });
+  const dispatch = useAppDispatch();
+
+  const router = useRouter();
+
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = methods;
+
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      const response = await createComment(data).unwrap();
+      if (response.success) {
+        toast.success(response.message);
+      } else {
+        toast.error(response.message);
+      }
+    } catch (error: any) {
+      console.error("Error submitting form:", error);
+      toast.error(error.data.message);
+    }
+  });
 
   // Open the dialog
   const handleClickOpen = () => {
     if (!user) {
       dialog.setTrue();
     } else {
-      setOpen(true);
-    }
-  };
-
-  // Close the dialog
-  const handleClose = () => {
-    setOpen(false);
-    setComment(""); // Reset the comment
-  };
-
-  const [createComment, { isLoading }] = useAddCommentMutation();
-
-  // Handle form submission
-  const handleSubmit = async () => {
-    if (!comment) {
-      toast.error("Please write review!!");
-      return;
-    }
-    try {
-      // Call API to submit the comment
-      const res = await createComment({
-        product: product._id,
-        content: comment,
-        author: user?._id as string,
-      }).unwrap();
-
-      if (res.success) {
-        toast.success(res.message);
-        handleClose();
-      } else {
-        toast.error(res.message);
-      }
-    } catch (error: any) {
-      console.error("Failed to submit comment:", error);
-      // Handle error (e.g., show a toast notification)
-      toast.error(error.data.message);
+      commentDialog.setTrue();
     }
   };
 

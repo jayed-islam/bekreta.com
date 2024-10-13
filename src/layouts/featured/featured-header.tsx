@@ -8,7 +8,7 @@ import Link from "next/link";
 import { paths } from "@/layouts/paths";
 import { MdOutlinePhone } from "react-icons/md";
 
-export default function Header() {
+export default function FeaturedHeader() {
   return (
     <div className="bg-gray-100 pb-3">
       <div className="border-b shadow-sm bg-white">

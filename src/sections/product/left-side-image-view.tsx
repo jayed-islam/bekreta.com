@@ -2,6 +2,7 @@ import ImageGallery from "@/components/image-gallery/image-gallery";
 import { IProduct } from "@/types/products";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import React, { RefObject, useRef, useState } from "react";
+import ReactImageMagnify from "react-image-magnify";
 
 type TProps = {
   product: IProduct;
@@ -11,7 +12,7 @@ const LeftSideImageView = ({ product }: TProps) => {
   const isOutOfStock = product?.stock === 0;
 
   return (
-    <div className="w-full md:w-[41%] lg:w-[51%] lg:px-5 xl:px-0">
+    <div className="w-full md:w-[25rem] lg:px-5 xl:px-0">
       <div className="relative">
         <div className="h-[300px] md:h-[350px] xl:h-[400px] relative sm:border border-gray-300 sm:p-2 overflow-hidden cursor-pointer">
           <img
@@ -19,8 +20,6 @@ const LeftSideImageView = ({ product }: TProps) => {
             alt="Product Image"
             className="w-full h-full object-contain transform transition-transform duration-300"
           />
-
-          {/* Out of Stock Overlay */}
           {isOutOfStock && (
             <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
               <span className="text-white text-xl font-semibold">
@@ -31,20 +30,6 @@ const LeftSideImageView = ({ product }: TProps) => {
         </div>
 
         <div className="flex items-center gap-2 justify-start mt-5 shadow-md border p-2 xl:-ml-11 sm:w-[300px] mx-3">
-          {/* {product?.images?.map((img, i) => (
-            <div
-              className={`border p-2 border-gray-300 ${
-                currentImage === img && "border-green-500"
-              }`}
-            >
-              <img
-                src={img}
-                alt=""
-                className={`h-11 w-11 sm:h-16 sm:w-16 object-cover`}
-                onClick={() => setCurrentImage(product.images[i])}
-              />
-            </div>
-          ))} */}
           <ImageGallery images={product.images} />
         </div>
         <div className="absolute top-3.5 left-3.5 px-2.5 py-1.5 text-xs bg-primary nc-shadow-lg flex items-center justify-center text-white  ">

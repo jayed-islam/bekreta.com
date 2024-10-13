@@ -7,11 +7,11 @@ import logo from "../../../public/assets/logo.jpg";
 import Image from "next/image";
 import { scrollToTop } from "@/hooks/use-clicktoTop";
 
-const FeaturedProductFooter = () => {
+const FeaturedFooter = () => {
   const currentYear = new Date().getFullYear();
   return (
-    <footer className="bg-gray-100">
-      <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:pt-24">
+    <footer className="bg-gray-900">
+      <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="absolute end-4 top-4 sm:end-6 sm:top-6 lg:end-8 lg:top-8">
           <div
             className="inline-block rounded-full bg-[#2e7d32] p-2 text-white shadow transition hover:bg-green-800 sm:p-3 lg:p-4 cursor-pointer"
@@ -65,4 +65,4 @@ const FeaturedProductFooter = () => {
   );
 };
 
-export default FeaturedProductFooter;
+export default FeaturedFooter;

@@ -137,7 +137,7 @@ const FeatureOrderSubmissionDialog: React.FC<QuickOrderDialogProps> = ({
       toast.success(response.message);
       onClose();
       dispatch(clearCart());
-      router.push(`${paths.success}?id=${response.data._id}`);
+      router.push(`${paths.featuredSuccess}?id=${response.data._id}`);
     } else {
       toast.error(response.message);
     }

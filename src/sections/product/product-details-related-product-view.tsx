@@ -9,7 +9,7 @@ interface Props {
 
 const RelatedProductView: React.FC<Props> = ({ relatedProducts }) => {
   return (
-    <div className="w-full bg-gray-100 p-2 rounded-lg">
+    <div className="w-full bg-gray-100 p-5 lg:p-2 lg:rounded-lg">
       {relatedProducts.length > 0 && (
         <div className="">
           <h3 className="text-xl font-semibold text-green-700 text-center pb-3">

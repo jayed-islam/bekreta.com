@@ -107,9 +107,11 @@ const MiddleProductDescription = ({
   };
 
   return (
-    <div className='className="w-full px-3 flex-1 mt-7 md:mt-0 lg:pl-7 xl:pl-9 2xl:pl-10"'>
-      <div>
-        <h2 className="text-xl sm:text-2xl font-semibold text-black">{name}</h2>
+    <div className="w-full mt-7 md:mt-0 px-5 md:px-0">
+      <div className="w-full">
+        <h2 className="text-2xl sm:text-3xl font-semibold text-black">
+          {name}
+        </h2>
 
         <div className="flex items-center gap-5 mt-5">
           <h3 className="text-3xl font-semibold text-primary">৳{price}</h3>
