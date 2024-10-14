@@ -19,16 +19,14 @@ export const commentApi = api.injectEndpoints({
       }),
       providesTags: ["comments"],
     }),
-    addComment: builder.mutation<ICreateCommentResponse, ICreateCommentRequest>(
-      {
-        query: ({ author, content, product }) => ({
-          url: `/comment/${product}`,
-          method: "POST",
-          body: { author, content, product },
-        }),
-        invalidatesTags: ["comments"],
-      }
-    ),
+    addComment: builder.mutation<ICreateCommentResponse, FormData>({
+      query: (body) => ({
+        url: `/comment`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["comments"],
+    }),
 
     updateComment: builder.mutation<
       ICreateCommentResponse,

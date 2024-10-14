@@ -118,6 +118,10 @@ const socialInfo = [
 
 const productInfoTabs = [
   {
+    id: "description",
+    name: "Qualities",
+  },
+  {
     id: "reviews",
     name: "Reviews",
   },
@@ -125,10 +129,7 @@ const productInfoTabs = [
   //   id: "specification",
   //   name: "Specification",
   // },
-  {
-    id: "description",
-    name: "Description",
-  },
+
   // {
   //   id: "questions",
   //   name: "Questions",

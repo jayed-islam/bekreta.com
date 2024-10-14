@@ -29,7 +29,7 @@ interface IProductDetailsProps {
 }
 
 const ProductsDetailsView = ({ id, product, data }: IProductDetailsProps) => {
-  const [activeTab, setActiveTab] = useState("Reviews");
+  const [activeTab, setActiveTab] = useState("Qualities");
 
   const questions = 0;
 
@@ -77,7 +77,7 @@ const ProductsDetailsView = ({ id, product, data }: IProductDetailsProps) => {
             />
           </div>
 
-          <div className="flex-1 px-5 py-7 md:mt-9 bg-gray-100 mt-11">
+          <div className="flex-1 px-5 py-7 md:mt-20 bg-gray-100 mt-11">
             <div className="flex items-center gap-3 flex-wrap sm:gap-3">
               {queries.map((que, index) => (
                 <Tab
@@ -91,14 +91,14 @@ const ProductsDetailsView = ({ id, product, data }: IProductDetailsProps) => {
               ))}
             </div>
 
-            <ReviewSection
-              activeTab={activeTab}
-              questions={questions}
-              product={data?.data.product as IProduct}
-            />
             <DescriptionSection
               activeTab={activeTab}
-              descriptions={data?.data.product?.descriptions as string[]}
+              product={data.data.product as IProduct}
+            />
+
+            <ReviewSection
+              activeTab={activeTab}
+              product={data?.data.product as IProduct}
             />
           </div>
         </div>

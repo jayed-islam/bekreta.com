@@ -13,7 +13,7 @@ import { getProductStatus, getStatusStyles } from "./common/product-constants";
 import toast from "react-hot-toast";
 import { addLastVisitedProduct } from "@/redux/reducers/product/productSlice";
 import { CartItem } from "@/types/cart";
-import { Button, colors } from "@mui/material";
+import { Button, colors, Rating } from "@mui/material";
 import { BooleanState } from "@/types/utils";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
@@ -28,8 +28,16 @@ const MiddleProductDescription = ({
   product,
   quickOrderDialog,
 }: TMiddleDescriptionProps) => {
-  const { name, price, category, about, specifications, status, stock } =
-    product;
+  const {
+    name,
+    price,
+    category,
+    about,
+    specifications,
+    status,
+    stock,
+    averageRating,
+  } = product;
 
   const isOutOfStock = stock === 0 || status === "OUT_OF_STOCK";
 
@@ -124,7 +132,7 @@ const MiddleProductDescription = ({
           </div>
         </div>
 
-        <div className="flex items-center mt-4 space-x-2">
+        <div className="flex items-center mt-3 space-x-2">
           {isOutOfStock ? (
             <>
               <span className="text-red-600">
@@ -144,7 +152,7 @@ const MiddleProductDescription = ({
                   />
                 </svg>
               </span>
-              <p className="text-red-700 text-lg font-semibold">
+              <p className="text-red-700 text-sm font-normal">
                 Currently Out of Stock
               </p>
             </>
@@ -167,12 +175,24 @@ const MiddleProductDescription = ({
                   />
                 </svg>
               </span>
-              <p className="text-primary text-lg font-semibold">
+              <p className="text-primary text-sm font-normal">
                 In Stock: <span className="font-semibold">{stock}</span>
               </p>
             </>
           )}
         </div>
+
+        <Rating
+          value={averageRating}
+          sx={{
+            mt: 1,
+          }}
+          readOnly
+        />
+
+        <h2 className="text-sm mt-5 font-medium line-clamp-3 overflow-ellipsis">
+          {about}
+        </h2>
 
         <div className="flex items-center bg-slate-100/70 px-2 py-2 mt-5 rounded-full w-min">
           <div className=" flex items-center justify-between space-x-5 w-full">
@@ -237,16 +257,7 @@ const MiddleProductDescription = ({
             Whatsapp Us
           </Button>
         </div>
-
-        <div className="py-5 flex flex-col gap-1">
-          <h2 className="text-xl font-semibold pb-2">Specifications</h2>
-          {specifications.map((item, index) => (
-            <h2 className="text-sm md:text-md">{item}</h2>
-          ))}
-        </div>
       </div>
-
-      <p className="text-slate-600 text-md leading-6">{about}</p>
     </div>
   );
 };

@@ -3,9 +3,11 @@ import { z } from "zod";
 
 export const commentSchema = z
   .object({
-    product: z.string({ required_error: "Product ID is required" }),
-    author: z.string({ required_error: "Author ID is required" }),
-    content: z.string().min(1, "Content cannot be empty").optional(), // Initially optional
+    // product: z.string({ required_error: "Product ID is required" }),
+    // author: z.string({ required_error: "Author ID is required" }),
+    content: z
+      .string({ required_error: "Please add your review here!!" })
+      .min(1, "Review cannot be empty"),
     type: z.nativeEnum(CommentType).default(CommentType.TEXT),
     imageUrl: z
       .array(z.string().url({ message: "Must be a valid URL" }))

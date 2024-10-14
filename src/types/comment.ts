@@ -39,7 +39,7 @@ export enum CommentType {
 export interface IComment {
   _id?: string;
   product: string;
-  author: string;
+  author: IUser;
   content: string;
   imageUrls?: string[];
   type?: CommentType;

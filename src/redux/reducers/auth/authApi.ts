@@ -19,14 +19,6 @@ export const authApi = api.injectEndpoints({
       }),
       invalidatesTags: ["user-me"],
     }),
-    adminLogin: builder.mutation<IAuthLoginResponse, LoginRequest>({
-      query: (credentials) => ({
-        url: "/admin/login",
-        method: "POST",
-        body: credentials,
-      }),
-      invalidatesTags: ["user-me"],
-    }),
     register: builder.mutation<IRegisterResponse, RegisterRequest>({
       query: (userDetails) => ({
         url: "/auth/register",
@@ -62,9 +54,4 @@ export const authApi = api.injectEndpoints({
   }),
 });
 
-export const {
-  useLoginMutation,
-  useRegisterMutation,
-  useGetMeQuery,
-  useAdminLoginMutation,
-} = authApi;
+export const { useLoginMutation, useRegisterMutation, useGetMeQuery } = authApi;

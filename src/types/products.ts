@@ -12,6 +12,15 @@ export interface IProductItem {
   status: string;
 }
 
+type RatingDistribution = {
+  [key: number]: number;
+  1: number;
+  2: number;
+  3: number;
+  4: number;
+  5: number;
+};
+
 export interface IProduct {
   priority: number;
   _id: string;
@@ -34,6 +43,9 @@ export interface IProduct {
   };
   isFeatured: boolean;
   status: "IN_STOCK" | "OUT_OF_STOCK" | "DISCOUNTED" | "FEATURED";
+  averageRating: number;
+  ratingCount: number;
+  ratingDistribution: RatingDistribution;
 }
 
 export interface IPagination {
