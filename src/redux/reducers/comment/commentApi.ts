@@ -30,10 +30,10 @@ export const commentApi = api.injectEndpoints({
 
     updateComment: builder.mutation<
       ICreateCommentResponse,
-      { commentId: string; body: IUpdateCommentRequest }
+      { commentId: string; body: FormData }
     >({
       query: ({ commentId, body }) => ({
-        url: `/comments/${commentId}`,
+        url: `/comment/update/${commentId}`,
         method: "PUT",
         body,
       }),

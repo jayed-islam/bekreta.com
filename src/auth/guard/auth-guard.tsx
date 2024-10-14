@@ -42,13 +42,17 @@ function Container({ children }: IAuthGuardProps) {
           dispatch(logout());
         }
       }
+      // const loginPath = loginPaths.login;
+
+      // const href = `${loginPath}?${searchParams}`;
+      // router.replace(href);
+      const fullUrl = window.location.href;
+
       const searchParams = new URLSearchParams({
-        returnTo: window.location.pathname,
+        returnTo: fullUrl, // Pass the full URL
       }).toString();
 
-      const loginPath = loginPaths.login;
-
-      const href = `${loginPath}?${searchParams}`;
+      const href = `${loginPaths.login}?${searchParams}`;
       router.replace(href);
     } else {
       setChecked(true);

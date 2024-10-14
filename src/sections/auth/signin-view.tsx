@@ -24,13 +24,13 @@ const SignInView = () => {
 
   const router = useRouter();
 
+  const searchParams = useSearchParams();
+  const returnTo = searchParams.get("returnTo");
+
   const {
     handleSubmit,
     formState: { errors },
   } = methods;
-
-  // const redirectPath =
-  //   new URLSearchParams(window.location.search).get("redirect") || "/";
 
   const [loginUser, { isLoading }] = useLoginMutation();
 
@@ -42,12 +42,7 @@ const SignInView = () => {
       if (response.success) {
         toast.success(response.message);
         dispatch(setToken(response?.data?.accessToken));
-        let redirectPath;
-        if (typeof window !== "undefined") {
-          const redirectPath =
-            new URLSearchParams(window?.location.search).get("redirect") || "/";
-          router.push(redirectPath);
-        }
+        router.push(returnTo || "/");
       } else {
         toast.error(response.message);
         setErrorMessage(response.message);

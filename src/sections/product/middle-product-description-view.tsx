@@ -115,7 +115,7 @@ const MiddleProductDescription = ({
   };
 
   return (
-    <div className="w-full mt-7 md:mt-0 px-5 md:px-0">
+    <div className="w-full mt-11 lg:mt-0 px-5 md:px-0">
       <div className="w-full">
         <h2 className="text-2xl sm:text-3xl font-semibold text-black">
           {name}

@@ -12,9 +12,9 @@ const LeftSideImageView = ({ product }: TProps) => {
   const isOutOfStock = product?.stock === 0;
 
   return (
-    <div className="w-full md:w-[25rem] lg:px-5 xl:px-0">
+    <div className="w-full lg:w-[25rem] lg:px-5 xl:px-0">
       <div className="relative">
-        <div className="h-[300px] md:h-[350px] xl:h-[400px] relative sm:border border-gray-300 sm:p-2 overflow-hidden cursor-pointer">
+        <div className="h-[300px] md:h-[450px] xl:h-[400px] relative sm:border border-gray-300 sm:p-2 overflow-hidden cursor-pointer">
           <img
             src={product?.images[0]}
             alt="Product Image"

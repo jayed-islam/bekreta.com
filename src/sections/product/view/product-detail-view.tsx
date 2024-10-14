@@ -63,7 +63,7 @@ const ProductsDetailsView = ({ id, product, data }: IProductDetailsProps) => {
     <>
       <div className="lg:flex max-w-6xl mx-auto xl:px-0 gap-7 pt-5 pb-11 md:pt-16 md:pb-16 relative">
         <div className="lg:flex-1 w-full">
-          <div className="w-full lg:flex lg:items-start gap-7">
+          <div className="w-full lg:flex lg:items-start gap-7 sm:px-5 lg:px-0">
             <div className="hidden lg:flex w-full">
               <ImageMagnifyGallery images={data.data.product?.images} />
             </div>

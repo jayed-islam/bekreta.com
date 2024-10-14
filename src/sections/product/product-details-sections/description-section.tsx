@@ -25,7 +25,8 @@ const DescriptionSection: React.FC<DescriptionTabProps> = ({
           </Typography>
           <Rating value={product.averageRating} readOnly precision={0.5} />
           <Typography variant="body2">
-            {product.averageRating} out of 5 ({totalRatingCount} ratings)
+            {product.averageRating.toFixed(2)} out of 5 ({totalRatingCount}{" "}
+            ratings)
           </Typography>
         </div>
       </div>
@@ -61,16 +62,16 @@ const DescriptionSection: React.FC<DescriptionTabProps> = ({
                   flexGrow: 1,
                   height: "10px",
                   borderRadius: "5px",
-                  backgroundColor: "#e0e0e0",
+                  backgroundColor: "gray",
                   marginRight: "10px",
                   overflow: "hidden",
                 }}
               >
                 <Box
                   sx={{
-                    width: `${percentage}%`, // Set width based on percentage
+                    width: `${percentage}%`,
                     height: "100%",
-                    backgroundColor: "#faaf00 ", // Color for filled portion
+                    backgroundColor: "#faaf00",
                   }}
                 />
               </Box>

@@ -23,7 +23,6 @@ const SignUpView = () => {
   const { isAuthenticated } = useAppSelector((state) => state.auth);
 
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   const {
     handleSubmit,
@@ -31,6 +30,9 @@ const SignUpView = () => {
   } = methods;
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const searchParams = useSearchParams();
+  const returnTo = searchParams.get("returnTo");
 
   const [createUser, { isLoading }] = useRegisterMutation();
 
@@ -40,11 +42,8 @@ const SignUpView = () => {
       if (response.success) {
         toast.success(response.message);
         setErrorMessage(null);
-        const redirectPath =
-          new URLSearchParams(window.location.search).get("redirect") || "/";
-        router.push(
-          `/auth/signin?redirect=${encodeURIComponent(redirectPath)}`
-        );
+        const returnPath = `${paths.website.signin}?${returnTo}`;
+        router.push(returnPath || "/");
       } else {
         toast.error(response.message);
         setErrorMessage(response.message);

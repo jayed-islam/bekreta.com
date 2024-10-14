@@ -5,7 +5,7 @@ import { useGetCommentQuery } from "@/redux/reducers/comment/commentApi";
 import useBoolean from "@/hooks/use-boolean";
 import { IProduct } from "@/types/products";
 import { useAppSelector } from "@/redux/hooks";
-import AuthModal from "@/layouts/common/modal/auth-modal";
+import AuthSignInDialog from "@/sections/auth/auth-signin-dialog";
 import ProductReviewDialog from "./product-review-dialog";
 import ProductReviewItem from "./product-review-item";
 import { IUser } from "@/types/auth";
@@ -58,12 +58,17 @@ const ReviewSection: React.FC<ReviewTabProps> = ({ activeTab, product }) => {
         ) : (
           <div className="flex flex-col gap-5">
             {data?.data.map((comment) => (
-              <ProductReviewItem comment={comment} user={user as IUser} />
+              <ProductReviewItem
+                comment={comment}
+                user={user as IUser}
+                key={comment._id}
+                productId={product._id}
+              />
             ))}
           </div>
         )}
       </div>
-      <AuthModal dialog={dialog} />
+      <AuthSignInDialog dialog={dialog} />
       <ProductReviewDialog dialog={commentDialog} productId={product._id} />
     </div>
   );

@@ -6,21 +6,19 @@ import {
   DialogTitle,
   Button,
   Alert,
-  Grid,
   Rating,
   IconButton,
 } from "@mui/material";
 import { useAddCommentMutation } from "@/redux/reducers/comment/commentApi";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppSelector } from "@/redux/hooks";
 import toast from "react-hot-toast";
 import { LoadingButton } from "@mui/lab";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { commentSchema } from "@/validations/comment-validation";
-import { useRouter } from "next/navigation";
 import FormProvider, { RHFTextField } from "@/components/react-hook-form";
 import { BooleanState } from "@/types/utils";
-import { AttachFile, Close } from "@mui/icons-material";
+import { Close } from "@mui/icons-material";
 import { IoImagesOutline } from "react-icons/io5";
 
 const MAX_IMAGES = 3;

@@ -149,8 +149,7 @@ const ProductViewFeatured = ({ data }: Props) => {
                   </h2>
                 </div>
                 <h2 className="text-sm mt-5 font-medium">
-                  {data?.data.featuredProduct.about}{" "}
-                  <span className="font-normal">items only</span>
+                  {data?.data.featuredProduct.about}
                 </h2>
                 <div className="py-5">
                   <h2 className="text-md font-semibold mb-2">Specification</h2>
