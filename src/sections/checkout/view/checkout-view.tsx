@@ -13,7 +13,10 @@ import {
 } from "@/validations/checkout-validation-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
-import { selectCartTotalPrice } from "@/redux/reducers/cart/cartSlice";
+import {
+  selectCartSubtotal,
+  selectCartTotalPrice,
+} from "@/redux/reducers/cart/cartSlice";
 import { useCreateOrderMutation } from "@/redux/reducers/order/orderApi";
 import { useRouter } from "next/navigation";
 import CheckoutInstantSignin from "../checkout-instant-signin";
@@ -28,6 +31,7 @@ const CheckoutProudctView = () => {
   const { user } = useAppSelector((state) => state.auth);
 
   const totalPrice = useAppSelector((state) => selectCartTotalPrice(state));
+  const subtotal = useAppSelector((state) => selectCartSubtotal(state));
 
   const methods = useForm<TCheckoutFormData>({
     resolver: zodResolver(checkoutSchema),
@@ -73,6 +77,7 @@ const CheckoutProudctView = () => {
       products,
       deliveryArea: selectedDeliveryOption,
       deliveryCharge,
+      subTotal: subtotal,
     };
 
     const response = await createOrder(payload).unwrap();

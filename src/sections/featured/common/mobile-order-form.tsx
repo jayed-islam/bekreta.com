@@ -75,6 +75,7 @@ const MobileOrderForm = () => {
       products,
       deliveryArea: selectedDeliveryOption,
       deliveryCharge,
+      subTotal: subtotal,
     };
     try {
       const response = await createOrder(payload).unwrap();

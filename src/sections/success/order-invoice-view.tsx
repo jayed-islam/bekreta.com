@@ -128,7 +128,7 @@ const InvoiceDownloadButton = ({ order }: Props) => {
   return (
     <PDFDownloadLink
       document={<InvoiceDocument />}
-      fileName={`invoice-${order._id}.pdf`}
+      fileName={`invoice-${order?._id}.pdf`}
       className="no-underline"
     >
       <Button variant="contained" color="secondary">

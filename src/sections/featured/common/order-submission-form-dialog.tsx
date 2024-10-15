@@ -129,6 +129,7 @@ const FeatureOrderSubmissionDialog: React.FC<QuickOrderDialogProps> = ({
       products: items,
       deliveryArea: selectedDeliveryOption,
       deliveryCharge,
+      subTotal: subtotal,
     };
 
     const response = await createOrder(payload).unwrap();

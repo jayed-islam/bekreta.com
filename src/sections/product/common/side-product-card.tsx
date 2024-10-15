@@ -16,10 +16,10 @@ const SideProductCard = ({ product }: Props) => {
       href={`${paths.product.root}/${productId}`}
       className="flex items-start gap-5 border-b p-2 group bg-white rounded-lg"
     >
-      <div className="h-20 w-20 rounded-lg border overflow-hidden">
+      <div className="h-20 w-20 rounded-lg border overflow-hidden border-gray-300">
         <img
           src={image}
-          className="group-hover:scale-110 duration-300 transition-all flex-1 object-cover border-gray-300"
+          className="group-hover:scale-110 duration-300 transition-all flex-1 object-contain h-full w-full "
           alt=""
         />
       </div>

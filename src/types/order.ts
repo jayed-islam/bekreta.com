@@ -31,6 +31,7 @@ export interface ICreateOrder {
   status?: OrderStatus;
   paymentMethod?: string;
   paymentStatus?: string;
+  subTotal: number;
   totalPrice: number;
   isCanceled?: boolean;
   createdAt?: Date;
@@ -45,6 +46,7 @@ export interface IOrder {
   phone: string;
   name: string;
   address: string;
+  subTotal: number;
   deliveryArea: string;
   deliveryCharge: number;
   status?: OrderStatus;

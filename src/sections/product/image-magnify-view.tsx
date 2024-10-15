@@ -33,6 +33,7 @@ const ImageMagnifyGallery: React.FC<ImageGalleryProps> = ({ images }) => {
             imageStyle: {
               border: "1px solid gray",
               padding: 11,
+              objectFit: "contain",
             },
             smallImage: {
               alt: "Selected Product Image",

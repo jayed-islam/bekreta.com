@@ -77,7 +77,7 @@ const ProductsDetailsView = ({ id, product, data }: IProductDetailsProps) => {
             />
           </div>
 
-          <div className="flex-1 px-5 py-7 md:mt-20 bg-gray-100 mt-11">
+          <div className="flex-1 px-5 py-7  bg-gray-100 mt-11">
             <div className="flex items-center gap-3 flex-wrap sm:gap-3">
               {queries.map((que, index) => (
                 <Tab

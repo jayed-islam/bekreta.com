@@ -11,6 +11,10 @@ import { useGetSingleOrderQuery } from "@/redux/reducers/order/orderApi";
 import { IOrder } from "@/types/order";
 import { paths } from "@/layouts/paths";
 import InvoiceDownloadButton from "./order-invoice-view";
+import Invoice from "./invoice";
+import generatePDF, { Resolution, Margin, Options } from "react-to-pdf";
+
+const getTargetElement = () => document.getElementById("invoiceDoc");
 
 const OrderSuccessView = () => {
   const searchParams = useSearchParams();
@@ -31,6 +35,34 @@ const OrderSuccessView = () => {
 
   const handleOrderStatusClick = () => {
     router.push(`${paths.orderTrucking}?id=${orderId}`);
+  };
+
+  const options: Options = {
+    filename: `invoice-${data?.data?._id}.pdf`,
+    method: "save",
+    resolution: Resolution.MEDIUM,
+
+    page: {
+      margin: Margin.NONE,
+      format: "A4",
+      orientation: "portrait",
+    },
+    canvas: {
+      mimeType: "image/jpeg",
+      qualityRatio: 0.6,
+    },
+    overrides: {
+      pdf: {
+        compress: true,
+      },
+      canvas: {
+        useCORS: false,
+      },
+    },
+  };
+
+  const downloadPdf = () => {
+    generatePDF(getTargetElement, options);
   };
 
   return (
@@ -73,7 +105,12 @@ const OrderSuccessView = () => {
                     অর্ডার বিস্তাতির লোড হচ্ছে...
                   </span>
                 ) : (
-                  <InvoiceDownloadButton order={data?.data as IOrder} />
+                  <div>
+                    {data?.data && (
+                      <InvoiceDownloadButton order={data?.data as IOrder} />
+                    )}
+                    <Button onClick={downloadPdf}>Doalding</Button>
+                  </div>
                 )}
 
                 <Button
@@ -88,6 +125,8 @@ const OrderSuccessView = () => {
           </div>
         </div>
       </div>
+      {/* {data?.data && } */}
+      <Invoice order={data?.data as IOrder} />
     </div>
   );
 };
